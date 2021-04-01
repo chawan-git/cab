@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+
+/* Ashutosh: Stick Footer */
+.footer{
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: rgb(235, 195, 64);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+#homepage {
+  background-image: url('./bg3.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
