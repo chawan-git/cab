@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
 import PersonPinCircleOutlinedIcon from '@material-ui/icons/PersonPinCircleOutlined';
 import PinDropOutlinedIcon from '@material-ui/icons/PinDropOutlined';
+import HeaderComponent from './HeaderComponent';
+import FooterComponent from './FooterComponent';
 
 export class HomePage extends Component {
     render() {
         return (
             <div id="homepage">
-
+                <HeaderComponent />
                 
                 <div className="container">
                     <br/>
@@ -32,7 +34,7 @@ export class HomePage extends Component {
                             <div className="row ms-4 me-4">
                                 
                                 <div className="col-md-12 mt-4">
-                                    <h1 class="display-5 fw-bold">Request a ride now</h1>
+                                    <h1 className="display-5 fw-bold">Request a ride now</h1>
                                 </div>
                             </div>
                             <br/>
@@ -74,7 +76,7 @@ export class HomePage extends Component {
 
 
                 </div>
-
+            <FooterComponent />
             </div>
         )
     }
