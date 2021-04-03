@@ -38,20 +38,29 @@
 }
 
 /* Ashutosh: Stick Footer */
-.footer{
-  margin-top: 1rem;
+.footer {
+  margin-top: 2rem;
   padding: 1rem;
   background-color: rgb(235, 195, 64);
-  position: fixed;
+  position: sticky;
   bottom: 0;
   left: 0;
   width: 100%;
 }
+.header {
+
+  position: sticky;
+  top: 0;
+}
 
 #homepage {
-  background-image: url('./bg3.jpg');
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: 100% 100%;
+  background-image: url("./bg3.jpg");
 
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }

@@ -27,7 +27,7 @@ import {
         return {
           loading: false,
           admins: [],
-          error: action.payload
+          error: action.payload || {message: action.payload.message}
         }
       default: return state
     }

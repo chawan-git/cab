@@ -9,7 +9,7 @@ export const fetchAdmins = () => {
   return (dispatch)=>  {
     dispatch(fetchAdminsRequest())
     axios
-      .get('https://cba.rao.life/api/v1/admin/getAllAdmins')
+      .get('https://cab.rao.life/api/v1/admin/getAllAdmins')
       .then(response => {
         // response.data is the users
         const admins = response.data
@@ -17,11 +17,8 @@ export const fetchAdmins = () => {
       })
       .catch(error => {
         // error.message is the error message
-        if(error.message === "Network Error"){
-          dispatch(fetchAdminsFailure(error.message))
-        }
-        else
-        dispatch(fetchAdminsFailure(error.response.status+" "+error.response.data))
+        
+        dispatch(fetchAdminsFailure(error))
       })
   }
 }
