@@ -10,7 +10,7 @@ export class HeaderComponent extends Component {
         <header className="header">
           <nav className="navbar navbar-dark navbar-expand-md bg-dark sticky-md-top">
             <div className="container">
-            <Link to="/" className="navbar-brand">
+              <Link to="/" className="navbar-brand">
                 <img
                   src={logo}
                   alt="logo"
@@ -35,7 +35,7 @@ export class HeaderComponent extends Component {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/admin" className="nav-link">
+                  <Link to="/admin/home" className="nav-link">
                     Admin
                   </Link>
                 </li>
@@ -47,9 +47,11 @@ export class HeaderComponent extends Component {
                     className="nav-link fw-bold text-white fs-5"
                     href="https://cab.rao.life/"
                   >
-                    
-                    <PersonOutlineRoundedIcon style={{ color: "white" }} className="mb-1"/> Sign
-                    In
+                    <PersonOutlineRoundedIcon
+                      style={{ color: "white" }}
+                      className="mb-1"
+                    />{" "}
+                    Sign In
                   </a>
                 </li>
                 <li className="nav-item">

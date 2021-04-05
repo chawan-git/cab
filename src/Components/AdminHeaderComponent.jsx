@@ -16,7 +16,7 @@ export class AdminHeaderComponent extends Component {
         <header className="header">
           <nav className="navbar navbar-dark navbar-expand-md bg-dark sticky-top">
             <div className="container">
-            <Link to="/" className="navbar-brand">
+              <Link to="/" className="navbar-brand">
                 <img
                   src={logo}
                   alt="logo"
@@ -36,14 +36,18 @@ export class AdminHeaderComponent extends Component {
 
               <ul className="nav nav-pills">
                 <li className="nav-item">
-                  <a className="nav-link fw-bold text-white fs-5" href="/admin">
+                  <Link
+                    to="/admin/home"
+                    className="nav-link fw-bold text-white fs-5"
+                    href="/admin"
+                  >
                     <HomeOutlinedIcon
                       style={{ color: "white" }}
                       fontSize="default"
                       className="mb-1"
                     />
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item dropdown">
                   <a
@@ -65,14 +69,14 @@ export class AdminHeaderComponent extends Component {
                     aria-labelledby="navbarScrollingDropdown"
                   >
                     <li>
-                      <a className="dropdown-item" href="/admin/addAdmin">
+                      <Link to="/admin/addAdmin" className="dropdown-item">
                         Add Admin
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a className="dropdown-item" href="/admin/viewAdmins">
+                      <Link to="/admin/viewAdmins" className="dropdown-item">
                         View Admins
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </li>
@@ -85,7 +89,10 @@ export class AdminHeaderComponent extends Component {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    <LocalTaxiOutlinedIcon fontSize="default" className="mb-1" />
+                    <LocalTaxiOutlinedIcon
+                      fontSize="default"
+                      className="mb-1"
+                    />
                     Cab
                   </a>
                   <ul

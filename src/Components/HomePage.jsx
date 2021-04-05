@@ -70,12 +70,18 @@ export class HomePage extends Component {
               <br />
             </div>
             <div className="col-md-6"></div>
-
-
-
           </div>
         </div>
-        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
         <FooterComponent />
       </div>
     );
