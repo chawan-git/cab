@@ -116,7 +116,7 @@ class DriverViewComponent extends Component {
                       <div className="col-md-2">
                         <button className="btn btn-primary col-md-12 mb-2 mt-4">
                           <EditOutlinedIcon />
-                          <Link to={"/driver/editdriver/" + driver.driverId}>
+                          <Link to={"/admin/editDriver/" + driver.driverId}>
                             <h5 className="text-white">Edit details</h5>
                           </Link>
                         </button>
@@ -145,7 +145,7 @@ class DriverViewComponent extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    driverData: state.driverReducer.viewDrivers,
+    driverData: state.driverReducer.viewDrivers
   };
 };
 

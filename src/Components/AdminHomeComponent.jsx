@@ -11,6 +11,9 @@ import AdminViewComponent from "./AdminViewComponent";
 import CabAddComponent from "./CabAddComponent";
 import CabEditComponent from "./CabEditComponent";
 import CabViewComponent from "./CabViewComponent";
+import DriverAddComponent from "./DriverAddComponent";
+import DriverEditComponent from "./DriverEditComponent";
+import DriverViewComponent from "./DriverViewComponent";
 import FooterComponent from "./FooterComponent";
 class AdminHomeComponent extends Component {
   adminData;
@@ -40,6 +43,10 @@ class AdminHomeComponent extends Component {
         <Route path="/admin/addCabType" component={CabAddComponent} />
         <Route path="/admin/viewCabTypes" component={CabViewComponent} />
         <Route path="/admin/editCabType/:id" component={CabEditComponent} />
+        <Route path="/admin/addDriver" component={DriverAddComponent} />
+        <Route path="/admin/viewDrivers" component={DriverViewComponent} />
+        <Route path="/admin/editDriver/:id" component={DriverEditComponent} />
+
         <br />
 
         <FooterComponent />

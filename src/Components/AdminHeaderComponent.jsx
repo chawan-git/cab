@@ -103,15 +103,15 @@ export class AdminHeaderComponent extends Component {
                     className="dropdown-menu"
                     aria-labelledby="navbarScrollingDropdown"
                   >
-                    <li>
-                      <a className="dropdown-item" href="/admin/addCabType">
+                    <li >
+                      <Link to="/admin/addCabType" className="dropdown-item" >
                         Add Cab Type
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a className="dropdown-item" href="/admin/viewCabTypes">
+                      <Link to="/admin/viewCabTypes" className="dropdown-item" >
                         View Cab Types
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </li>
@@ -135,14 +135,14 @@ export class AdminHeaderComponent extends Component {
                     aria-labelledby="navbarScrollingDropdown"
                   >
                     <li>
-                      <a className="dropdown-item" href="/admin/addDriver">
+                      <Link to="/admin/addDriver" className="dropdown-item" >
                         Add Driver
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a className="dropdown-item" href="/admin/viewDrivers">
+                      <Link to="/admin/viewDrivers" className="dropdown-item" >
                         View Drivers
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </li>
@@ -207,7 +207,7 @@ export class AdminHeaderComponent extends Component {
                 </ul>
               </li>
 
-              {/* </ul> */}
+
             </div>
           </nav>
         </header>

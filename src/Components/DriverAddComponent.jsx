@@ -323,7 +323,7 @@ class DriverAddComponent extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  driverInsertData: state.driver.insertDriver,
+  driverInsertData: state.driverReducer.insertDriver
 });
 const mapDispatchToProps = { insertDriver };
 
