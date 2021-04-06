@@ -48,6 +48,7 @@
   width: 100%;
 }
 .header {
+  z-index: 10000;
   position: sticky;
   top: 0;
 }

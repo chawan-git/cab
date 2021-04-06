@@ -10,6 +10,10 @@ import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined"
 import { Link } from "react-router-dom";
 
 export class AdminHeaderComponent extends Component {
+
+  handleLogout = () => {
+    localStorage.clear();
+  }
   render() {
     return (
       <>
@@ -196,9 +200,9 @@ export class AdminHeaderComponent extends Component {
                     </a>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="/logout">
+                    <Link to="/" className="dropdown-item" href="/logout" onClick={this.handleLogout}>
                       Log Out
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </li>

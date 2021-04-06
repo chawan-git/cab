@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { insertAdmin } from "../redux";
+import { insertAdmin } from "../redux/admin/adminActions";
 
 export class AdminAddComponent extends Component {
   state = {
@@ -18,6 +18,7 @@ export class AdminAddComponent extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     this.props.insertAdmin(this.state);
+    localStorage.setItem('admin',JSON.stringify(this.state));
   };
 
   render() {
@@ -155,7 +156,7 @@ export class AdminAddComponent extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  adminInsertData: state.admin.insertAdmin,
+  adminInsertData: state.adminReducer.insertAdmin,
 });
 const mapDispatchToProps = { insertAdmin };
 

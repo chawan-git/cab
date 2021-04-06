@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { deleteAdmin, fetchAdmins } from "../redux";
+import { deleteAdmin, fetchAdmins } from "../redux/admin/adminActions";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
 
@@ -121,7 +121,7 @@ class AdminViewComponent extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    adminData: state.admin.viewAdmins,
+    adminData: state.adminReducer.viewAdmins,
   };
 };
 

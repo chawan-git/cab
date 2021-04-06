@@ -1,8 +1,11 @@
 import { combineReducers } from "redux";
 import adminReducer from "./admin/adminReducer";
+import cabReducer from "./cab/cabReducer";
+import driverReducer from "./driver/driverReducer";
 
 const rootReducer = combineReducers({
-  admin: adminReducer,
+  
+  cabReducer, adminReducer, driverReducer
 });
 
 export default rootReducer;

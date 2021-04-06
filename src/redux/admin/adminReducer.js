@@ -44,7 +44,7 @@ const initialState = {
   },
 };
 
-const reducer = (state = initialState, action) => {
+const adminReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ADMINS_REQUEST:
       return {
@@ -209,4 +209,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export default reducer;
+export default adminReducer;

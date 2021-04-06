@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { updateAdmin, fetchAdmin } from "../redux";
+import { updateAdmin, fetchAdmin } from "../redux/admin/adminActions";
 
-export class AdminEditComponent extends Component {
+class AdminEditComponent extends Component {
   state = {
     adminId: "",
     username: "",
@@ -172,8 +172,8 @@ export class AdminEditComponent extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  adminUpdateData: state.admin.updateAdmin,
-  adminFetchData: state.admin.fetchAdmin,
+  adminUpdateData: state.adminReducer.updateAdmin,
+  adminFetchData: state.adminReducer.fetchAdmin,
 });
 const mapDispatchToProps = { updateAdmin, fetchAdmin };
 
