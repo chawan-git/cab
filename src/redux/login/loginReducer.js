@@ -200,6 +200,7 @@ const loginReducer = (state = initialState, action) => {
         customer: {
           ...state.customer,
           loading: true,
+          error: "",
         },
       };
     }

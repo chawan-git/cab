@@ -157,9 +157,9 @@ export class AdminHeaderComponent extends Component {
                   </ul>
                 </li>
                 <li className="nav-item">
-                  <a
+                  <Link to="/admin/viewCustomers"
                     className="nav-link fw-bold text-white fs-5"
-                    href="/admin/viewCustomers"
+                  
                   >
                     <EmojiPeopleOutlinedIcon
                       style={{ color: "white" }}
@@ -167,7 +167,7 @@ export class AdminHeaderComponent extends Component {
                       className="mb-1"
                     />
                     Customers
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="nav-item">

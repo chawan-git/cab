@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import FooterComponent from "./FooterComponent";
-import TripHeaderComponent from "./TripHeaderComponent";
 
-export class TripAddComponent extends Component {
+
+class TripAddComponent extends Component {
   render() {
     return (
       <div>
-        <TripHeaderComponent />
+      
         <br />
         <br />
         <br />
@@ -44,7 +43,7 @@ export class TripAddComponent extends Component {
             </div>
           </div>
         </div>
-        <FooterComponent />
+        
       </div>
     );
   }

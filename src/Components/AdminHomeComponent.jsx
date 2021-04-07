@@ -12,6 +12,8 @@ import AdminViewComponent from "./AdminViewComponent";
 import CabAddComponent from "./CabAddComponent";
 import CabEditComponent from "./CabEditComponent";
 import CabViewComponent from "./CabViewComponent";
+import CustomerEditComponent from "./CustomerEditComponent";
+import CustomerViewComponent from "./CustomerViewComponent";
 import DriverAddComponent from "./DriverAddComponent";
 import DriverEditComponent from "./DriverEditComponent";
 import DriverViewComponent from "./DriverViewComponent";
@@ -48,6 +50,9 @@ class AdminHomeComponent extends Component {
           <Route path="/admin/profile" component={AdminProfileEditComponent} />
           <Route path="/admin/viewTrips" component={TripViewComponent} />
           <Route path="/admin/editTrip/:id" component={TripEditComponent} />
+          <Route path="/admin/viewCustomers" component={CustomerViewComponent} />
+          <Route path="/admin/editCustomer/:id" component={CustomerEditComponent} />
+
 
         <br />
 

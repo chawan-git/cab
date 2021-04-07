@@ -3,28 +3,61 @@ import { connect } from "react-redux";
 import { updateTrip, fetchTrip } from "../redux";
 
 class TripEditComponent extends Component {
+  // state = {
+  //   tripBookingId: "",
+  //   customer: {
+  //     username: "customer",
+  //     password: "customer@123",
+  //     address: "bengaluru",
+  //     mobileNumber: "9035017233",
+  //     email: "customer@gmail.com",
+  //     customerId: 1,
+  //   },
+  //   driver: {
+  //     username: "driver",
+  //     password: "driver@123",
+  //     address: "Bengaluru",
+  //     mobileNumber: "9035017234",
+  //     email: "driver@rao.life",
+  //     driverId: 1,
+  //     licenseNo: "KA05EP2489",
+  //     cab: {
+  //       cabId: 1,
+  //       carType: "SUV",
+  //       perKmRate: 7,
+  //     },
+  //   },
+  //   fromLocation: "",
+  //   toLocation: "",
+  //   distanceInKm: "",
+  //   fromDateTime: "",
+  //   toDateTime: "",
+  //   status: "",
+  //   bill: "",
+  // };
+
   state = {
     tripBookingId: "",
     customer: {
-      username: "customer",
-      password: "customer@123",
-      address: "bengaluru",
-      mobileNumber: "9035017233",
-      email: "customer@gmail.com",
-      customerId: 1,
+      username: "",
+      password: "",
+      address: "",
+      mobileNumber: "",
+      email: "",
+      customerId: '',
     },
     driver: {
-      username: "driver",
-      password: "driver@123",
-      address: "Bengaluru",
-      mobileNumber: "9035017234",
-      email: "driver@rao.life",
-      driverId: 1,
-      licenseNo: "KA05EP2489",
+      username: "",
+      password: "",
+      address: "",
+      mobileNumber: "",
+      email: "",
+      driverId: "",
+      licenseNo: "",
       cab: {
-        cabId: 1,
-        carType: "SUV",
-        perKmRate: 7,
+        cabId: "",
+        carType: "",
+        perKmRate: "",
       },
     },
     fromLocation: "",
@@ -35,6 +68,8 @@ class TripEditComponent extends Component {
     status: "",
     bill: "",
   };
+
+
 
   async componentDidMount() {
     await this.props.fetchTrip(this.props.match.params.id);
@@ -82,46 +117,18 @@ class TripEditComponent extends Component {
               </div>
             </div>
             <br />
-            <div className="row">
-              <div className="col-md-6 offset-md-3 form-group">
-                <label htmlFor="username">
-                  <h6>
-                    Enter the customer name (required){" "}
-                    <span className="text-danger">*</span>
-                  </h6>
-                </label>
-                <input
-                  type="text"
-                  name="username"
-                  required
-                  value={this.state.customer.username}
-                  onChange={this.handleChange}
-                  className="form-control"
-                  placeholder="customer name"
-                />
-              </div>
-            </div>
-            <br />
-            <div className="row">
-              <div className="col-md-6 offset-md-3 form-group">
-                <label htmlFor="username">
-                  <h6>
-                    Enter the driver name (required){" "}
-                    <span className="text-danger">*</span>
-                  </h6>
-                </label>
-                <input
-                  type="text"
-                  name="username"
-                  required
-                  value={this.state.driver.username}
-                  onChange={this.handleChange}
-                  className="form-control"
-                  placeholder="username"
-                />
-              </div>
-            </div>
-            <br />
+            <h5 className = "text-center">
+                <span className="fw-bold">Customer Name </span>:{" "}
+                      {this.state.customer.username}
+            </h5>
+            <br/>
+            <h5 className = "text-center"> 
+                <span className="fw-bold">Driver name </span> :{" "}
+                      {this.state.driver.username}
+            </h5>
+            <br/>
+            <hr/>
+            <br/>
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="fromLocation">

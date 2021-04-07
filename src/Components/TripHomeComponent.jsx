@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { Route } from "react-router";
 import history from "../history";
 import { fetchTrips } from "../redux/trip/tripActions";
+import CustomerProfileEditComponent from "./CustomerProfileEditComponent";
+import CustomerViewTripsComponent from "./CustomerViewTripsComponent";
 import FooterComponent from "./FooterComponent";
 import TripAddComponent from "./TripAddComponent";
 import TripHeaderComponent from "./TripHeaderComponent";
@@ -26,6 +28,8 @@ class TripHomeComponent extends Component {
 
         {/* /customer/home */}
         <Route path="/customer/home" component={TripAddComponent} />
+        <Route path="/customer/profile" component={CustomerProfileEditComponent} />
+        <Route path="/customer/viewTrips" component={CustomerViewTripsComponent} />
 
         <br />
         <FooterComponent />

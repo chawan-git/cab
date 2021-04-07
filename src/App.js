@@ -13,7 +13,8 @@ import CustomerAddComponent from "./components/CustomerAddComponent";
 import ResetPasswordComponent from "./components/ResetPasswordComponent";
 import ResetPasswordComponent1 from "./components/ResetPasswordComponent1";
 import NotFound from "./components/NotFound";
-import TripAddComponent from "./components/TripAddComponent";
+import TripHomeComponent from "./components/TripHomeComponent";
+import ResetPasswordSuccess from "./components/ResetPasswordSuccess";
 
 function App() {
   return (
@@ -28,11 +29,12 @@ function App() {
           <Route path="/logout" component={LogoutComponent} />
           <Route path="/signInHandle" component={SignInHandleComponent} />
           <Route path="/resetPassword" component={ResetPasswordComponent} />
+          <Route path="/resetPasswordSuccess" component={ResetPasswordSuccess} />
           <Route
             path="/resetPassword1/:username"
             component={ResetPasswordComponent1}
           />
-          <Route path="/customer" component={TripAddComponent} />
+          <Route path="/customer" component={TripHomeComponent} />
           <Route path="/unauthorized" component={Unauthorized} />
 
           <Route path="/notfound" component={NotFound} />

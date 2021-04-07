@@ -5,6 +5,7 @@ import driverReducer from "./driver/driverReducer";
 import loginReducer from "./login/loginReducer";
 import signupReducer from "./signup/signupReducer";
 import tripReducer from "./trip/tripReducer";
+import customerReducer from "./customer/customerReducer";
 
 const rootReducer = combineReducers({
   cabReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   loginReducer,
   signupReducer,
   tripReducer,
+  customerReducer
 });
 
 export default rootReducer;

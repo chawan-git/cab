@@ -149,7 +149,7 @@ export const updateCustomer = (customer) => {
       .then((response) => {
         const customer = response.data;
         dispatch(updateCustomerSuccess(customer));
-        history.push("/customer/home");
+        history.push("/resetPasswordSuccess");
       })
       .catch((error) => {
         dispatch(updateCustomerFailure(error));

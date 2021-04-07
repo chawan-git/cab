@@ -14,7 +14,7 @@ class ResetPasswordComponent extends Component {
   state = {
     username: "",
     choiceState: {
-      choice: "username",
+      choice: "Username",
     },
   };
 

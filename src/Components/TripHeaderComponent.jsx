@@ -51,9 +51,14 @@ export class TripHeaderComponent extends Component {
                   aria-labelledby="navbarScrollingDropdown"
                 >
                   <li>
-                    <a className="dropdown-item" href="/admin/profile">
+                    <Link to="/customer/profile" className="dropdown-item" >
                       Profile Settings
-                    </a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/customer/viewTrips" className="dropdown-item" >
+                      View Trips
+                    </Link>
                   </li>
                   <li>
                     <Link
