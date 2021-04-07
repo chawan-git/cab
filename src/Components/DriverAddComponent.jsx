@@ -16,7 +16,7 @@ class DriverAddComponent extends Component {
     cab: {
       cabId: 1,
       carType: "SUV",
-      perKmRate: "7",
+      perKmRate: "11",
     },
   };
 
@@ -237,7 +237,7 @@ class DriverAddComponent extends Component {
                 <input
                   type="number"
                   name="cabId"
-                  required
+                  disabled={true}
                   value={this.state.cab.cabId}
                   onChange={this.handleCabChange}
                   className="form-control"
@@ -257,7 +257,7 @@ class DriverAddComponent extends Component {
                 <input
                   type="text"
                   name="carType"
-                  required
+                  disabled={true}
                   value={this.state.cab.carType}
                   onChange={this.handleCabChange}
                   className="form-control"
@@ -277,7 +277,7 @@ class DriverAddComponent extends Component {
                 <input
                   type="perkmRate"
                   name="perKmRate"
-                  required
+                  disabled={true}
                   value={this.state.cab.perKmRate}
                   onChange={this.handleCabChange}
                   className="form-control"

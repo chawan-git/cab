@@ -44,7 +44,7 @@ export const insertDriver = (driver) => {
       .then((response) => {
         const driver = response.data;
         dispatch(insertDriverSuccess(driver));
-        history.push("/driver/viewDrivers");
+        history.push("/admin/viewDrivers");
       })
       .catch((error) => {
         dispatch(insertDriverFailure(error));
@@ -75,13 +75,31 @@ export const updateDriver = (driver) => {
       .then((response) => {
         const driver = response.data;
         dispatch(updateDriverSuccess(driver));
-        history.push("/driver/viewDrivers");
+        history.push("/admin/viewDrivers");
       })
       .catch((error) => {
         dispatch(updateDriverFailure(error));
       });
   };
 };
+
+
+export const updateDriver1 = (driver) => {
+  return (dispatch) => {
+    dispatch(updateDriverRequest());
+    axios
+      .put("https://cba.rao.life/api/v1/driver/updateDriver", driver)
+      .then((response) => {
+        const driver = response.data;
+        dispatch(updateDriverSuccess(driver));
+        history.push("/driver/home");
+      })
+      .catch((error) => {
+        dispatch(updateDriverFailure(error));
+      });
+  };
+};
+
 
 export const fetchDriver = (driverId) => {
   return async (dispatch) => {

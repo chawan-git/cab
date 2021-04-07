@@ -1,45 +1,52 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { updateDriver, fetchDriver } from "../redux";
+import history from "../history";
+import { updateDriver1} from "../redux/driver/driverActions";
 
-class DriverEditComponent extends Component {
-  state = {
-    driverId: 0,
-    username: "",
-    password: "",
-    email: "",
-    mobileNumber: "",
-    address: "",
-    licenseNo: "",
-    rating: "",
-    status: "",
-    cab: {
-      cabId: 1,
-      carType: "SUV",
-      perKmRate: "11",
-    },
-  };;
+class DriverProfileEditComponent extends Component {
+    state = {
+        driverId: 0,
+        username: "",
+        password:"",
+        email: "",
+        mobileNumber: "",
+        address: "",
+        licenseNo:"",
+        status:"",
+        rating:0,
+        cab: {cabId:1,
+        carType:"SUV",
+        perKmRate:11}
+    
+      };
 
-  async componentDidMount() {
-    await this.props.fetchDriver(this.props.match.params.id);
-    const { driverFetchData } = this.props;
-    driverFetchData &&
-      driverFetchData.driver &&
+  driverFetchData = {};
+  componentDidMount() {
+    this.driverFetchData = JSON.parse(localStorage.getItem("Driver"));
+
+    this.driverFetchData &&
       this.setState({
-        driverId: driverFetchData.driver.driverId,
-        username: driverFetchData.driver.username,
-        password:driverFetchData.driver.password,
-        email: driverFetchData.driver.email,
-        mobileNumber: driverFetchData.driver.mobileNumber,
-        address: driverFetchData.driver.address,
-        licenseNo:driverFetchData.driver.licenseNo,
-        status: driverFetchData.driver.status,
-        rating: driverFetchData.driver.rating,
-        // cabId: driverFetchData.driver.cab.cabId,
-        // carType: driverFetchData.driver.cab.carType,
-        // perKmRate: driverFetchData.driver.cab.perKmRate,
+        driverId: this.driverFetchData.driverId,
+        username: this.driverFetchData.username,
+        password: this.driverFetchData.password,
+        email: this.driverFetchData.email,
+        mobileNumber: this.driverFetchData.mobileNumber,
+        address: this.driverFetchData.address,
+        licenseNo:this.driverFetchData.licenseNo,
+        status:this.driverFetchData.status,
+        rating: this.driverFetchData.rating
       });
+
+    this.getData();
+    window.addEventListener("storage", (e) => this.getData());
   }
+
+  getData = () => {
+    if (localStorage.getItem("Driver")) {
+    } else {
+      history.push("/unauthorized");
+    }
+  };
 
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
@@ -55,9 +62,11 @@ class DriverEditComponent extends Component {
     console.log(this.state);
   };
 
+  
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.updateDriver(this.state);
+    this.props.updateDriver1(this.state);
+    localStorage.setItem('Driver',JSON.stringify(this.state))
   };
 
   render() {
@@ -67,7 +76,7 @@ class DriverEditComponent extends Component {
           <br />
           <div className="row">
             <div className="col-md-12 text-center">
-              <h2>Edit driver {this.props.match.params.id}</h2>
+              <h2>Edit driver {this.driverFetchData.username}</h2>
             </div>
           </div>
           <hr />
@@ -80,25 +89,6 @@ class DriverEditComponent extends Component {
             </div>
             <br />
 
-            <div className="row">
-              <div className="col-md-6 offset-md-3 form-group">
-                <label htmlFor="username">
-                  <h6>
-                    Enter the driver UserId (required){" "}
-                    <span className="text-danger">*</span>
-                  </h6>
-                </label>
-                <input
-                  type="number"
-                  name="driverId"
-                  required
-                  value={this.state.driverId}
-                  onChange={this.handleChange}
-                  className="form-control"
-                  placeholder="UserId"
-                />
-              </div>
-            </div>
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="username">
@@ -139,8 +129,6 @@ class DriverEditComponent extends Component {
               </div>
             </div>
             <br />
-
-
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="email">
@@ -182,7 +170,6 @@ class DriverEditComponent extends Component {
               </div>
             </div>
             <br />
-            
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="username">
@@ -213,6 +200,7 @@ class DriverEditComponent extends Component {
                 </label>
                 <input
                   type="number"
+                  step="0.1"
                   name="rating"
                   required
                   value={this.state.rating}
@@ -245,24 +233,23 @@ class DriverEditComponent extends Component {
 
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
-                <label htmlFor="cabId">
+                <label htmlFor="username">
                   <h6>
-                    Enter the Cab-Id (required){" "}
+                    Enter the Cab Id (required){" "}
                     <span className="text-danger">*</span>
                   </h6>
                 </label>
                 <input
                   type="number"
                   name="cabId"
-                  disabled={true}
+                  disabled={true}              
                   value={this.state.cab.cabId}
                   onChange={this.handleCabChange}
                   className="form-control"
-                  placeholder="Cab ID"
+                  placeholder="cabId"
                 />
               </div>
             </div>
-
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="username">
@@ -276,7 +263,7 @@ class DriverEditComponent extends Component {
                   name="carType"
                   disabled={true}
                   value={this.state.cab.carType}
-                  onChange={this.handleChange}
+                  onChange={this.handleCabChange}
                   className="form-control"
                   placeholder="cabType"
                 />
@@ -296,13 +283,13 @@ class DriverEditComponent extends Component {
                   name="perKmRate"
                   disabled={true}
                   value={this.state.cab.perKmRate}
-                  onChange={this.handleChange}
+                  onChange={this.handleCabChange}
                   className="form-control"
                   placeholder="perKmRate"
                 />
               </div>
             </div>
-            
+
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="address">
@@ -323,13 +310,11 @@ class DriverEditComponent extends Component {
               </div>
             </div>
             <br />
-
-
             <br/>
             <div className="row">
               <div className="col-md-6 offset-md-3 text-center">
                 <button type="submit" className="btn btn-dark">
-                  Update Driver
+                  Update Profile
                 </button>
               </div>
             </div>
@@ -342,8 +327,10 @@ class DriverEditComponent extends Component {
 }
 const mapStateToProps = (state) => ({
   driverUpdateData: state.driverReducer.updateDriver,
-  driverFetchData: state.driverReducer.fetchDriver,
 });
-const mapDispatchToProps = { updateDriver, fetchDriver };
+const mapDispatchToProps = { updateDriver1 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DriverEditComponent);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DriverProfileEditComponent);
