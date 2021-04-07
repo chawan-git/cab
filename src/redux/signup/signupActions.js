@@ -14,7 +14,7 @@ export const insertCustomer = (customer) => {
       .then((response) => {
         const customer = response.data;
         dispatch(insertCustomerSuccess(customer));
-        history.push("/customer/home");
+        history.push("/login");
       })
       .catch((error) => {
         dispatch(insertCustomerFailure(error));

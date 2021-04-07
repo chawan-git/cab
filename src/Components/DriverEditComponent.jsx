@@ -14,10 +14,10 @@ class DriverEditComponent extends Component {
     rating: "",
     status: "",
     cab: {
-      cabId: 1,
-      carType: "SUV",
-      perKmRate: "11",
-    },
+      cabId: 0,
+      carType: "",
+      perKmRate: ""
+    }
   };;
 
   async componentDidMount() {
@@ -35,9 +35,8 @@ class DriverEditComponent extends Component {
         licenseNo:driverFetchData.driver.licenseNo,
         status: driverFetchData.driver.status,
         rating: driverFetchData.driver.rating,
-        // cabId: driverFetchData.driver.cab.cabId,
-        // carType: driverFetchData.driver.cab.carType,
-        // perKmRate: driverFetchData.driver.cab.perKmRate,
+        cab: driverFetchData.driver.cab
+
       });
   }
 
@@ -46,13 +45,12 @@ class DriverEditComponent extends Component {
   };
 
   handleCabChange = (event) => {
-    console.log(this.state);
-    const { cab } = { ...this.state.cab };
-    const currentState = cab;
-    const { name, value } = event.target;
-    currentState[name] = value;
-    this.setState({ cab: currentState });
-    console.log(this.state);
+    var cab = {
+      ...this.state.cab,
+    };
+
+    cab[event.target.name] = event.target.value;
+    this.setState({ cab });
   };
 
   handleSubmit = (event) => {
@@ -67,7 +65,7 @@ class DriverEditComponent extends Component {
           <br />
           <div className="row">
             <div className="col-md-12 text-center">
-              <h2>Edit driver {this.props.match.params.id}</h2>
+              <h2>Edit driver {this.state.username}</h2>
             </div>
           </div>
           <hr />
@@ -80,25 +78,7 @@ class DriverEditComponent extends Component {
             </div>
             <br />
 
-            <div className="row">
-              <div className="col-md-6 offset-md-3 form-group">
-                <label htmlFor="username">
-                  <h6>
-                    Enter the driver UserId (required){" "}
-                    <span className="text-danger">*</span>
-                  </h6>
-                </label>
-                <input
-                  type="number"
-                  name="driverId"
-                  required
-                  value={this.state.driverId}
-                  onChange={this.handleChange}
-                  className="form-control"
-                  placeholder="UserId"
-                />
-              </div>
-            </div>
+            
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="username">
@@ -223,25 +203,7 @@ class DriverEditComponent extends Component {
               </div>
             </div>
 
-            <div className="row">
-              <div className="col-md-6 offset-md-3 form-group">
-                <label htmlFor="username">
-                  <h6>
-                    Enter the driver Status (required){" "}
-                    <span className="text-danger">*</span>
-                  </h6>
-                </label>
-                <input
-                  type="text"
-                  name="status"
-                  required
-                  value={this.state.status}
-                  onChange={this.handleChange}
-                  className="form-control"
-                  placeholder="status"
-                />
-              </div>
-            </div>
+            
 
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
@@ -254,7 +216,7 @@ class DriverEditComponent extends Component {
                 <input
                   type="number"
                   name="cabId"
-                  disabled={true}
+                  // disabled={true}
                   value={this.state.cab.cabId}
                   onChange={this.handleCabChange}
                   className="form-control"
@@ -274,9 +236,9 @@ class DriverEditComponent extends Component {
                 <input
                   type="text"
                   name="carType"
-                  disabled={true}
+                  // disabled={true}
                   value={this.state.cab.carType}
-                  onChange={this.handleChange}
+                  onChange={this.handleCabChange}
                   className="form-control"
                   placeholder="cabType"
                 />
@@ -294,9 +256,9 @@ class DriverEditComponent extends Component {
                 <input
                   type="number"
                   name="perKmRate"
-                  disabled={true}
+                  // disabled={true}
                   value={this.state.cab.perKmRate}
-                  onChange={this.handleChange}
+                  onChange={this.handleCabChange}
                   className="form-control"
                   placeholder="perKmRate"
                 />

@@ -1,5 +1,6 @@
 import axios from "axios";
 import history from "../../history";
+
 import {
   FETCH_DRIVER_FAILURE,
   FETCH_DRIVERS_REQUEST,
@@ -16,6 +17,9 @@ import {
   UPDATE_DRIVER_FAILURE,
   FETCH_DRIVER_REQUEST,
   FETCH_DRIVER_SUCCESS,
+  FETCH_TRIPS_SUCCESS,
+  FETCH_TRIPS_FAILURE,
+  FETCH_TRIPS_REQUEST,
 } from "./driverTypes";
 
 export const fetchDrivers = () => {
@@ -83,7 +87,6 @@ export const updateDriver = (driver) => {
   };
 };
 
-
 export const updateDriver1 = (driver) => {
   return (dispatch) => {
     dispatch(updateDriverRequest());
@@ -100,6 +103,26 @@ export const updateDriver1 = (driver) => {
   };
 };
 
+export const fetchTrips2 = (mobileNumber) => {
+  return async (dispatch) => {
+    await dispatch(fetchTripsRequest());
+    await axios
+      .get(
+        "https://cba.rao.life/api/v1/tripBooking/viewTripsByDriverMobileNumber/" +
+          mobileNumber
+      )
+      .then((response) => {
+        // response.data is the users
+        const trips = response.data;
+        dispatch(fetchTripsSuccess(trips));
+      })
+      .catch((error) => {
+        // error.message is the error message
+
+        dispatch(fetchTripsFailure(error));
+      });
+  };
+};
 
 export const fetchDriver = (driverId) => {
   return async (dispatch) => {
@@ -221,6 +244,28 @@ export const fetchDriverSuccess = (driver) => {
 export const fetchDriverFailure = (error) => {
   return {
     type: FETCH_DRIVER_FAILURE,
+    payload: error,
+  };
+};
+
+export const fetchTripsRequest = () => {
+  return {
+    type: FETCH_TRIPS_REQUEST,
+  };
+};
+
+//Action Creator
+export const fetchTripsSuccess = (trips) => {
+  return {
+    type: FETCH_TRIPS_SUCCESS,
+    payload: trips,
+  };
+};
+
+//Action Creator
+export const fetchTripsFailure = (error) => {
+  return {
+    type: FETCH_TRIPS_FAILURE,
     payload: error,
   };
 };

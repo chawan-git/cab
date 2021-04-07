@@ -8,6 +8,7 @@ import CustomerViewTripsComponent from "./CustomerViewTripsComponent";
 import FooterComponent from "./FooterComponent";
 import TripAddComponent from "./TripAddComponent";
 import TripHeaderComponent from "./TripHeaderComponent";
+import TripRequestedComponent from "./TripRequestedComponent";
 
 class TripHomeComponent extends Component {
   componentDidMount() {
@@ -30,6 +31,7 @@ class TripHomeComponent extends Component {
         <Route path="/customer/home" component={TripAddComponent} />
         <Route path="/customer/profile" component={CustomerProfileEditComponent} />
         <Route path="/customer/viewTrips" component={CustomerViewTripsComponent} />
+        <Route path="/customer/tripRequested" component={TripRequestedComponent} />
 
         <br />
         <FooterComponent />

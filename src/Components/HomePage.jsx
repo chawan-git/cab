@@ -6,39 +6,34 @@ import HeaderComponent from "./HeaderComponent";
 import FooterComponent from "./FooterComponent";
 import history from "../history";
 
-export class HomePage extends Component {
-  constructor(props) {
-    super(props);
+class HomePage extends Component {
+  
 
-    this.state = {
-      dataSource: "",
-      dataDestination: "",
+    state = {
+      fromLocation: "",
+      toLocation: "",
       errSource: "",
       errDestination: "",
       disabled: "",
       disabled2: "",
       but:""
 
-    };
+    }
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleRequest = this.handleRequest.bind(this);
-  }
-
-  handleChange(e) {
+  handleChange = (e) => {
     if (e.target.name === "source") 
     {
       this.setState({
-        dataSource: e.target.value,
+        fromLocation: e.target.value,
         errDestination: "",
         disabled: "not",
         but:"not"
         //disabled2: ""
       });
 
-      if (e.target.value === this.state.dataDestination) {
+      if (e.target.value === this.state.toLocation) {
         this.setState({
-          dataSource: e.target.value,
+          fromLocation: e.target.value,
           errDestination: "To Location & From Location Cannot be same",
           but : ""
           //disabled: "",
@@ -50,17 +45,17 @@ export class HomePage extends Component {
     if (e.target.name === "destination") 
     {
       this.setState({
-        dataDestination: e.target.value,
+        toLocation: e.target.value,
         errDestination: "",
         //disabled:"",
         disabled2: "not",
         but : "not"
       });
 
-      if (e.target.value === this.state.dataSource) 
+      if (e.target.value === this.state.fromLocation) 
       {
         this.setState({
-          dataDestination: e.target.value,
+          toLocation: e.target.value,
           errDestination: "To Location & From Location Cannot be same",
           but:""
           //disabled:"",
@@ -72,7 +67,7 @@ export class HomePage extends Component {
     
 }
 
-  handleRequest() {
+  handleRequest = () => {
     if (localStorage.getItem("Customer")) {
       localStorage.setItem("trip", JSON.stringify(this.state));
       history.push("/customer/home");

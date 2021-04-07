@@ -44,7 +44,7 @@ export const insertTrip = (trip) => {
       .then((response) => {
         const trip = response.data;
         dispatch(insertTripSuccess(trip));
-        history.push("/trip/viewTrips");
+        history.push("/customer/tripRequested");
       })
       .catch((error) => {
         dispatch(insertTripFailure(error));

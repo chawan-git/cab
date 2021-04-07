@@ -44,7 +44,7 @@ class TripEditComponent extends Component {
       address: "",
       mobileNumber: "",
       email: "",
-      customerId: '',
+      customerId: "",
     },
     driver: {
       username: "",
@@ -68,8 +68,6 @@ class TripEditComponent extends Component {
     status: "",
     bill: "",
   };
-
-
 
   async componentDidMount() {
     await this.props.fetchTrip(this.props.match.params.id);
@@ -117,18 +115,29 @@ class TripEditComponent extends Component {
               </div>
             </div>
             <br />
-            <h5 className = "text-center">
-                <span className="fw-bold">Customer Name </span>:{" "}
-                      {this.state.customer.username}
+            <h5 className="text-center">
+              <span className="fw-bold">Customer Name </span>:{" "}
+              {this.state.customer.username} @ {this.state.customer.mobileNumber}
             </h5>
-            <br/>
-            <h5 className = "text-center"> 
-                <span className="fw-bold">Driver name </span> :{" "}
-                      {this.state.driver.username}
+            <br />
+            <h5 className="text-center">
+              <span className="fw-bold">Driver name </span> :{" "}
+              {this.state.driver.username} @ {this.state.driver.mobileNumber}
             </h5>
-            <br/>
-            <hr/>
-            <br/>
+            <br />
+            <h5 className="text-center">
+              <span className="fw-bold">License Number </span> :{" "}
+              {this.state.driver.licenseNo}
+            </h5>
+            <br />
+            <h5 className="text-center">
+              <span className="fw-bold">Car Type </span> :{" "}
+              {this.state.driver.cab.carType}
+            </h5>
+            <br />
+
+            <hr />
+            <br />
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="fromLocation">
@@ -219,6 +228,7 @@ class TripEditComponent extends Component {
                 </label>
                 <input
                   type="number"
+                  step="0.1"
                   name="distanceInKm"
                   required
                   value={this.state.distanceInKm}

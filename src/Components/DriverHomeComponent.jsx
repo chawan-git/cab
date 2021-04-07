@@ -7,6 +7,7 @@ import DriverHeaderComponent from "./DriverHeaderComponent";
 import DriverProfileEditComponent from "./DriverProfileEditComponent"
 import TripViewComponent from "./TripViewComponent"
 import Footer from "./FooterComponent";
+import DriverViewTripsComponent from "./DriverViewTripsComponent";
 
 class DriverHomeComponent extends Component {
   render() {
@@ -17,6 +18,7 @@ class DriverHomeComponent extends Component {
         <Route path="/driver/home" component={DriverDashboardComponent} />
         <Route path="/driver/viewTrips" component={TripViewComponent} />        
         <Route path="/driver/profile" component={DriverProfileEditComponent} />
+        <Route path="/driver/tripHistory" component={DriverViewTripsComponent}></Route>
         <br />
 
         <Footer />

@@ -44,7 +44,7 @@ class CustomerEditComponent extends Component {
           <br />
           <div className="row">
             <div className="col-md-12 text-center">
-              <h2>Edit admin {this.props.match.params.id}</h2>
+              <h2>Edit customer {this.state.username}</h2>
             </div>
           </div>
           <hr />

@@ -31,11 +31,21 @@ export class DriverHeaderComponent extends Component {
                 </span>
               </Link>
 
+              <li className="nav-item">
+                  <Link
+                    to="/driver/home"
+                    className="nav-link fw-bold text-white fs-5"
+                    href="/driver"
+                  >
+                    DashBoard
+                  </Link>
+                </li>
+
               {/* <ul className="nav nav-pills justify-content-end"> */}
               <li className="nav-item dropdown">
                 <a
                   className="nav-link fw-bold text-white fs-5"
-                  href="/admin"
+                  href="/driver"
                   id="navbarScrollingDropdown"
                   role="button"
                   data-bs-toggle="dropdown"
@@ -53,6 +63,11 @@ export class DriverHeaderComponent extends Component {
                   <li>
                     <Link to="/driver/profile" className="dropdown-item">
                       Profile Settings
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/driver/tripHistory" className="dropdown-item">
+                      Trip History
                     </Link>
                   </li>
                   <li>

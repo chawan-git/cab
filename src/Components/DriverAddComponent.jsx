@@ -4,7 +4,7 @@ import { insertDriver } from "../redux";
 
 class DriverAddComponent extends Component {
   state = {
-    driverId: 0,
+    driverId: 999999,
     username: "",
     password: "",
     email: "",
@@ -12,11 +12,11 @@ class DriverAddComponent extends Component {
     address: "",
     licenseNo: "",
     rating: "",
-    status: "",
+    status: "NotAvailable",
     cab: {
-      cabId: 1,
-      carType: "SUV",
-      perKmRate: "11",
+      cabId: 0,
+      carType: "",
+      perKmRate: 0,
     },
   };
 
@@ -24,20 +24,13 @@ class DriverAddComponent extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  // handleCabCabIdChange=(event)=>{
-  //   console.log(event)
-  //   console.log(event.target)
+  handleCabChange = (event) => {
+    var cab = {
+      ...this.state.cab,
+    };
 
-  //   this.setState({cabId: event.target.value});
-  //    }
-  handleCabchange = (event) => {
-    console.log(this.state);
-    const { cab } = { ...this.state.cab };
-    const currentState = cab;
-    const { name, value } = event.target;
-    currentState[name] = value;
-    this.setState({ cab: currentState });
-    console.log(this.state);
+    cab[event.target.name] = event.target.value;
+    this.setState({ cab });
   };
   handleSubmit = (event) => {
     event.preventDefault();
@@ -60,26 +53,6 @@ class DriverAddComponent extends Component {
             <div className="row">
               <div className="col-md-6 offset-md-3">
                 <h3>{this.props.driverInsertData.error.message}</h3>
-              </div>
-            </div>
-            <br />
-
-            <div className="row">
-              <div className="col-md-6 offset-md-3 form-group">
-                <label htmlFor="username">
-                  <h6>
-                    Enter the driver userID (required){" "}
-                    <span className="text-danger">*</span>
-                  </h6>
-                </label>
-                <input
-                  type="number"
-                  name="driverId"
-                  value={this.state.driverId}
-                  onChange={this.handleChange}
-                  className="form-control"
-                  placeholder="User-id"
-                />
               </div>
             </div>
             <br />
@@ -205,26 +178,7 @@ class DriverAddComponent extends Component {
                 />
               </div>
             </div>
-            <br />
-            <div className="row">
-              <div className="col-md-6 offset-md-3 form-group">
-                <label htmlFor="email">
-                  <h6>
-                    Enter the driver Status (required){" "}
-                    <span className="text-danger">*</span>
-                  </h6>
-                </label>
-                <input
-                  type="status"
-                  name="status"
-                  required
-                  value={this.state.status}
-                  onChange={this.handleChange}
-                  className="form-control"
-                  placeholder="Available/Not-Available"
-                />
-              </div>
-            </div>
+
             <br />
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
@@ -237,7 +191,7 @@ class DriverAddComponent extends Component {
                 <input
                   type="number"
                   name="cabId"
-                  disabled={true}
+                  // disabled={true}
                   value={this.state.cab.cabId}
                   onChange={this.handleCabChange}
                   className="form-control"
@@ -257,7 +211,7 @@ class DriverAddComponent extends Component {
                 <input
                   type="text"
                   name="carType"
-                  disabled={true}
+                  // disabled={true}
                   value={this.state.cab.carType}
                   onChange={this.handleCabChange}
                   className="form-control"
@@ -275,9 +229,9 @@ class DriverAddComponent extends Component {
                   </h6>
                 </label>
                 <input
-                  type="perkmRate"
+                  type="number"
                   name="perKmRate"
-                  disabled={true}
+                  // disabled={true}
                   value={this.state.cab.perKmRate}
                   onChange={this.handleCabChange}
                   className="form-control"
