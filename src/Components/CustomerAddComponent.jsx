@@ -1,16 +1,17 @@
 import React, { Component } from "react";
-import logo from "../logo.png";
-
 import { connect } from "react-redux";
-import { fetchUser } from "../redux/";
+import { insertCustomer } from "../redux";
 import FooterComponent from "./FooterComponent";
 import HeaderComponent from "./HeaderComponent";
-import { Link } from "react-router-dom";
+import logo from "../logo.png";
 
-class SignInComponent extends Component {
+class CustomerAddComponent extends Component {
   state = {
     username: "",
     password: "",
+    email: "",
+    mobileNumber: "",
+    address: "",
   };
 
   handleChange = (event) => {
@@ -19,20 +20,18 @@ class SignInComponent extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.fetchUser(this.state);
+    this.props.insertCustomer(this.state);
   };
 
   render() {
     return (
       <div>
         <HeaderComponent />
-        <br />
-        <br />
-        <br />
-        <br />
+
         <div className="container h-100 d-flex justify-content-center">
           <div className="row">
             <div className="col">
+              <br />
               <div className="text-center">
                 <img
                   src={logo}
@@ -48,7 +47,7 @@ class SignInComponent extends Component {
               <form>
                 <div className="row">
                   <div className="col">
-                    <h3>{this.props.loginData.error.message}</h3>
+                    <h3>{this.props.customerInsertData.error.message}</h3>
                   </div>
                 </div>
                 <div className="form-group">
@@ -87,10 +86,58 @@ class SignInComponent extends Component {
                   />
                 </div>
                 <br />
-                <div>
-                  <Link to="/resetPassword">
-                    <h5>Reset Password?</h5>
-                  </Link>
+                <div className="form-group">
+                  <label htmlFor="email">
+                    <h5>
+                      Enter your email address
+                      <span className="text-danger">*</span> (required)
+                    </h5>
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={this.state.email}
+                    onChange={this.handleChange}
+                    className="form-control"
+                    placeholder="Email address"
+                    required
+                  />
+                </div>
+                <br />
+                <div className="form-group">
+                  <label htmlFor="mobileNumber">
+                    <h5>
+                      Enter your mobile number
+                      <span className="text-danger">*</span> (required)
+                    </h5>
+                  </label>
+                  <input
+                    type="number"
+                    name="mobileNumber"
+                    value={this.state.mobileNumber}
+                    onChange={this.handleChange}
+                    className="form-control"
+                    placeholder="Mobile number"
+                    required
+                  />
+                </div>
+                <br />
+                <div className="form-group">
+                  <label htmlFor="address">
+                    <h5>
+                      Enter your address<span className="text-danger">*</span>{" "}
+                      (required)
+                    </h5>
+                  </label>
+                  <textarea
+                    name="address"
+                    rows="5"
+                    required
+                    value={this.state.address}
+                    onChange={this.handleChange}
+                    className="form-control"
+                    placeholder="Address"
+                  />
                 </div>
                 <br />
                 <button
@@ -98,7 +145,7 @@ class SignInComponent extends Component {
                   type="submit"
                   className="btn btn-dark col-12 fw-bold"
                 >
-                  Sign In
+                  Sign Up
                 </button>
               </form>
             </div>
@@ -117,13 +164,12 @@ class SignInComponent extends Component {
     );
   }
 }
+const mapStateToProps = (state) => ({
+  customerInsertData: state.signupReducer,
+});
+const mapDispatchToProps = { insertCustomer };
 
-const mapStateToProps = (state) => {
-  return {
-    loginData: state.loginReducer,
-  };
-};
-
-const mapDispatchToProps = { fetchUser };
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignInComponent);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CustomerAddComponent);

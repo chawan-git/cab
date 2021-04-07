@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import history from "../history";
 import { updateAdmin, fetchAdmin } from "../redux/admin/adminActions";
 
 class AdminEditComponent extends Component {
@@ -25,7 +26,16 @@ class AdminEditComponent extends Component {
         mobileNumber: adminFetchData.admin.mobileNumber,
         address: adminFetchData.admin.address,
       });
+    this.getData();
+    window.addEventListener("storage", (e) => this.getData());
   }
+
+  getData = () => {
+    if (localStorage.getItem("Admin")) {
+    } else {
+      history.push("/unauthorized");
+    }
+  };
 
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });

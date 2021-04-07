@@ -6,17 +6,16 @@ class DriverEditComponent extends Component {
   state = {
     driverId: "",
     username: "",
-    password:"",
+    password: "",
     email: "",
     mobileNumber: "",
     address: "",
-    licenseNo:" ",
-    status:" ",
-    rating:"",
-    cabId:"",
-    carType:"",
-    perKmRate:""
-
+    licenseNo: " ",
+    status: " ",
+    rating: "",
+    cabId: "",
+    carType: "",
+    perKmRate: "",
   };
 
   async componentDidMount() {
@@ -27,11 +26,11 @@ class DriverEditComponent extends Component {
       this.setState({
         userId: driverFetchData.driver.driverId,
         username: driverFetchData.driver.username,
-        password:driverFetchData.driver.password,
+        password: driverFetchData.driver.password,
         email: driverFetchData.driver.email,
         mobileNumber: driverFetchData.driver.mobileNumber,
         address: driverFetchData.driver.address,
-        licenseNo:driverFetchData.driver.licenseNo,
+        licenseNo: driverFetchData.driver.licenseNo,
         status: driverFetchData.driver.status,
         rating: driverFetchData.driver.rating,
         cabId: driverFetchData.driver.cab.cabId,
@@ -128,7 +127,6 @@ class DriverEditComponent extends Component {
               </div>
             </div>
             <br />
-
 
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
@@ -311,7 +309,7 @@ class DriverEditComponent extends Component {
               </div>
             </div>
 
-            <br/>
+            <br />
             <div className="row">
               <div className="col-md-6 offset-md-3 text-center">
                 <button type="submit" className="btn btn-dark">
@@ -332,4 +330,7 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = { updateDriver, fetchDriver };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DriverEditComponent);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DriverEditComponent);

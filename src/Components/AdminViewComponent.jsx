@@ -4,11 +4,22 @@ import { Link } from "react-router-dom";
 import { deleteAdmin, fetchAdmins } from "../redux/admin/adminActions";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
+import history from "../history";
 
 class AdminViewComponent extends Component {
   componentDidMount() {
     this.props.fetchAdmins();
+
+    this.getData();
+    window.addEventListener("storage", (e) => this.getData());
   }
+
+  getData = () => {
+    if (localStorage.getItem("Admin")) {
+    } else {
+      history.push("/unauthorized");
+    }
+  };
   async deleteAdmin(adminId, e) {
     e.preventDefault();
     this.props.deleteAdmin(adminId);

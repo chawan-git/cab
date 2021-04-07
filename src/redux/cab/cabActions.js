@@ -40,7 +40,7 @@ export const insertCab = (cab) => {
   return (dispatch) => {
     dispatch(insertCabRequest());
     axios
-      .post("https://cba.rao.life/api/v1/cab/insertCab",cab)
+      .post("https://cba.rao.life/api/v1/cab/insertCab", cab)
       .then((response) => {
         const cab = response.data;
         dispatch(insertCabSuccess(cab));

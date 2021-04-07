@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import history from "../history";
-import { insertAdmin } from "../redux/admin/adminActions";
+import { updateAdmin1 } from "../redux";
 
-class AdminAddComponent extends Component {
+class AdminProfileEditComponent extends Component {
   state = {
+    adminId: "",
     username: "",
     password: "",
     email: "",
@@ -12,10 +13,24 @@ class AdminAddComponent extends Component {
     address: "",
   };
 
+  adminFetchData = {};
   componentDidMount() {
+    this.adminFetchData = JSON.parse(localStorage.getItem("Admin"));
+
+    this.adminFetchData &&
+      this.setState({
+        adminId: this.adminFetchData.adminId,
+        username: this.adminFetchData.username,
+        password: this.adminFetchData.password,
+        email: this.adminFetchData.email,
+        mobileNumber: this.adminFetchData.mobileNumber,
+        address: this.adminFetchData.address,
+      });
+
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
   }
+
   getData = () => {
     if (localStorage.getItem("Admin")) {
     } else {
@@ -29,7 +44,8 @@ class AdminAddComponent extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.insertAdmin(this.state);
+    this.props.updateAdmin1(this.state);
+    localStorage.setItem('Admin',JSON.stringify(this.state))
   };
 
   render() {
@@ -39,7 +55,7 @@ class AdminAddComponent extends Component {
           <br />
           <div className="row">
             <div className="col-md-12 text-center">
-              <h2>Add a new admin</h2>
+              <h2>Edit admin {this.adminFetchData.username}</h2>
             </div>
           </div>
           <hr />
@@ -47,7 +63,7 @@ class AdminAddComponent extends Component {
           <form onSubmit={this.handleSubmit}>
             <div className="row">
               <div className="col-md-6 offset-md-3">
-                <h3>{this.props.adminInsertData.error.message}</h3>
+                <h3>{this.props.adminUpdateData.error.message}</h3>
               </div>
             </div>
             <br />
@@ -156,19 +172,23 @@ class AdminAddComponent extends Component {
             <div className="row">
               <div className="col-md-6 offset-md-3 text-center">
                 <button type="submit" className="btn btn-dark">
-                  Add Admin
+                  Update Admin
                 </button>
               </div>
             </div>
           </form>
         </div>
+        )
       </>
     );
   }
 }
 const mapStateToProps = (state) => ({
-  adminInsertData: state.adminReducer.insertAdmin,
+  adminUpdateData: state.adminReducer.updateAdmin,
 });
-const mapDispatchToProps = { insertAdmin };
+const mapDispatchToProps = { updateAdmin1 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminAddComponent);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AdminProfileEditComponent);

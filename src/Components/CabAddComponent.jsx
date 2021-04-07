@@ -1,12 +1,24 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import history from "../history";
 import { insertCab } from "../redux/cab/cabActions";
 
 class CabAddComponent extends Component {
   state = {
     carType: "",
     perKmRate: "",
+  };
+
+  componentDidMount() {
+    this.getData();
+    window.addEventListener("storage", (e) => this.getData());
   }
+  getData = () => {
+    if (localStorage.getItem("Admin")) {
+    } else {
+      history.push("/unauthorized");
+    }
+  };
 
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
@@ -110,12 +122,11 @@ class CabAddComponent extends Component {
     );
   }
 }
-function mapStateToProps(state){
-  return{
-      insertCabData: state.cabReducer.insertCab
+function mapStateToProps(state) {
+  return {
+    insertCabData: state.cabReducer.insertCab,
   };
 }
 const mapDispatchToProps = { insertCab };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CabAddComponent);
-

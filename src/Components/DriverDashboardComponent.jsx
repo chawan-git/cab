@@ -10,9 +10,8 @@ export class DriverDashboardComponent extends Component {
         <br />
         <div className="card text-center">
           <div className="card-body">
-            
             <h2 className="card-title">Welcome to the Driver dashboard</h2>
-            <Link to="/driver/viewDrivers" className="btn btn-primary fw-bold">
+            <Link to="/admin/viewDrivers" className="btn btn-primary fw-bold">
               View all Drivers
             </Link>
           </div>

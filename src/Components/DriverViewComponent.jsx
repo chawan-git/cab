@@ -145,7 +145,7 @@ class DriverViewComponent extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    driverData: state.driverReducer.viewDrivers
+    driverData: state.driverReducer.viewDrivers,
   };
 };
 
@@ -156,4 +156,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DriverViewComponent);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DriverViewComponent);

@@ -4,9 +4,6 @@ import PersonOutlineRoundedIcon from "@material-ui/icons/PersonOutlineRounded";
 import { Link } from "react-router-dom";
 
 export class HeaderComponent extends Component {
-  handleLogin = () => {
-    localStorage.setItem("admin", "bla bla bla")
-  }
   render() {
     return (
       <>
@@ -31,7 +28,7 @@ export class HeaderComponent extends Component {
                 </span>
               </Link>
 
-              <ul className="nav nav-pills">
+              {/* <ul className="nav nav-pills">
                 <li className="nav-item">
                   <Link to="/" className="nav-link">
                     Home
@@ -47,11 +44,12 @@ export class HeaderComponent extends Component {
                     Driver
                   </Link>
                 </li>
-              </ul>
+              </ul> */}
 
               <ul className="nav nav-pills justify-content-end">
                 <li className="nav-item">
-                  <Link to="/login"
+                  <Link
+                    to="/login"
                     className="nav-link fw-bold text-white fs-5"
                     onClick={this.handleLogin}
                   >
@@ -63,7 +61,8 @@ export class HeaderComponent extends Component {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/signUp"
+                  <Link
+                    to="/signUp"
                     className="nav-link me-2 fw-bold text-dark rounded-pill fs-5"
                     style={{ background: "#ffeb3b" }}
                   >

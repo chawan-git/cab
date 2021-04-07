@@ -4,11 +4,22 @@ import { Link } from "react-router-dom";
 import { deleteCab, fetchCabs } from "../redux";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
+import history from "../history";
 
 class CabViewComponent extends Component {
   componentDidMount() {
     this.props.fetchCabs();
+
+    this.getData();
+    window.addEventListener("storage", (e) => this.getData());
   }
+
+  getData = () => {
+    if (localStorage.getItem("Admin")) {
+    } else {
+      history.push("/unauthorized");
+    }
+  };
   async deleteCab(cabId, e) {
     e.preventDefault();
     this.props.deleteCab(cabId);
@@ -65,8 +76,7 @@ class CabViewComponent extends Component {
                     <div className="row">
                       <div className="col-md-10">
                         <h5>
-                          <span className="fw-bold">Cab ID</span> :{" "}
-                          {cab.cabId}
+                          <span className="fw-bold">Cab ID</span> : {cab.cabId}
                         </h5>
                         <h5>
                           <span className="fw-bold">Car Type</span>:{" "}

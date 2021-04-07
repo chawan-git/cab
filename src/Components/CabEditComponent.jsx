@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { updateCab, fetchCab} from "../redux";
+import history from "../history";
+import { updateCab, fetchCab } from "../redux";
 
 class CabEditComponent extends Component {
   state = {
@@ -19,7 +20,17 @@ class CabEditComponent extends Component {
         carType: cabFetchData.cab.carType,
         perKmRate: cabFetchData.cab.perKmRate,
       });
+
+    this.getData();
+    window.addEventListener("storage", (e) => this.getData());
   }
+
+  getData = () => {
+    if (localStorage.getItem("Admin")) {
+    } else {
+      history.push("/unauthorized");
+    }
+  };
 
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });

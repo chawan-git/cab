@@ -16,8 +16,8 @@ class DriverAddComponent extends Component {
     cab: {
       cabId: 1,
       carType: "SUV",
-      perKmRate: "7"
-    }
+      perKmRate: "7",
+    },
   };
 
   handleChange = (event) => {
@@ -30,20 +30,18 @@ class DriverAddComponent extends Component {
 
   //   this.setState({cabId: event.target.value});
   //    }
-  handleCabchange=(event)=>{
-    console.log(this.state)
-    const{cab}={...this.state.cab};
-    const currentState= cab;
-    const{name,value}=event.target;
-    currentState[name]=value;
-    this.setState({cab:currentState});
-    console.log(this.state)
-
-  }
+  handleCabchange = (event) => {
+    console.log(this.state);
+    const { cab } = { ...this.state.cab };
+    const currentState = cab;
+    const { name, value } = event.target;
+    currentState[name] = value;
+    this.setState({ cab: currentState });
+    console.log(this.state);
+  };
   handleSubmit = (event) => {
     event.preventDefault();
     this.props.insertDriver(this.state);
-    console.log(this.state)
   };
 
   render() {
@@ -323,7 +321,7 @@ class DriverAddComponent extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  driverInsertData: state.driverReducer.insertDriver
+  driverInsertData: state.driverReducer.insertDriver,
 });
 const mapDispatchToProps = { insertDriver };
 

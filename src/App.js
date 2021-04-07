@@ -7,9 +7,13 @@ import store from "./redux/store";
 import Unauthorized from "./components/Unauthorized";
 import DriverHomeComponent from "./components/DriverHomeComponent";
 import SignInComponent from "./components/SignInComponent";
-import SignUpComponent from "./components/SingUpComponent";
 import LogoutComponent from "./components/LogoutComponent";
-
+import SignInHandleComponent from "./components/SignInHandleComponent";
+import CustomerAddComponent from "./components/CustomerAddComponent";
+import ResetPasswordComponent from "./components/ResetPasswordComponent";
+import ResetPasswordComponent1 from "./components/ResetPasswordComponent1";
+import NotFound from "./components/NotFound";
+import TripAddComponent from "./components/TripAddComponent";
 
 function App() {
   return (
@@ -19,10 +23,20 @@ function App() {
           <Route path="/" component={HomePage} exact />
           <Route path="/admin" component={AdminHomeComponent} />
           <Route path="/driver" component={DriverHomeComponent} />
-          <Route path="/unauthorized" component={Unauthorized} />
           <Route path="/login" component={SignInComponent} />
-          <Route path="/signUp" component={SignUpComponent } />
-        <Route path="/logout" component={LogoutComponent} />
+          <Route path="/signUp" component={CustomerAddComponent} />
+          <Route path="/logout" component={LogoutComponent} />
+          <Route path="/signInHandle" component={SignInHandleComponent} />
+          <Route path="/resetPassword" component={ResetPasswordComponent} />
+          <Route
+            path="/resetPassword1/:username"
+            component={ResetPasswordComponent1}
+          />
+          <Route path="/customer" component={TripAddComponent} />
+          <Route path="/unauthorized" component={Unauthorized} />
+
+          <Route path="/notfound" component={NotFound} />
+          <Route component={NotFound} />
         </Switch>
       </div>
     </Provider>

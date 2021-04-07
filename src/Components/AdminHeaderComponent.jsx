@@ -8,12 +8,22 @@ import LoyaltyOutlinedIcon from "@material-ui/icons/LoyaltyOutlined";
 import EmojiPeopleOutlinedIcon from "@material-ui/icons/EmojiPeopleOutlined";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import { Link } from "react-router-dom";
+import history from "../history";
 
 export class AdminHeaderComponent extends Component {
-
   handleLogout = () => {
     localStorage.clear();
+  };
+  componentDidMount() {
+    this.getData();
+    window.addEventListener("storage", (e) => this.getData());
   }
+  getData = () => {
+    if (localStorage.getItem("Admin")) {
+    } else {
+      history.push("/unauthorized");
+    }
+  };
   render() {
     return (
       <>
@@ -103,13 +113,13 @@ export class AdminHeaderComponent extends Component {
                     className="dropdown-menu"
                     aria-labelledby="navbarScrollingDropdown"
                   >
-                    <li >
-                      <Link to="/admin/addCabType" className="dropdown-item" >
+                    <li>
+                      <Link to="/admin/addCabType" className="dropdown-item">
                         Add Cab Type
                       </Link>
                     </li>
                     <li>
-                      <Link to="/admin/viewCabTypes" className="dropdown-item" >
+                      <Link to="/admin/viewCabTypes" className="dropdown-item">
                         View Cab Types
                       </Link>
                     </li>
@@ -135,12 +145,12 @@ export class AdminHeaderComponent extends Component {
                     aria-labelledby="navbarScrollingDropdown"
                   >
                     <li>
-                      <Link to="/admin/addDriver" className="dropdown-item" >
+                      <Link to="/admin/addDriver" className="dropdown-item">
                         Add Driver
                       </Link>
                     </li>
                     <li>
-                      <Link to="/admin/viewDrivers" className="dropdown-item" >
+                      <Link to="/admin/viewDrivers" className="dropdown-item">
                         View Drivers
                       </Link>
                     </li>
@@ -161,9 +171,8 @@ export class AdminHeaderComponent extends Component {
                 </li>
 
                 <li className="nav-item">
-                  <a
+                  <Link to="/admin/viewTrips"
                     className="nav-link fw-bold text-white fs-5"
-                    href="/admin/viewTrips"
                   >
                     <LoyaltyOutlinedIcon
                       style={{ color: "white" }}
@@ -171,7 +180,7 @@ export class AdminHeaderComponent extends Component {
                       className="mb-1"
                     />
                     Trips
-                  </a>
+                  </Link>
                 </li>
               </ul>
 
@@ -200,14 +209,17 @@ export class AdminHeaderComponent extends Component {
                     </a>
                   </li>
                   <li>
-                    <Link to="/" className="dropdown-item" href="/logout" onClick={this.handleLogout}>
+                    <Link
+                      to="/logout"
+                      className="dropdown-item"
+                      href="/logout"
+                      onClick={this.handleLogout}
+                    >
                       Log Out
                     </Link>
                   </li>
                 </ul>
               </li>
-
-
             </div>
           </nav>
         </header>

@@ -83,6 +83,22 @@ export const updateAdmin = (admin) => {
   };
 };
 
+export const updateAdmin1 = (admin) => {
+  return (dispatch) => {
+    dispatch(updateAdminRequest());
+    axios
+      .put("https://cba.rao.life/api/v1/admin/updateAdmin", admin)
+      .then((response) => {
+        const admin = response.data;
+        dispatch(updateAdminSuccess(admin));
+        history.push("/admin/home");
+      })
+      .catch((error) => {
+        dispatch(updateAdminFailure(error));
+      });
+  };
+};
+
 export const fetchAdmin = (adminId) => {
   return async (dispatch) => {
     await dispatch(fetchAdminRequest());
