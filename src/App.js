@@ -1,25 +1,27 @@
 import { Route, Switch } from "react-router";
 import "./App.css";
-import AdminHomeComponent from "./components/AdminHomeComponent";
-import HomePage from "./components/HomePage";
+import AdminHomeComponent from "./Components/AdminHomeComponent";
+import HomePage from "./Components/HomePage";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import Unauthorized from "./components/Unauthorized";
-import DriverHomeComponent from "./components/DriverHomeComponent";
-import SignInComponent from "./components/SignInComponent";
-import LogoutComponent from "./components/LogoutComponent";
-import SignInHandleComponent from "./components/SignInHandleComponent";
-import CustomerAddComponent from "./components/CustomerAddComponent";
-import ResetPasswordComponent from "./components/ResetPasswordComponent";
-import ResetPasswordComponent1 from "./components/ResetPasswordComponent1";
-import NotFound from "./components/NotFound";
-import TripHomeComponent from "./components/TripHomeComponent";
-import ResetPasswordSuccess from "./components/ResetPasswordSuccess";
-import TripRequestedComponent from "./components/TripRequestedComponent";
-import DriverTripComponent from "./components/DriverTripComponent";
+import Unauthorized from "./Components/Unauthorized";
+import DriverHomeComponent from "./Components/DriverHomeComponent";
+import SignInComponent from "./Components/SignInComponent";
+import LogoutComponent from "./Components/LogoutComponent";
+import SignInHandleComponent from "./Components/SignInHandleComponent";
+import CustomerAddComponent from "./Components/CustomerAddComponent";
+import ResetPasswordComponent from "./Components/ResetPasswordComponent";
+import ResetPasswordComponent1 from "./Components/ResetPasswordComponent1";
+import NotFound from "./Components/NotFound";
+import TripHomeComponent from "./Components/TripHomeComponent";
+import ResetPasswordSuccess from "./Components/ResetPasswordSuccess";
+import TripRequestedComponent from "./Components/TripRequestedComponent";
+import DriverTripComponent from "./Components/DriverTripComponent";
+
 
 function App() {
   return (
+    //App.js
     <Provider store={store}>
       <div>
         <Switch>
@@ -35,6 +37,7 @@ function App() {
             path="/resetPasswordSuccess"
             component={ResetPasswordSuccess}
           />
+
           <Route
             path="/resetPassword1/:username"
             component={ResetPasswordComponent1}
