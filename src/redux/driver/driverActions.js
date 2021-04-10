@@ -18,6 +18,9 @@ import {
   FETCH_TRIPS_SUCCESS,
   FETCH_TRIPS_FAILURE,
   FETCH_TRIPS_REQUEST,
+  FETCH_TRIPS_WALLET_SUCCESS,
+  FETCH_TRIPS_WALLET_REQUEST,
+  FETCH_TRIPS_WALLET_FAILURE,
 } from "./driverTypes";
 
 export const fetchDrivers = () => {
@@ -103,6 +106,27 @@ export const fetchTrips2 = (mobileNumber) => {
       });
   };
 };
+
+//Fetching Wallet Revenue
+export const fetchWallet = (driverId) => {
+  return async (dispatch) => {
+    await dispatch(fetchWalletRequest());
+    await axios
+      .get("https://cba.rao.life/api/v1/tripBooking/getTotalRevenueByDriverId/" +driverId)
+      .then((response) => {
+        // response.data is the users
+        const balance = response.data;
+        dispatch(fetchWalletSuccess(balance));
+      })
+      .catch((error) => {
+        // error.message is the error message
+
+        dispatch(fetchWalletFailure(error));
+      });
+  };
+};
+
+
 
 export const fetchDriver = (driverId) => {
   return async (dispatch) => {
@@ -246,6 +270,29 @@ export const fetchTripsSuccess = (trips) => {
 export const fetchTripsFailure = (error) => {
   return {
     type: FETCH_TRIPS_FAILURE,
+    payload: error,
+  };
+};
+
+//Wallet Action Creators
+export const fetchWalletRequest = () => {
+  return {
+    type: FETCH_TRIPS_WALLET_REQUEST,
+  };
+};
+
+//Action Creator
+export const fetchWalletSuccess = (balance) => {
+  return {
+    type: FETCH_TRIPS_WALLET_SUCCESS,
+    payload: balance,
+  };
+};
+
+//Action Creator
+export const fetchWalletFailure = (error) => {
+  return {
+    type: FETCH_TRIPS_WALLET_FAILURE,
     payload: error,
   };
 };

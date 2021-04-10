@@ -44,7 +44,9 @@ class AdminEditComponent extends Component {
   handleSubmit = async (event) => {
     event.preventDefault();
     await this.props.updateAdmin(this.state);
-    history.push("/admin/viewAdmins");
+    if(!this.props.adminUpdateData.error.message){
+      history.push("/admin/viewAdmins");
+    }
   };
 
   render() {

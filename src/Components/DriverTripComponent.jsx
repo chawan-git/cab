@@ -123,7 +123,7 @@ class DriverTripComponent extends Component {
     await this.props.updateTrip(this.state.tripBooking);
     console.log(this.state.tripBooking);
 
-    // this.sendMessage(this.state.tripBooking);
+    this.sendMessage(this.state.tripBooking);
   };
   handleEndTrip = async () => {
     var tempDate = new Date(),

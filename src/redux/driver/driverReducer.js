@@ -17,6 +17,10 @@ import {
   FETCH_TRIPS_FAILURE,
   FETCH_TRIPS_REQUEST,
   FETCH_TRIPS_SUCCESS,
+  FETCH_TRIPS_WALLET_SUCCESS,
+  FETCH_TRIPS_WALLET_REQUEST,
+  FETCH_TRIPS_WALLET_FAILURE,
+
 } from "./driverTypes";
 
 const initialState = {
@@ -51,7 +55,13 @@ const initialState = {
     trips: [],
     error: "",
   },
+fetchWallet: {
+  loading: false,
+  balance: "",
+  error: "",
+},
 };
+
 
 const driverReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -248,6 +258,45 @@ const driverReducer = (state = initialState, action) => {
         },
       };
     }
+
+    //Wallet
+    case FETCH_TRIPS_WALLET_REQUEST: {
+      return {
+        ...state,
+        fetchWallet: {
+          loading: true,
+          balance: "",
+          error: "",
+        },
+      };
+    }
+    case FETCH_TRIPS_WALLET_SUCCESS: {
+      return {
+        ...state,
+        fetchWallet: {
+          loading: false,
+          balance: action.payload,
+          error: "",
+        },
+      };
+    }
+    case FETCH_TRIPS_WALLET_FAILURE: {
+      return {
+        ...state,
+        fetchWallet: {
+          loading: false,
+          balance: "",
+          error: {
+            message: action.payload.response
+              ? action.payload.response.data
+              : action.payload.message,
+          },
+        },
+      };
+    }
+
+
+
     default:
       return state;
   }

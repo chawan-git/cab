@@ -45,8 +45,10 @@ class CustomerProfileEditComponent extends Component {
   handleSubmit = async (event) => {
     event.preventDefault();
     await this.props.updateCustomer1(this.state);
+    if(!this.props.customerUpdateData.error.message){
     localStorage.setItem("Customer", JSON.stringify(this.state));
     history.push("/customer/home");
+    }
   };
 
   render() {

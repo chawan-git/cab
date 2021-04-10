@@ -63,7 +63,13 @@ class CabViewComponent extends Component {
   };
   async deleteCab(cabId, e) {
     e.preventDefault();
-    this.props.deleteCab(cabId);
+    await this.props.deleteCab(cabId);
+    if (!this.props.deleteData.error.message) {
+      await this.setState({
+        ...this.state,
+        cabData: this.props.cabData.cabs.filter((cab) => cab.cabId !== cabId),
+      });
+    }
   }
 
   render() {
@@ -134,6 +140,8 @@ class CabViewComponent extends Component {
             </div>
           </form>
           <br />
+          <h3>{this.props.deleteData.error.message}</h3>
+          <br />
           {this.state &&
             this.state.cabData &&
             this.state.cabData.map((cab) => (
@@ -187,6 +195,7 @@ class CabViewComponent extends Component {
 const mapStateToProps = (state) => {
   return {
     cabData: state.cabReducer.viewCabs,
+    deleteData: state.cabReducer.deleteCab,
   };
 };
 

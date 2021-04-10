@@ -91,6 +91,14 @@ class DriverViewComponent extends Component {
   async deleteDriver(driverId, e) {
     e.preventDefault();
     await this.props.deleteDriver(driverId);
+    if (!this.props.deleteData.error.message) {
+      await this.setState({
+        ...this.state,
+        driverData: this.props.driverData.drivers.filter(
+          (driver) => driver.driverId !== driverId
+        ),
+      });
+    }
   }
 
   render() {
@@ -165,6 +173,9 @@ class DriverViewComponent extends Component {
               </div>
             </div>
           </form>
+          <br />
+          <h3>{this.props.deleteData.error.message}</h3>
+
           <br />
           {this.state &&
             this.state.driverData &&
@@ -256,6 +267,7 @@ class DriverViewComponent extends Component {
 const mapStateToProps = (state) => {
   return {
     driverData: state.driverReducer.viewDrivers,
+    deleteData: state.driverReducer.deleteDriver,
   };
 };
 // const searchButton = document.getElementById('search-button');

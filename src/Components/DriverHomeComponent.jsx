@@ -11,7 +11,7 @@ import DriverViewTripsComponent from "./DriverViewTripsComponent";
 import history from "../history";
 
 class DriverHomeComponent extends Component {
-  componentDidMount(){
+  componentDidMount() {
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
   }

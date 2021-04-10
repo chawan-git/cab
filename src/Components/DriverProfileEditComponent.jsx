@@ -71,8 +71,10 @@ class DriverProfileEditComponent extends Component {
   handleSubmit = async (event) => {
     event.preventDefault();
     await this.props.updateDriver(this.state);
+    if(!this.props.driverUpdateData.error.message){
     localStorage.setItem("Driver", JSON.stringify(this.state));
     history.push("/driver/home");
+    }
   };
 
   render() {

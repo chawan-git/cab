@@ -64,6 +64,7 @@ class DriverEditComponent extends Component {
   handleSubmit = async (event) => {
     event.preventDefault();
     await this.props.updateDriver(this.state);
+    if(!this.props.driverUpdateData.error.message)
     history.push("/admin/viewDrivers");
   };
 

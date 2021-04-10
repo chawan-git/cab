@@ -27,7 +27,8 @@ class CabAddComponent extends Component {
   handleSubmit = async (event) => {
     event.preventDefault();
     await this.props.insertCab(this.state);
-    history.push("/admin/viewCabTypes");
+    if (!this.props.insertCabData.error.message)
+      history.push("/admin/viewCabTypes");
   };
 
   render() {
@@ -45,7 +46,7 @@ class CabAddComponent extends Component {
           <form onSubmit={this.handleSubmit}>
             <div className="row">
               <div className="col-md-6 offset-md-3">
-                {/* <h3>{this.props.cabInsertData.error.message}</h3> */}
+                <h3>{this.props.insertCabData.error.message}</h3>
               </div>
             </div>
             <br />

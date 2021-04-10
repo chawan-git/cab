@@ -74,6 +74,13 @@ class AdminViewComponent extends Component {
   async deleteAdmin(adminId, e) {
     e.preventDefault();
     await this.props.deleteAdmin(adminId);
+
+    await this.setState({
+      ...this.state,
+      adminData: this.props.adminData.admins.filter(
+        (admin) => admin.adminId !== adminId
+      ),
+    });
   }
 
   render() {

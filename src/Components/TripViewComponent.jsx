@@ -100,6 +100,12 @@ class TripViewComponent extends Component {
   async deleteTrip(tripBookingId, e) {
     e.preventDefault();
     await this.props.deleteTrip(tripBookingId);
+    await this.setState({
+      ...this.state,
+      tripData: this.props.tripData.trips.filter(
+        (trip) => trip.tripBookingId !== tripBookingId
+      ),
+    });
   }
 
   render() {

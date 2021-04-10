@@ -46,7 +46,9 @@ class AdminProfileEditComponent extends Component {
     event.preventDefault();
     await this.props.updateAdmin(this.state);
     localStorage.setItem("Admin", JSON.stringify(this.state));
-    history.push("/admin/home");
+    if(!this.props.adminUpdateData.error.message){
+      history.push("/admin/home");
+    }
   };
 
   render() {

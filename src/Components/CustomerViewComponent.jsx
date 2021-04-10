@@ -60,10 +60,6 @@ class CustomerViewComponent extends Component {
       ...this.state,
       customerData: this.props.customerData.customers,
     });
-  }
-  async deleteCustomer(customerId, e) {
-    e.preventDefault();
-    await this.props.deleteCustomer(customerId);
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
   }
@@ -73,6 +69,18 @@ class CustomerViewComponent extends Component {
       history.push("/unauthorized");
     }
   };
+  async deleteCustomer(customerId, e) {
+    e.preventDefault();
+    await this.props.deleteCustomer(customerId);
+    if (!this.props.deleteData.error.message) {
+      await this.setState({
+        ...this.state,
+        customerData: this.props.customerData.customers.filter(
+          (customer) => customer.customerId !== customerId
+        ),
+      });
+    }
+  }
 
   render() {
     const { customerData } = this.props;
@@ -141,6 +149,9 @@ class CustomerViewComponent extends Component {
               </div>
             </div>
           </form>
+          <br />
+          <h3>{this.props.deleteData.error.message}</h3>
+
           <br />
           {this.state &&
             this.state.customerData &&
@@ -212,6 +223,7 @@ class CustomerViewComponent extends Component {
 const mapStateToProps = (state) => {
   return {
     customerData: state.customerReducer.viewCustomers,
+    deleteData: state.customerReducer.deleteCustomer,
   };
 };
 

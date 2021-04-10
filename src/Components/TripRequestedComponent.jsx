@@ -84,8 +84,6 @@ class TripRequestedComponent extends Component {
       },
     });
 
-    localStorage.removeItem("trip");
-
     history.push("/customer/home");
   };
   render() {

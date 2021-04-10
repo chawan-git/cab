@@ -30,7 +30,10 @@ class AdminAddComponent extends Component {
   handleSubmit = async (event) => {
     event.preventDefault();
     await this.props.insertAdmin(this.state);
-    history.push("/admin/viewAdmins");
+    if(!this.props.adminInsertData.error.message){
+      history.push("/admin/viewAdmins");
+    }
+    
   };
 
   render() {

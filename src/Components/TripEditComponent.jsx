@@ -4,39 +4,7 @@ import history from "../history";
 import { updateTrip, fetchTrip } from "../redux";
 
 class TripEditComponent extends Component {
-  // state = {
-  //   tripBookingId: "",
-  //   customer: {
-  //     username: "customer",
-  //     password: "customer@123",
-  //     address: "bengaluru",
-  //     mobileNumber: "9035017233",
-  //     email: "customer@gmail.com",
-  //     customerId: 1,
-  //   },
-  //   driver: {
-  //     username: "driver",
-  //     password: "driver@123",
-  //     address: "Bengaluru",
-  //     mobileNumber: "9035017234",
-  //     email: "driver@rao.life",
-  //     driverId: 1,
-  //     licenseNo: "KA05EP2489",
-  //     cab: {
-  //       cabId: 1,
-  //       carType: "SUV",
-  //       perKmRate: 7,
-  //     },
-  //   },
-  //   fromLocation: "",
-  //   toLocation: "",
-  //   distanceInKm: "",
-  //   fromDateTime: "",
-  //   toDateTime: "",
-  //   status: "",
-  //   bill: "",
-  // };
-
+  
   state = {
     tripBookingId: "",
     customer: {
@@ -104,6 +72,7 @@ class TripEditComponent extends Component {
   handleSubmit = async (event) => {
     event.preventDefault();
     await this.props.updateTrip(this.state);
+    if(!this.props.tripUpdateData.error.message)
     history.push("/admin/viewTrips");
   };
 

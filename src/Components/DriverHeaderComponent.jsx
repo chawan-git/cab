@@ -2,11 +2,18 @@ import React, { Component } from "react";
 import logo from "../logo.png";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { fetchWallet } from "../redux";
 
 export class DriverHeaderComponent extends Component {
   handleLogout = () => {
     localStorage.clear();
   };
+  async componentDidMount() {
+    await this.props.fetchWallet(
+      JSON.parse(localStorage.getItem("Driver")).driverId
+    );
+  }
   render() {
     return (
       <>
@@ -69,6 +76,7 @@ export class DriverHeaderComponent extends Component {
                       Trip History
                     </Link>
                   </li>
+
                   <li>
                     <Link
                       to="/logout"
@@ -77,6 +85,12 @@ export class DriverHeaderComponent extends Component {
                     >
                       Log Out
                     </Link>
+                  </li>
+                  <hr />
+                  <li>
+                    <div className="dropdown-item">
+                      <b>Balance: </b> {this.props.fetchWalletData.balance}
+                    </div>
                   </li>
                 </ul>
               </li>
@@ -87,5 +101,13 @@ export class DriverHeaderComponent extends Component {
     );
   }
 }
-
-export default DriverHeaderComponent;
+const mapStateToProps = (state) => {
+  return {
+    fetchWalletData: state.driverReducer.fetchWallet,
+  };
+};
+const mapDispatchToProps = { fetchWallet };
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DriverHeaderComponent);

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import history from "../history";
-import { insertDriver } from "../redux";
+import { insertDriver, fetchCabs } from "../redux";
 
 class DriverAddComponent extends Component {
   state = {
@@ -26,22 +26,28 @@ class DriverAddComponent extends Component {
   };
 
   handleCabChange = async (event) => {
-    var cab = {
-      ...this.state.cab,
-    };
+    var cabObj = event.target.value.split(",");
 
-    cab[event.target.name] = event.target.value;
-    await this.setState({ cab });
+    await this.setState({
+      ...this.state,
+      cab: {
+        cabId: cabObj[0],
+        carType: cabObj[1],
+        perKmRate: cabObj[2],
+      },
+    });
   };
   handleSubmit = async (event) => {
     event.preventDefault();
     await this.props.insertDriver(this.state);
-    history.push("/admin/viewDrivers");
+    if (!this.props.driverInsertData.error.message)
+      history.push("/admin/viewDrivers");
   };
 
-  componentDidMount(){
+  async componentDidMount() {
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
+    await this.props.fetchCabs();
   }
   getData = () => {
     if (localStorage.getItem("Admin")) {
@@ -195,64 +201,38 @@ class DriverAddComponent extends Component {
             <br />
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
-                <label htmlFor="cabId">
+                <label htmlFor="cab">
                   <h6>
-                    Enter the Cab-Id (required){" "}
+                    Select the cab (required){" "}
                     <span className="text-danger">*</span>
                   </h6>
                 </label>
-                <input
-                  type="number"
-                  name="cabId"
-                  // disabled={true}
-                  value={this.state.cab.cabId}
-                  onChange={this.handleCabChange}
-                  className="form-control"
-                  placeholder="Cab ID"
-                />
-              </div>
-            </div>
-            <br />
-            <div className="row">
-              <div className="col-md-6 offset-md-3 form-group">
-                <label htmlFor="CarType">
-                  <h6>
-                    Enter the driver's Car Type (required){" "}
-                    <span className="text-danger">*</span>
-                  </h6>
-                </label>
-                <input
-                  type="text"
+                <select
+                  type="carType"
                   name="carType"
-                  // disabled={true}
-                  value={this.state.cab.carType}
+                  id="carType"
+                  className="form-control p-2"
+                  placeholder="Choose Car Type"
                   onChange={this.handleCabChange}
-                  className="form-control"
-                  placeholder="SUVs/SEDAN/COUPE"
-                />
+                >
+                  <option value="0" hidden>
+                    Select Car Type
+                  </option>
+                  {this.props.cabData.cabs.map((cab) => (
+                    <option
+                      key={cab.cabId}
+                      value={
+                        cab.cabId + "," + cab.carType + "," + cab.perKmRate
+                      }
+                    >
+                      {cab.carType}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
             <br />
-            <div className="row">
-              <div className="col-md-6 offset-md-3 form-group">
-                <label htmlFor="perKmRate">
-                  <h6>
-                    Enter the Rate Per Km (required){" "}
-                    <span className="text-danger">*</span>
-                  </h6>
-                </label>
-                <input
-                  type="number"
-                  name="perKmRate"
-                  // disabled={true}
-                  value={this.state.cab.perKmRate}
-                  onChange={this.handleCabChange}
-                  className="form-control"
-                  placeholder="Enter Fare Per Km"
-                />
-              </div>
-            </div>
-            <br />
+
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="address">
@@ -289,7 +269,8 @@ class DriverAddComponent extends Component {
 }
 const mapStateToProps = (state) => ({
   driverInsertData: state.driverReducer.insertDriver,
+  cabData: state.cabReducer.viewCabs,
 });
-const mapDispatchToProps = { insertDriver };
+const mapDispatchToProps = { insertDriver, fetchCabs };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DriverAddComponent);

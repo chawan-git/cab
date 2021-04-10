@@ -44,6 +44,7 @@ class CustomerEditComponent extends Component {
   handleSubmit = async (event) => {
     event.preventDefault();
     await this.props.updateCustomer1(this.state);
+    if(!this.props.customerUpdateData.error.message)
     history.push("/admin/viewCustomers");
   };
 
