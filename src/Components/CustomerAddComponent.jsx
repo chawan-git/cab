@@ -4,6 +4,7 @@ import { insertCustomer } from "../redux";
 import FooterComponent from "./FooterComponent";
 import HeaderComponent from "./HeaderComponent";
 import logo from "../logo.png";
+import history from "../history";
 
 class CustomerAddComponent extends Component {
   state = {
@@ -14,13 +15,24 @@ class CustomerAddComponent extends Component {
     address: "",
   };
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = async (event) => {
+    await this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
-    this.props.insertCustomer(this.state);
+    await this.props.insertCustomer(this.state);
+  };
+
+  componentDidMount() {
+    this.getData();
+    window.addEventListener("storage", (e) => this.getData());
+  }
+  getData = () => {
+    if (localStorage.getItem("Customer")) {
+    } else {
+      history.push("/unauthorized");
+    }
   };
 
   render() {

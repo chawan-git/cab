@@ -2,8 +2,19 @@ import React, { Component } from "react";
 import logo from "../logo.png";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import { Link } from "react-router-dom";
+import history from "../history";
 
-export class DriverHeaderComponent extends Component {
+export class CustomerHeaderComponent extends Component {
+  componentDidMount(){
+    this.getData();
+    window.addEventListener("storage", (e) => this.getData());
+  }
+  getData = () => {
+    if (localStorage.getItem("Customer")) {
+    } else {
+      history.push("/unauthorized");
+    }
+  };
   handleLogout = () => {
     localStorage.clear();
   };
@@ -33,7 +44,7 @@ export class DriverHeaderComponent extends Component {
 
               <li className="nav-item text-center">
                 <Link
-                  to="/driver/home"
+                  to="/customer/home"
                   className="nav-link fw-bold text-white fs-5"
                 >
                   Dashboard
@@ -44,7 +55,7 @@ export class DriverHeaderComponent extends Component {
               <li className="nav-item dropdown">
                 <a
                   className="nav-link fw-bold text-white fs-5"
-                  href="/driver"
+                  href="/admin"
                   id="navbarScrollingDropdown"
                   role="button"
                   data-bs-toggle="dropdown"
@@ -60,13 +71,13 @@ export class DriverHeaderComponent extends Component {
                   aria-labelledby="navbarScrollingDropdown"
                 >
                   <li>
-                    <Link to="/driver/profile" className="dropdown-item">
+                    <Link to="/customer/profile" className="dropdown-item">
                       Profile Settings
                     </Link>
                   </li>
                   <li>
-                    <Link to="/driver/tripHistory" className="dropdown-item">
-                      Trip History
+                    <Link to="/customer/viewTrips" className="dropdown-item">
+                      View Trips
                     </Link>
                   </li>
                   <li>
@@ -88,4 +99,4 @@ export class DriverHeaderComponent extends Component {
   }
 }
 
-export default DriverHeaderComponent;
+export default CustomerHeaderComponent;

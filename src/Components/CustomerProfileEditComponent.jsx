@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import history from "../history";
-import { updateCustomer2 } from "../redux";
+import { updateCustomer1 } from "../redux";
 
 class CustomerProfileEditComponent extends Component {
   state = {
@@ -14,18 +14,18 @@ class CustomerProfileEditComponent extends Component {
   };
 
   customerFetchData = {};
-  componentDidMount() {
+  async componentDidMount() {
     this.customerFetchData = JSON.parse(localStorage.getItem("Customer"));
 
     this.customerFetchData &&
-      this.setState({
+      (await this.setState({
         customerId: this.customerFetchData.customerId,
         username: this.customerFetchData.username,
         password: this.customerFetchData.password,
         email: this.customerFetchData.email,
         mobileNumber: this.customerFetchData.mobileNumber,
         address: this.customerFetchData.address,
-      });
+      }));
 
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
@@ -38,14 +38,15 @@ class CustomerProfileEditComponent extends Component {
     }
   };
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = async (event) => {
+    await this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
-    this.props.updateCustomer2(this.state);
-    localStorage.setItem('Customer',JSON.stringify(this.state))
+    await this.props.updateCustomer1(this.state);
+    localStorage.setItem("Customer", JSON.stringify(this.state));
+    history.push("/customer/home");
   };
 
   render() {
@@ -186,7 +187,7 @@ class CustomerProfileEditComponent extends Component {
 const mapStateToProps = (state) => ({
   customerUpdateData: state.customerReducer.updateCustomer,
 });
-const mapDispatchToProps = { updateCustomer2 };
+const mapDispatchToProps = { updateCustomer1 };
 
 export default connect(
   mapStateToProps,

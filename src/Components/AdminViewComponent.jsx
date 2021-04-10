@@ -7,8 +7,59 @@ import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined"
 import history from "../history";
 
 class AdminViewComponent extends Component {
-  componentDidMount() {
-    this.props.fetchAdmins();
+  handleSearch = (e) => {
+    let target = e.target;
+    let option = this.state.filterOption;
+    if (target.value === "")
+      this.setState({
+        ...this.state,
+        adminData: this.props.adminData.admins,
+      });
+    else if (option === "username") {
+      this.setState({
+        ...this.state,
+        adminData: this.props.adminData.admins.filter((x) =>
+          x.username.includes(target.value)
+        ),
+      });
+    } else if (option === "mobileNumber") {
+      this.setState({
+        ...this.state,
+        adminData: this.props.adminData.admins.filter((x) =>
+          x.mobileNumber.includes(target.value)
+        ),
+      });
+    } else if (option === "email") {
+      this.setState({
+        ...this.state,
+        adminData: this.props.adminData.admins.filter((x) =>
+          x.email.includes(target.value)
+        ),
+      });
+    } else {
+      this.setState({
+        ...this.state,
+      });
+    }
+  };
+
+  handleSelect = (e) => {
+    this.setState({
+      ...this.state,
+      filterOption: e.target.value,
+    });
+  };
+  state = {
+    adminData: [],
+    filterOption: "",
+  };
+
+  async componentDidMount() {
+    await this.props.fetchAdmins();
+    await this.setState({
+      ...this.state,
+      adminData: this.props.adminData.admins,
+    });
 
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
@@ -22,7 +73,7 @@ class AdminViewComponent extends Component {
   };
   async deleteAdmin(adminId, e) {
     e.preventDefault();
-    this.props.deleteAdmin(adminId);
+    await this.props.deleteAdmin(adminId);
   }
 
   render() {
@@ -66,10 +117,36 @@ class AdminViewComponent extends Component {
         <div className="container">
           <br />
           <h2 className="text-center">List of admins</h2>
+          <form>
+            <div className="row">
+              <div className="col-md-3">
+                <select
+                  name=""
+                  id="select"
+                  className="form-control"
+                  onChange={this.handleSelect}
+                >
+                  <option value="select">Search based on ...</option>
+                  <option value="username">Username</option>
+                  <option value="email">Email</option>
+                  <option value="mobileNumber">Mobile number</option>
+                </select>
+              </div>
+              <div className="col-md-9">
+                <input
+                  className="form-control me-2"
+                  type="search"
+                  placeholder="Search"
+                  onChange={this.handleSearch}
+                  aria-label="Search"
+                />
+              </div>
+            </div>
+          </form>
           <br />
-          {adminData &&
-            adminData.admins &&
-            adminData.admins.map((admin) => (
+          {this.state &&
+            this.state.adminData &&
+            this.state.adminData.map((admin) => (
               <Fragment key={admin.adminId}>
                 <div className="card" key={admin.adminId}>
                   <div className="card-body">

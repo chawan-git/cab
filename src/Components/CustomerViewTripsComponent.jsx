@@ -1,15 +1,94 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
+import history from "../history";
 
 import { fetchTrips1 } from "../redux";
 
 class CustomerViewTripsComponent extends Component {
+
+  handleSearch= e =>{
+    let target = e.target;
+    let option = this.state.filterOption;
+    if(target.value === "")
+    this.setState({
+      ...this.state,
+         tripData:this.props.tripData.trips
+    })
+
+    else if(option === "username"){
+      this.setState({
+        ...this.state,
+        tripData:this.props.tripData.trips.filter(x => x.driver.username.includes(target.value))
+      })
+    }
+    else if(option === "fromLocation"){
+      this.setState({
+        ...this.state,
+        tripData:this.props.tripData.trips.filter(x => x.fromLocation.includes(target.value))
+      })
+    }
+    else if(option === "toLocation"){
+      this.setState({
+        ...this.state,
+        tripData:this.props.tripData.trips.filter(x => x.toLocation.includes(target.value))
+      })
+    }
+
+    else if(option === "fromDateTime"){
+      this.setState({
+        ...this.state,
+        tripData:this.props.tripData.trips.filter(x => x.fromDateTime.includes(target.value))
+      })
+    }
+    else if(option === "toDateTime"){
+      this.setState({
+        ...this.state,
+        tripData:this.props.tripData.trips.filter(x => x.toDateTime.includes(target.value))
+      })
+    }
+    else if(option === "status"){
+      this.setState({
+        ...this.state,
+        tripData:this.props.tripData.trips.filter(x => x.status.includes(target.value))
+      })
+    }
+
+    else{
+      this.setState({
+        ...this.state
+      })
+    }
+  }
+
+
+  handleSelect = e => {
+    this.setState({
+      ...this.state,
+      filterOption: e.target.value
+    })
+  }
+  state={
+    tripData:[],
+    filterOption: ""
+  }
+  
   customer;
-  componentDidMount() {
+  async componentDidMount() {
     this.customer = JSON.parse(localStorage.getItem("Customer"));
     console.log(this.customer.mobileNumber);
-    this.props.fetchTrips1(this.customer.mobileNumber);
+    await this.props.fetchTrips1(this.customer.mobileNumber);
+    await this.setState({
+      tripData:this.props.tripData.trips
+    })
+    this.getData();
+    window.addEventListener("storage", (e) => this.getData());
   }
+  getData = () => {
+    if (localStorage.getItem("Customer")) {
+    } else {
+      history.push("/unauthorized");
+    }
+  };
 
   render() {
     const { tripData } = this.props;
@@ -52,10 +131,30 @@ class CustomerViewTripsComponent extends Component {
         <div className="container">
           <br />
           <h2 className="text-center">List of trips</h2>
+          <form >
+            <div className="row">
+              <div className="col-md-3">
+              <select name="" id="select" className="form-control" onChange={this.handleSelect}>
+              <option value="select" >Search based on ...</option>
+              <option value="username">Driver Name</option>
+              <option value="fromLocation">From Location</option>
+              <option value="toLocation">To Location</option>
+              <option value="fromDateTime">From Date</option>
+              <option value="toDateTime">To Date</option>
+              <option value="status">Status</option>
+            </select>
+              </div>
+              <div className="col-md-9">
+              <input className="form-control me-2" type="search" placeholder="Search" onChange={this.handleSearch} aria-label="Search"/>
+
+              </div>
+            </div>   
+      
+    </form>
           <br />
-          {tripData &&
-            tripData.trips &&
-            tripData.trips.map((trip) => (
+          {this.state &&
+            this.state.tripData &&
+            this.state.tripData.map((trip) => (
               <Fragment key={trip.tripBookingId}>
                 <div className="card" key={trip.tripBookingId}>
                   <div className="card-body">

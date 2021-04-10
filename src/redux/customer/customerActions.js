@@ -1,5 +1,4 @@
 import axios from "axios";
-import history from "../../history";
 import {
   FETCH_CUSTOMERS_REQUEST,
   FETCH_CUSTOMERS_SUCCESS,
@@ -36,12 +35,13 @@ export const fetchCustomers = () => {
   };
 };
 
-
 export const deleteCustomer = (customerId) => {
   return async (dispatch) => {
     await dispatch(deleteCustomerRequest());
     await axios
-      .delete(`https://cba.rao.life/api/v1/customer/deleteCustomer/${customerId}`)
+      .delete(
+        `https://cba.rao.life/api/v1/customer/deleteCustomer/${customerId}`
+      )
       .then((response) => {
         const customer = response.data;
         dispatch(deleteCustomerSuccess(customer));
@@ -53,30 +53,13 @@ export const deleteCustomer = (customerId) => {
 };
 
 export const updateCustomer1 = (customer) => {
-  return (dispatch) => {
-    dispatch(updateCustomerRequest());
-    axios
+  return async (dispatch) => {
+    await dispatch(updateCustomerRequest());
+    await axios
       .put("https://cba.rao.life/api/v1/customer/updateCustomer", customer)
       .then((response) => {
         const customer = response.data;
         dispatch(updateCustomerSuccess(customer));
-        history.push("/admin/viewCustomers");
-      })
-      .catch((error) => {
-        dispatch(updateCustomerFailure(error));
-      });
-  };
-};
-
-export const updateCustomer2 = (customer) => {
-  return (dispatch) => {
-    dispatch(updateCustomerRequest());
-    axios
-      .put("https://cba.rao.life/api/v1/customer/updateCustomer", customer)
-      .then((response) => {
-        const customer = response.data;
-        dispatch(updateCustomerSuccess(customer));
-        history.push("/customer/home");
       })
       .catch((error) => {
         dispatch(updateCustomerFailure(error));
@@ -106,7 +89,10 @@ export const fetchTrips1 = (mobileNumber) => {
   return async (dispatch) => {
     await dispatch(fetchTripsRequest());
     await axios
-      .get("https://cba.rao.life/api/v1/tripBooking/viewTripsByCustomerMobileNumber/"+mobileNumber)
+      .get(
+        "https://cba.rao.life/api/v1/tripBooking/viewTripsByCustomerMobileNumber/" +
+          mobileNumber
+      )
       .then((response) => {
         // response.data is the users
         const trips = response.data;

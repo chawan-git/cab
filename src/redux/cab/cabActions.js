@@ -1,5 +1,4 @@
 import axios from "axios";
-import history from "../../history";
 import {
   FETCH_CABS_REQUEST,
   FETCH_CABS_SUCCESS,
@@ -37,14 +36,13 @@ export const fetchCabs = () => {
 };
 
 export const insertCab = (cab) => {
-  return (dispatch) => {
-    dispatch(insertCabRequest());
-    axios
+  return async (dispatch) => {
+    await dispatch(insertCabRequest());
+    await axios
       .post("https://cba.rao.life/api/v1/cab/insertCab", cab)
       .then((response) => {
         const cab = response.data;
         dispatch(insertCabSuccess(cab));
-        history.push("/admin/viewCabTypes");
       })
       .catch((error) => {
         dispatch(insertCabFailure(error));
@@ -68,14 +66,13 @@ export const deleteCab = (cabId) => {
 };
 
 export const updateCab = (cab) => {
-  return (dispatch) => {
-    dispatch(updateCabRequest());
-    axios
+  return async (dispatch) => {
+    await dispatch(updateCabRequest());
+    await axios
       .put("https://cba.rao.life/api/v1/cab/updateCab", cab)
       .then((response) => {
         const cab = response.data;
         dispatch(updateCabSuccess(cab));
-        history.push("/admin/viewCabTypes");
       })
       .catch((error) => {
         dispatch(updateCabFailure(error));

@@ -1,5 +1,6 @@
 import axios from "axios";
 import history from "../../history";
+
 import {
   FETCH_TRIPS_REQUEST,
   FETCH_TRIPS_SUCCESS,
@@ -16,6 +17,9 @@ import {
   FETCH_TRIP_REQUEST,
   FETCH_TRIP_SUCCESS,
   FETCH_TRIP_FAILURE,
+  FETCH_DRIVERS_FAILURE,
+  FETCH_DRIVERS_REQUEST,
+  FETCH_DRIVERS_SUCCESS,
 } from "./tripTypes";
 
 export const fetchTrips = () => {
@@ -37,14 +41,15 @@ export const fetchTrips = () => {
 };
 
 export const insertTrip = (trip) => {
-  return (dispatch) => {
-    dispatch(insertTripRequest());
-    axios
+  return async (dispatch) => {
+    await dispatch(insertTripRequest());
+    await axios
       .post("https://cba.rao.life/api/v1/tripBooking/insertTripBooking", trip)
       .then((response) => {
         const trip = response.data;
         dispatch(insertTripSuccess(trip));
-        history.push("/customer/tripRequested");
+        localStorage.setItem("trip", JSON.stringify(trip));
+        history.push("/trip/" + trip.customer.username + "/customer");
       })
       .catch((error) => {
         dispatch(insertTripFailure(error));
@@ -56,7 +61,9 @@ export const deleteTrip = (tripBookingId) => {
   return async (dispatch) => {
     await dispatch(deleteTripRequest());
     await axios
-      .delete(`https://cba.rao.life/api/v1/tripBooking/deleteTripBooking/${tripBookingId}`)
+      .delete(
+        `https://cba.rao.life/api/v1/tripBooking/deleteTripBooking/${tripBookingId}`
+      )
       .then((response) => {
         const trip = response.data;
         dispatch(deleteTripSuccess(trip));
@@ -68,14 +75,13 @@ export const deleteTrip = (tripBookingId) => {
 };
 
 export const updateTrip = (trip) => {
-  return (dispatch) => {
-    dispatch(updateTripRequest());
-    axios
+  return async (dispatch) => {
+    await dispatch(updateTripRequest());
+    await axios
       .put("https://cba.rao.life/api/v1/tripBooking/updateTripBooking", trip)
       .then((response) => {
         const trip = response.data;
         dispatch(updateTripSuccess(trip));
-        history.push("/admin/viewTrips");
       })
       .catch((error) => {
         dispatch(updateTripFailure(error));
@@ -87,7 +93,9 @@ export const fetchTrip = (tripBookingId) => {
   return async (dispatch) => {
     await dispatch(fetchTripRequest());
     await axios
-      .get(`https://cba.rao.life/api/v1/tripBooking/getTripById/${tripBookingId}`)
+      .get(
+        `https://cba.rao.life/api/v1/tripBooking/getTripById/${tripBookingId}`
+      )
       .then((response) => {
         // response.data is the users
         const trip = response.data;
@@ -97,6 +105,26 @@ export const fetchTrip = (tripBookingId) => {
         // error.message is the error message
 
         dispatch(fetchTripFailure(error));
+      });
+  };
+};
+
+export const fetchDrivers1 = (carType) => {
+  return async (dispatch) => {
+    await dispatch(fetchDriversRequest());
+    await axios
+      .get(
+        `https://cba.rao.life/api/v1/driver/viewAllAvailableDriversBasedOnCarType/${carType}`
+      )
+      .then((response) => {
+        // response.data is the users
+        const drivers = response.data;
+        dispatch(fetchDriversSuccess(drivers));
+      })
+      .catch((error) => {
+        // error.message is the error message
+
+        dispatch(fetchDriversFailure(error));
       });
   };
 };
@@ -203,6 +231,29 @@ export const fetchTripSuccess = (trip) => {
 export const fetchTripFailure = (error) => {
   return {
     type: FETCH_TRIP_FAILURE,
+    payload: error,
+  };
+};
+
+//Action Creator
+export const fetchDriversRequest = () => {
+  return {
+    type: FETCH_DRIVERS_REQUEST,
+  };
+};
+
+//Action Creator
+export const fetchDriversSuccess = (drivers) => {
+  return {
+    type: FETCH_DRIVERS_SUCCESS,
+    payload: drivers,
+  };
+};
+
+//Action Creator
+export const fetchDriversFailure = (error) => {
+  return {
+    type: FETCH_DRIVERS_FAILURE,
     payload: error,
   };
 };

@@ -18,14 +18,14 @@ class AdminEditComponent extends Component {
     const { adminFetchData } = this.props;
     adminFetchData &&
       adminFetchData.admin &&
-      this.setState({
+      (await this.setState({
         adminId: adminFetchData.admin.adminId,
         username: adminFetchData.admin.username,
         password: adminFetchData.admin.password,
         email: adminFetchData.admin.email,
         mobileNumber: adminFetchData.admin.mobileNumber,
         address: adminFetchData.admin.address,
-      });
+      }));
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
   }
@@ -37,13 +37,14 @@ class AdminEditComponent extends Component {
     }
   };
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = async (event) => {
+    await this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
-    this.props.updateAdmin(this.state);
+    await this.props.updateAdmin(this.state);
+    history.push("/admin/viewAdmins");
   };
 
   render() {

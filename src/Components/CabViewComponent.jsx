@@ -7,9 +7,50 @@ import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined"
 import history from "../history";
 
 class CabViewComponent extends Component {
-  componentDidMount() {
-    this.props.fetchCabs();
+  handleSearch = (e) => {
+    let target = e.target;
+    let option = this.state.filterOption;
+    if (target.value === "")
+      this.setState({
+        ...this.state,
+        cabData: this.props.cabData.cabs,
+      });
+    else if (option === "carType") {
+      this.setState({
+        ...this.state,
+        cabData: this.props.cabData.cabs.filter((x) =>
+          x.carType.includes(target.value)
+        ),
+      });
+    } else if (option === "perKmRate") {
+      this.setState({
+        ...this.state,
+        cabData: this.props.cabData.cabs.filter((x) => x.perKmRate < 5),
+      });
+    } else {
+      this.setState({
+        ...this.state,
+      });
+    }
+  };
 
+  handleSelect = (e) => {
+    this.setState({
+      ...this.state,
+      filterOption: e.target.value,
+    });
+  };
+  state = {
+    cabData: [],
+    filterOption: "",
+  };
+
+  async componentDidMount() {
+    await this.props.fetchCabs();
+    await this.setState({
+      ...this.state,
+      cabData: this.props.cabData.cabs,
+    });
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
   }
@@ -27,6 +68,7 @@ class CabViewComponent extends Component {
 
   render() {
     const { cabData } = this.props;
+
     return cabData.loading ? (
       <>
         <div className="container">
@@ -66,10 +108,35 @@ class CabViewComponent extends Component {
         <div className="container">
           <br />
           <h2 className="text-center">List of cabs</h2>
+          <form>
+            <div className="row">
+              <div className="col-md-3">
+                <select
+                  name=""
+                  id="select"
+                  className="form-control"
+                  onChange={this.handleSelect}
+                >
+                  <option value="select">Search based on ...</option>
+                  <option value="carType">Car Type</option>
+                  <option value="perKmRate">Cheaper Cabs</option>
+                </select>
+              </div>
+              <div className="col-md-9">
+                <input
+                  className="form-control me-2"
+                  type="search"
+                  placeholder="Search"
+                  onChange={this.handleSearch}
+                  aria-label="Search"
+                />
+              </div>
+            </div>
+          </form>
           <br />
-          {cabData &&
-            cabData.cabs &&
-            cabData.cabs.map((cab) => (
+          {this.state &&
+            this.state.cabData &&
+            this.state.cabData.map((cab) => (
               <Fragment key={cab.cabId}>
                 <div className="card" key={cab.cabId}>
                   <div className="card-body">

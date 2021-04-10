@@ -22,23 +22,23 @@ class ResetPasswordComponent1 extends Component {
 
     userData &&
       userData.customer &&
-      this.setState({
+      (await this.setState({
         customerId: userData.customer.customerId,
         username: userData.customer.username,
         password: userData.customer.password,
         email: userData.customer.email,
         mobileNumber: userData.customer.mobileNumber,
         address: userData.customer.address,
-      });
+      }));
   }
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = async (event) => {
+    await this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
-    this.props.updateCustomer(this.state);
+    await this.props.updateCustomer(this.state);
   };
 
   render() {

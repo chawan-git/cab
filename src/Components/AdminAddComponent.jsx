@@ -23,13 +23,14 @@ class AdminAddComponent extends Component {
     }
   };
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = async (event) => {
+    await this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
-    this.props.insertAdmin(this.state);
+    await this.props.insertAdmin(this.state);
+    history.push("/admin/viewAdmins");
   };
 
   render() {

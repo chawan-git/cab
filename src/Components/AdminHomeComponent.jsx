@@ -36,23 +36,24 @@ class AdminHomeComponent extends Component {
       <>
         <AdminHeaderComponent />
 
-
-          <Route path="/admin/home" component={AdminDashboardComponent} />
-          <Route path="/admin/viewAdmins" component={AdminViewComponent} />
-          <Route path="/admin/addAdmin" component={AdminAddComponent} />
-          <Route path="/admin/editAdmin/:id" component={AdminEditComponent} />
-          <Route path="/admin/addCabType" component={CabAddComponent} />
-          <Route path="/admin/viewCabTypes" component={CabViewComponent} />
-          <Route path="/admin/editCabType/:id" component={CabEditComponent} />
-          <Route path="/admin/addDriver" component={DriverAddComponent} />
-          <Route path="/admin/viewDrivers" component={DriverViewComponent} />
-          <Route path="/admin/editDriver/:id" component={DriverEditComponent} />
-          <Route path="/admin/profile" component={AdminProfileEditComponent} />
-          <Route path="/admin/viewTrips" component={TripViewComponent} />
-          <Route path="/admin/editTrip/:id" component={TripEditComponent} />
-          <Route path="/admin/viewCustomers" component={CustomerViewComponent} />
-          <Route path="/admin/editCustomer/:id" component={CustomerEditComponent} />
-
+        <Route path="/admin/home" component={AdminDashboardComponent} />
+        <Route path="/admin/viewAdmins" component={AdminViewComponent} />
+        <Route path="/admin/addAdmin" component={AdminAddComponent} />
+        <Route path="/admin/editAdmin/:id" component={AdminEditComponent} />
+        <Route path="/admin/addCabType" component={CabAddComponent} />
+        <Route path="/admin/viewCabTypes" component={CabViewComponent} />
+        <Route path="/admin/editCabType/:id" component={CabEditComponent} />
+        <Route path="/admin/addDriver" component={DriverAddComponent} />
+        <Route path="/admin/viewDrivers" component={DriverViewComponent} />
+        <Route path="/admin/editDriver/:id" component={DriverEditComponent} />
+        <Route path="/admin/profile" component={AdminProfileEditComponent} />
+        <Route path="/admin/viewTrips" component={TripViewComponent} />
+        <Route path="/admin/editTrip/:id" component={TripEditComponent} />
+        <Route path="/admin/viewCustomers" component={CustomerViewComponent} />
+        <Route
+          path="/admin/editCustomer/:id"
+          component={CustomerEditComponent}
+        />
 
         <br />
 

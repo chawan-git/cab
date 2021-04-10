@@ -13,13 +13,13 @@ class SignInComponent extends Component {
     password: "",
   };
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = async (event) => {
+    await this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
-    this.props.fetchUser(this.state);
+    await this.props.fetchUser(this.state);
   };
 
   render() {

@@ -1,6 +1,4 @@
 import axios from "axios";
-import history from "../../history";
-
 import {
   FETCH_DRIVER_FAILURE,
   FETCH_DRIVERS_REQUEST,
@@ -41,14 +39,13 @@ export const fetchDrivers = () => {
 };
 
 export const insertDriver = (driver) => {
-  return (dispatch) => {
-    dispatch(insertDriverRequest());
-    axios
+  return async (dispatch) => {
+    await dispatch(insertDriverRequest());
+    await axios
       .post("https://cba.rao.life/api/v1/driver/insertDriver", driver)
       .then((response) => {
         const driver = response.data;
         dispatch(insertDriverSuccess(driver));
-        history.push("/admin/viewDrivers");
       })
       .catch((error) => {
         dispatch(insertDriverFailure(error));
@@ -72,30 +69,13 @@ export const deleteDriver = (driverId) => {
 };
 
 export const updateDriver = (driver) => {
-  return (dispatch) => {
-    dispatch(updateDriverRequest());
-    axios
+  return async (dispatch) => {
+    await dispatch(updateDriverRequest());
+    await axios
       .put("https://cba.rao.life/api/v1/driver/updateDriver", driver)
       .then((response) => {
         const driver = response.data;
         dispatch(updateDriverSuccess(driver));
-        history.push("/admin/viewDrivers");
-      })
-      .catch((error) => {
-        dispatch(updateDriverFailure(error));
-      });
-  };
-};
-
-export const updateDriver1 = (driver) => {
-  return (dispatch) => {
-    dispatch(updateDriverRequest());
-    axios
-      .put("https://cba.rao.life/api/v1/driver/updateDriver", driver)
-      .then((response) => {
-        const driver = response.data;
-        dispatch(updateDriverSuccess(driver));
-        history.push("/driver/home");
       })
       .catch((error) => {
         dispatch(updateDriverFailure(error));

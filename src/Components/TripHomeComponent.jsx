@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import { Route } from "react-router";
 import history from "../history";
 import { fetchTrips } from "../redux/trip/tripActions";
+import CustomerHeaderComponent from "./CustomerHeaderComponent";
 import CustomerProfileEditComponent from "./CustomerProfileEditComponent";
 import CustomerViewTripsComponent from "./CustomerViewTripsComponent";
 import FooterComponent from "./FooterComponent";
 import TripAddComponent from "./TripAddComponent";
-import TripHeaderComponent from "./TripHeaderComponent";
 import TripRequestedComponent from "./TripRequestedComponent";
 
 class TripHomeComponent extends Component {
@@ -25,13 +25,24 @@ class TripHomeComponent extends Component {
   render() {
     return (
       <>
-        <TripHeaderComponent />
+        <CustomerHeaderComponent />
 
         {/* /customer/home */}
+        <Route
+          path="/customer/trip/:username"
+          component={TripRequestedComponent}
+        />
+
         <Route path="/customer/home" component={TripAddComponent} />
-        <Route path="/customer/profile" component={CustomerProfileEditComponent} />
-        <Route path="/customer/viewTrips" component={CustomerViewTripsComponent} />
-        <Route path="/customer/tripRequested" component={TripRequestedComponent} />
+        <Route
+          path="/customer/profile"
+          component={CustomerProfileEditComponent}
+        />
+        <Route
+          path="/customer/viewTrips"
+          component={CustomerViewTripsComponent}
+        />
+        {/* <Route path="/customer/tripRequested" component={TripRequestedComponent} /> */}
 
         <br />
         <FooterComponent />

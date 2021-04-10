@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import history from "../history";
-import { updateAdmin1 } from "../redux";
+import { updateAdmin } from "../redux";
 
 class AdminProfileEditComponent extends Component {
   state = {
@@ -14,18 +14,18 @@ class AdminProfileEditComponent extends Component {
   };
 
   adminFetchData = {};
-  componentDidMount() {
+  async componentDidMount() {
     this.adminFetchData = JSON.parse(localStorage.getItem("Admin"));
 
     this.adminFetchData &&
-      this.setState({
+      (await this.setState({
         adminId: this.adminFetchData.adminId,
         username: this.adminFetchData.username,
         password: this.adminFetchData.password,
         email: this.adminFetchData.email,
         mobileNumber: this.adminFetchData.mobileNumber,
         address: this.adminFetchData.address,
-      });
+      }));
 
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
@@ -38,14 +38,15 @@ class AdminProfileEditComponent extends Component {
     }
   };
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = async (event) => {
+    await this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
-    this.props.updateAdmin1(this.state);
-    localStorage.setItem('Admin',JSON.stringify(this.state))
+    await this.props.updateAdmin(this.state);
+    localStorage.setItem("Admin", JSON.stringify(this.state));
+    history.push("/admin/home");
   };
 
   render() {
@@ -186,7 +187,7 @@ class AdminProfileEditComponent extends Component {
 const mapStateToProps = (state) => ({
   adminUpdateData: state.adminReducer.updateAdmin,
 });
-const mapDispatchToProps = { updateAdmin1 };
+const mapDispatchToProps = { updateAdmin };
 
 export default connect(
   mapStateToProps,

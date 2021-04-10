@@ -1,41 +1,47 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import history from "../history";
-import { updateDriver1} from "../redux/driver/driverActions";
+import { updateDriver } from "../redux/driver/driverActions";
 
 class DriverProfileEditComponent extends Component {
-    state = {
-        driverId: 0,
-        username: "",
-        password:"",
-        email: "",
-        mobileNumber: "",
-        address: "",
-        licenseNo:"",
-        status:"",
-        rating:0,
-        cab: {cabId:1,
-        carType:"SUV",
-        perKmRate:11}
-    
-      };
+  state = {
+    driverId: 0,
+    username: "",
+    password: "",
+    email: "",
+    mobileNumber: "",
+    address: "",
+    licenseNo: "",
+    status: "",
+    rating: 0,
+    cab: {
+      cabId: 0,
+      carType: "",
+      perKmRate: "",
+    },
+  };
 
   driverFetchData = {};
-  componentDidMount() {
+  async componentDidMount() {
     this.driverFetchData = JSON.parse(localStorage.getItem("Driver"));
 
     this.driverFetchData &&
-      this.setState({
+      (await this.setState({
         driverId: this.driverFetchData.driverId,
         username: this.driverFetchData.username,
         password: this.driverFetchData.password,
         email: this.driverFetchData.email,
         mobileNumber: this.driverFetchData.mobileNumber,
         address: this.driverFetchData.address,
-        licenseNo:this.driverFetchData.licenseNo,
-        status:this.driverFetchData.status,
-        rating: this.driverFetchData.rating
-      });
+        licenseNo: this.driverFetchData.licenseNo,
+        status: this.driverFetchData.status,
+        rating: this.driverFetchData.rating,
+        cab: {
+          cabId: this.driverFetchData.cab.cabId,
+          carType: this.driverFetchData.cab.carType,
+          perKmRate: this.driverFetchData.cab.perKmRate,
+        },
+      }));
 
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
@@ -48,25 +54,25 @@ class DriverProfileEditComponent extends Component {
     }
   };
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = async (event) => {
+    await this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleCabChange = (event) => {
+  handleCabChange = async (event) => {
     console.log(this.state);
     const { cab } = { ...this.state.cab };
     const currentState = cab;
     const { name, value } = event.target;
     currentState[name] = value;
-    this.setState({ cab: currentState });
+    await this.setState({ cab: currentState });
     console.log(this.state);
   };
 
-  
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
-    this.props.updateDriver1(this.state);
-    localStorage.setItem('Driver',JSON.stringify(this.state))
+    await this.props.updateDriver(this.state);
+    localStorage.setItem("Driver", JSON.stringify(this.state));
+    history.push("/driver/home");
   };
 
   render() {
@@ -207,6 +213,7 @@ class DriverProfileEditComponent extends Component {
                   onChange={this.handleChange}
                   className="form-control"
                   placeholder="rating"
+                  disabled={true}
                 />
               </div>
             </div>
@@ -227,6 +234,7 @@ class DriverProfileEditComponent extends Component {
                   onChange={this.handleChange}
                   className="form-control"
                   placeholder="status"
+                  disabled={true}
                 />
               </div>
             </div>
@@ -242,7 +250,7 @@ class DriverProfileEditComponent extends Component {
                 <input
                   type="number"
                   name="cabId"
-                  disabled={true}              
+                  disabled={true}
                   value={this.state.cab.cabId}
                   onChange={this.handleCabChange}
                   className="form-control"
@@ -310,7 +318,7 @@ class DriverProfileEditComponent extends Component {
               </div>
             </div>
             <br />
-            <br/>
+            <br />
             <div className="row">
               <div className="col-md-6 offset-md-3 text-center">
                 <button type="submit" className="btn btn-dark">
@@ -322,13 +330,13 @@ class DriverProfileEditComponent extends Component {
         </div>
         )
       </>
-    );
+    )
   }
 }
 const mapStateToProps = (state) => ({
   driverUpdateData: state.driverReducer.updateDriver,
 });
-const mapDispatchToProps = { updateDriver1 };
+const mapDispatchToProps = { updateDriver };
 
 export default connect(
   mapStateToProps,

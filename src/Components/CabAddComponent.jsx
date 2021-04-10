@@ -20,13 +20,14 @@ class CabAddComponent extends Component {
     }
   };
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = async (event) => {
+    await this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
-    this.props.insertCab(this.state);
+    await this.props.insertCab(this.state);
+    history.push("/admin/viewCabTypes");
   };
 
   render() {

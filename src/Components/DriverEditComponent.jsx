@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import history from "../history";
 import { updateDriver, fetchDriver } from "../redux";
 
 class DriverEditComponent extends Component {
@@ -16,46 +17,54 @@ class DriverEditComponent extends Component {
     cab: {
       cabId: 0,
       carType: "",
-      perKmRate: ""
-    }
-  };;
+      perKmRate: "",
+    },
+  };
 
   async componentDidMount() {
     await this.props.fetchDriver(this.props.match.params.id);
     const { driverFetchData } = this.props;
     driverFetchData &&
       driverFetchData.driver &&
-      this.setState({
+      (await this.setState({
         driverId: driverFetchData.driver.driverId,
         username: driverFetchData.driver.username,
-        password:driverFetchData.driver.password,
+        password: driverFetchData.driver.password,
         email: driverFetchData.driver.email,
         mobileNumber: driverFetchData.driver.mobileNumber,
         address: driverFetchData.driver.address,
-        licenseNo:driverFetchData.driver.licenseNo,
+        licenseNo: driverFetchData.driver.licenseNo,
         status: driverFetchData.driver.status,
         rating: driverFetchData.driver.rating,
-        cab: driverFetchData.driver.cab
+        cab: driverFetchData.driver.cab,
+      }));
+      this.getData();
+      window.addEventListener("storage", (e) => this.getData());
+    }
+    getData = () => {
+      if (localStorage.getItem("Admin")) {
+      } else {
+        history.push("/unauthorized");
+      }
+    };
 
-      });
-  }
-
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = async (event) => {
+    await this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleCabChange = (event) => {
+  handleCabChange = async (event) => {
     var cab = {
       ...this.state.cab,
     };
 
     cab[event.target.name] = event.target.value;
-    this.setState({ cab });
+    await this.setState({ cab });
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
-    this.props.updateDriver(this.state);
+    await this.props.updateDriver(this.state);
+    history.push("/admin/viewDrivers");
   };
 
   render() {
@@ -78,7 +87,6 @@ class DriverEditComponent extends Component {
             </div>
             <br />
 
-            
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="username">
@@ -119,7 +127,6 @@ class DriverEditComponent extends Component {
               </div>
             </div>
             <br />
-
 
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
@@ -162,7 +169,7 @@ class DriverEditComponent extends Component {
               </div>
             </div>
             <br />
-            
+
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="username">
@@ -202,8 +209,6 @@ class DriverEditComponent extends Component {
                 />
               </div>
             </div>
-
-            
 
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
@@ -264,7 +269,7 @@ class DriverEditComponent extends Component {
                 />
               </div>
             </div>
-            
+
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="address">
@@ -286,8 +291,7 @@ class DriverEditComponent extends Component {
             </div>
             <br />
 
-
-            <br/>
+            <br />
             <div className="row">
               <div className="col-md-6 offset-md-3 text-center">
                 <button type="submit" className="btn btn-dark">
@@ -308,4 +312,7 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = { updateDriver, fetchDriver };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DriverEditComponent);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DriverEditComponent);

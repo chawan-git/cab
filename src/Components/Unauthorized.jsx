@@ -25,7 +25,11 @@ export class Unauthorized extends Component {
           <br />
           <br />
           <h3> Not Authorized</h3>
-          <h5> You have have either logged out or tried to access a restricted resource! </h5>
+          <h5>
+            {" "}
+            You have have either logged out or tried to access a restricted
+            resource!{" "}
+          </h5>
           <br />
           <h6>You'll be redirected to the home page in few seconds.</h6>
           <br />

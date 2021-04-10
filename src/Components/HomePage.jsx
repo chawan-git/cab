@@ -7,65 +7,57 @@ import FooterComponent from "./FooterComponent";
 import history from "../history";
 
 class HomePage extends Component {
-  
+  state = {
+    fromLocation: "",
+    toLocation: "",
+    errSource: "",
+    errDestination: "",
+    disabled: "",
+    disabled2: "",
+    but: "",
+  };
 
-    state = {
-      fromLocation: "",
-      toLocation: "",
-      errSource: "",
-      errDestination: "",
-      disabled: "",
-      disabled2: "",
-      but:""
-
-    }
-
-  handleChange = (e) => {
-    if (e.target.name === "source") 
-    {
-      this.setState({
+  handleChange = async (e) => {
+    if (e.target.name === "source") {
+      await this.setState({
         fromLocation: e.target.value,
         errDestination: "",
         disabled: "not",
-        but:"not"
+        but: "not",
         //disabled2: ""
       });
 
       if (e.target.value === this.state.toLocation) {
-        this.setState({
+        await this.setState({
           fromLocation: e.target.value,
           errDestination: "To Location & From Location Cannot be same",
-          but : ""
+          but: "",
           //disabled: "",
           //disabled2: ""
         });
       }
-    } 
-    
-    if (e.target.name === "destination") 
-    {
-      this.setState({
+    }
+
+    if (e.target.name === "destination") {
+      await this.setState({
         toLocation: e.target.value,
         errDestination: "",
         //disabled:"",
         disabled2: "not",
-        but : "not"
+        but: "not",
       });
 
-      if (e.target.value === this.state.fromLocation) 
-      {
-        this.setState({
+      if (e.target.value === this.state.fromLocation) {
+        await this.setState({
           toLocation: e.target.value,
           errDestination: "To Location & From Location Cannot be same",
-          but:""
+          but: "",
           //disabled:"",
           //disabled2: ""
         });
       }
     }
-
-    
-}
+  };
 
   handleRequest = () => {
     if (localStorage.getItem("Customer")) {
@@ -75,7 +67,7 @@ class HomePage extends Component {
       localStorage.setItem("trip", JSON.stringify(this.state));
       history.push("/login");
     }
-  }
+  };
 
   render() {
     return (
@@ -166,12 +158,16 @@ class HomePage extends Component {
                 <br />
                 <h5 className="text-danger">{this.state.errDestination}</h5>
               </div>
-              <br />       
+              <br />
 
               <div className="nav-item ms-4">
                 <button
                   className="btn btn-dark fw-bold p-2"
-                  disabled={!this.state.disabled || !this.state.disabled2 || !this.state.but}
+                  disabled={
+                    !this.state.disabled ||
+                    !this.state.disabled2 ||
+                    !this.state.but
+                  }
                   onClick={this.handleRequest}
                 >
                   Request now

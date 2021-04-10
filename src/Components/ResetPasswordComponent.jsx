@@ -18,27 +18,27 @@ class ResetPasswordComponent extends Component {
     },
   };
 
-  handleChoice = (event) => {
+  handleChoice = async (event) => {
     var choiceState = {
       ...this.state.choiceState,
     };
 
     choiceState.choice = event.target.value;
-    this.setState({ choiceState });
+    await this.setState({ choiceState });
   };
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = async (event) => {
+    await this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
     if (this.state.choiceState.choice === "Username") {
-      this.props.fetchCustomerByUsername(this.state.username);
+      await this.props.fetchCustomerByUsername(this.state.username);
     } else if (this.state.choiceState.choice === "Email address") {
-      this.props.fetchCustomerByEmail(this.state.username);
+      await this.props.fetchCustomerByEmail(this.state.username);
     } else {
-      this.props.fetchCustomerByMobileNumber(this.state.username);
+      await this.props.fetchCustomerByMobileNumber(this.state.username);
     }
   };
 

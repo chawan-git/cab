@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import history from "../history";
 import { insertDriver } from "../redux";
 
 class DriverAddComponent extends Component {
@@ -20,21 +21,33 @@ class DriverAddComponent extends Component {
     },
   };
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = async (event) => {
+    await this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleCabChange = (event) => {
+  handleCabChange = async (event) => {
     var cab = {
       ...this.state.cab,
     };
 
     cab[event.target.name] = event.target.value;
-    this.setState({ cab });
+    await this.setState({ cab });
   };
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
-    this.props.insertDriver(this.state);
+    await this.props.insertDriver(this.state);
+    history.push("/admin/viewDrivers");
+  };
+
+  componentDidMount(){
+    this.getData();
+    window.addEventListener("storage", (e) => this.getData());
+  }
+  getData = () => {
+    if (localStorage.getItem("Admin")) {
+    } else {
+      history.push("/unauthorized");
+    }
   };
 
   render() {

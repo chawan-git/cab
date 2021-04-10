@@ -7,9 +7,9 @@ import {
 } from "./signupTypes";
 
 export const insertCustomer = (customer) => {
-  return (dispatch) => {
-    dispatch(insertCustomerRequest());
-    axios
+  return async (dispatch) => {
+    await dispatch(insertCustomerRequest());
+    await axios
       .post("https://cba.rao.life/api/v1/customer/insertCustomer", customer)
       .then((response) => {
         const customer = response.data;

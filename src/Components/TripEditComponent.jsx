@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import history from "../history";
 import { updateTrip, fetchTrip } from "../redux";
 
 class TripEditComponent extends Component {
@@ -74,7 +75,7 @@ class TripEditComponent extends Component {
     const { tripFetchData } = this.props;
     tripFetchData &&
       tripFetchData.trip &&
-      this.setState({
+      (await this.setState({
         tripBookingId: tripFetchData.trip.tripBookingId,
         customer: tripFetchData.trip.customer,
         driver: tripFetchData.trip.driver,
@@ -85,16 +86,25 @@ class TripEditComponent extends Component {
         toDateTime: tripFetchData.trip.toDateTime,
         status: tripFetchData.trip.status,
         bill: tripFetchData.trip.bill,
-      });
-  }
+      }));
+      this.getData();
+      window.addEventListener("storage", (e) => this.getData());
+    }
+    getData = () => {
+      if (localStorage.getItem("Admin")) {
+      } else {
+        history.push("/unauthorized");
+      }
+    };
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = async (event) => {
+    await this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
-    this.props.updateTrip(this.state);
+    await this.props.updateTrip(this.state);
+    history.push("/admin/viewTrips");
   };
 
   render() {
@@ -117,7 +127,8 @@ class TripEditComponent extends Component {
             <br />
             <h5 className="text-center">
               <span className="fw-bold">Customer Name </span>:{" "}
-              {this.state.customer.username} @ {this.state.customer.mobileNumber}
+              {this.state.customer.username} @{" "}
+              {this.state.customer.mobileNumber}
             </h5>
             <br />
             <h5 className="text-center">

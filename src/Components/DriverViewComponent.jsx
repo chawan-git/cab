@@ -4,18 +4,98 @@ import { Link } from "react-router-dom";
 import { deleteDriver, fetchDrivers } from "../redux";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
+import history from "../history";
 
 class DriverViewComponent extends Component {
-  componentDidMount() {
-    this.props.fetchDrivers();
+  handleSearch = (e) => {
+    let target = e.target;
+    let option = this.state.filterOption;
+    if (target.value === "")
+      this.setState({
+        ...this.state,
+        driverData: this.props.driverData.drivers,
+      });
+    else if (option === "username") {
+      this.setState({
+        ...this.state,
+        driverData: this.props.driverData.drivers.filter((x) =>
+          x.username.includes(target.value)
+        ),
+      });
+    } else if (option === "mobileNumber") {
+      this.setState({
+        ...this.state,
+        driverData: this.props.driverData.drivers.filter((x) =>
+          x.mobileNumber.includes(target.value)
+        ),
+      });
+    } else if (option === "email") {
+      this.setState({
+        ...this.state,
+        driverData: this.props.driverData.drivers.filter((x) =>
+          x.email.includes(target.value)
+        ),
+      });
+    } else if (option === "status") {
+      this.setState({
+        ...this.state,
+        driverData: this.props.driverData.drivers.filter((x) =>
+          x.status.includes(target.value)
+        ),
+      });
+    } else if (option === "cab") {
+      this.setState({
+        ...this.state,
+        driverData: this.props.driverData.drivers.filter((x) =>
+          x.cab.carType.includes(target.value)
+        ),
+      });
+    } else if (option === "rating") {
+      this.setState({
+        ...this.state,
+        driverData: this.props.driverData.drivers.filter((x) => x.rating > 4.5),
+      });
+    } else {
+      this.setState({
+        ...this.state,
+      });
+    }
+  };
+
+  handleSelect = (e) => {
+    this.setState({
+      ...this.state,
+      filterOption: e.target.value,
+    });
+  };
+  state = {
+    driverData: [],
+    filterOption: "",
+  };
+
+  async componentDidMount() {
+    await this.props.fetchDrivers();
+    await this.setState({
+      ...this.state,
+      driverData: this.props.driverData.drivers,
+    });
+    this.getData();
+    window.addEventListener("storage", (e) => this.getData());
   }
+  getData = () => {
+    if (localStorage.getItem("Admin")) {
+    } else {
+      history.push("/unauthorized");
+    }
+  };
   async deleteDriver(driverId, e) {
     e.preventDefault();
-    this.props.deleteDriver(driverId);
+    await this.props.deleteDriver(driverId);
   }
 
   render() {
     const { driverData } = this.props;
+
     return driverData.loading ? (
       <>
         <div className="container">
@@ -54,11 +134,41 @@ class DriverViewComponent extends Component {
       <>
         <div className="container">
           <br />
+
           <h2 className="text-center">List of Drivers</h2>
+          <form>
+            <div className="row">
+              <div className="col-md-3">
+                <select
+                  name=""
+                  id="select"
+                  className="form-control"
+                  onChange={this.handleSelect}
+                >
+                  <option value="select">Search based on ...</option>
+                  <option value="username">Username</option>
+                  <option value="email">Email</option>
+                  <option value="mobileNumber">Mobile number</option>
+                  <option value="cab">Cab</option>
+                  <option value="status">Status</option>
+                  <option value="rating">Best drivers</option>
+                </select>
+              </div>
+              <div className="col-md-9">
+                <input
+                  className="form-control me-2"
+                  type="search"
+                  placeholder="Search"
+                  onChange={this.handleSearch}
+                  aria-label="Search"
+                />
+              </div>
+            </div>
+          </form>
           <br />
-          {driverData &&
-            driverData.drivers &&
-            driverData.drivers.map((driver) => (
+          {this.state &&
+            this.state.driverData &&
+            this.state.driverData.map((driver) => (
               <Fragment key={driver.driverId}>
                 <div className="card" key={driver.driverId}>
                   <div className="card-body">
@@ -148,6 +258,12 @@ const mapStateToProps = (state) => {
     driverData: state.driverReducer.viewDrivers,
   };
 };
+// const searchButton = document.getElementById('search-button');
+// const searchInput = document.getElementById('search-input');
+// // searchButton.addEventListener('click', () => {
+//   //  const viewCustomers = searchInput.viewCustomers;
+//   //  alert(viewCustomers);
+// // });
 
 const mapDispatchToProps = (dispatch) => {
   return {

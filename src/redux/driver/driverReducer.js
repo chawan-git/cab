@@ -46,11 +46,11 @@ const initialState = {
     error: "",
   },
 
-fetchTrips: {
-  loading: false,
-  trips: [],
-  error: "",
-},
+  fetchTrips: {
+    loading: false,
+    trips: [],
+    error: "",
+  },
 };
 
 const driverReducer = (state = initialState, action) => {
@@ -214,40 +214,40 @@ const driverReducer = (state = initialState, action) => {
         },
       };
 
-      case FETCH_TRIPS_REQUEST: {
-        return {
-          ...state,
-          fetchTrips: {
-            loading: true,
-            trips: [],
-            error: "",
+    case FETCH_TRIPS_REQUEST: {
+      return {
+        ...state,
+        fetchTrips: {
+          loading: true,
+          trips: [],
+          error: "",
+        },
+      };
+    }
+    case FETCH_TRIPS_SUCCESS: {
+      return {
+        ...state,
+        fetchTrips: {
+          loading: false,
+          trips: action.payload,
+          error: "",
+        },
+      };
+    }
+    case FETCH_TRIPS_FAILURE: {
+      return {
+        ...state,
+        fetchTrips: {
+          loading: false,
+          trips: [],
+          error: {
+            message: action.payload.response
+              ? action.payload.response.data
+              : action.payload.message,
           },
-        };
-      }
-      case FETCH_TRIPS_SUCCESS: {
-        return {
-          ...state,
-          fetchTrips: {
-            loading: false,
-            trips: action.payload,
-            error: "",
-          },
-        };
-      }
-      case FETCH_TRIPS_FAILURE: {
-        return {
-          ...state,
-          fetchTrips: {
-            loading: false,
-            trips: [],
-            error: {
-              message: action.payload.response
-                ? action.payload.response.data
-                : action.payload.message,
-            },
-          },
-        };
-      }
+        },
+      };
+    }
     default:
       return state;
   }

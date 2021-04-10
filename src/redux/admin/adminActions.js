@@ -1,5 +1,4 @@
 import axios from "axios";
-import history from "../../history";
 import {
   FETCH_ADMINS_REQUEST,
   FETCH_ADMINS_SUCCESS,
@@ -37,14 +36,13 @@ export const fetchAdmins = () => {
 };
 
 export const insertAdmin = (admin) => {
-  return (dispatch) => {
-    dispatch(insertAdminRequest());
-    axios
+  return async (dispatch) => {
+    await dispatch(insertAdminRequest());
+    await axios
       .post("https://cba.rao.life/api/v1/admin/insertAdmin", admin)
       .then((response) => {
         const admin = response.data;
         dispatch(insertAdminSuccess(admin));
-        history.push("/admin/viewAdmins");
       })
       .catch((error) => {
         dispatch(insertAdminFailure(error));
@@ -68,30 +66,13 @@ export const deleteAdmin = (adminId) => {
 };
 
 export const updateAdmin = (admin) => {
-  return (dispatch) => {
-    dispatch(updateAdminRequest());
-    axios
+  return async (dispatch) => {
+    await dispatch(updateAdminRequest());
+    await axios
       .put("https://cba.rao.life/api/v1/admin/updateAdmin", admin)
       .then((response) => {
         const admin = response.data;
         dispatch(updateAdminSuccess(admin));
-        history.push("/admin/viewAdmins");
-      })
-      .catch((error) => {
-        dispatch(updateAdminFailure(error));
-      });
-  };
-};
-
-export const updateAdmin1 = (admin) => {
-  return (dispatch) => {
-    dispatch(updateAdminRequest());
-    axios
-      .put("https://cba.rao.life/api/v1/admin/updateAdmin", admin)
-      .then((response) => {
-        const admin = response.data;
-        dispatch(updateAdminSuccess(admin));
-        history.push("/admin/home");
       })
       .catch((error) => {
         dispatch(updateAdminFailure(error));

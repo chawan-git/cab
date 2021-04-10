@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import history from "../history";
 import { updateCustomer1, fetchCustomer } from "../redux";
 
 class CustomerEditComponent extends Component {
@@ -18,23 +19,32 @@ class CustomerEditComponent extends Component {
     const { customerFetchData } = this.props;
     customerFetchData &&
       customerFetchData.customer &&
-      this.setState({
+      (await this.setState({
         customerId: customerFetchData.customer.customerId,
         username: customerFetchData.customer.username,
         password: customerFetchData.customer.password,
         email: customerFetchData.customer.email,
         mobileNumber: customerFetchData.customer.mobileNumber,
         address: customerFetchData.customer.address,
-      });
+      }));
+    this.getData();
+    window.addEventListener("storage", (e) => this.getData());
   }
-
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  getData = () => {
+    if (localStorage.getItem("Admin")) {
+    } else {
+      history.push("/unauthorized");
+    }
   };
 
-  handleSubmit = (event) => {
+  handleChange = async (event) => {
+    await this.setState({ [event.target.name]: event.target.value });
+  };
+
+  handleSubmit = async (event) => {
     event.preventDefault();
-    this.props.updateCustomer1(this.state);
+    await this.props.updateCustomer1(this.state);
+    history.push("/admin/viewCustomers");
   };
 
   render() {
@@ -178,4 +188,7 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = { updateCustomer1, fetchCustomer };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CustomerEditComponent);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CustomerEditComponent);

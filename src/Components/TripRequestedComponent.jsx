@@ -1,27 +1,22 @@
 import React, { Component } from "react";
 import DirectionsCarIcon from "@material-ui/icons/DirectionsCar";
-import PersonPinCircleOutlinedIcon from "@material-ui/icons/PersonPinCircleOutlined";
-import PinDropOutlinedIcon from "@material-ui/icons/PinDropOutlined";
 import history from "../history";
 import { connect } from "react-redux";
-import { fetchCabs, insertTrip } from "../redux";
-import LocalTaxiOutlinedIcon from "@material-ui/icons/LocalTaxiOutlined";
+import { fetchCabs, insertTrip, updateTrip } from "../redux";
+import SockJsClient from "react-stomp";
+import TripHeaderComponent from "./TripHeaderComponent";
+import FooterComponent from "./FooterComponent";
 
 class TripRequestedComponent extends Component {
   state = {
-    errSource: "",
-    errDestination: "",
-    disabled: "",
-    disabled2: "",
-    but: "",
     tripBooking: {
       fromLocation: "",
       toLocation: "",
       distanceInKm: "",
       bill: "",
       status: "",
-      fromDateTime: "",
-      toDateTime: "",
+      fromDateTime: "2021-4-08 1:49:00",
+      toDateTime: "2021-4-08 1:50:00",
       customer: {
         customerId: "",
         username: "",
@@ -44,273 +39,89 @@ class TripRequestedComponent extends Component {
         },
       },
     },
-    tripBooking1: {
-      fromLocation: "",
-      toLocation: "",
-      distanceInKm: "",
-      bill: "",
-      status: "",
-      fromDateTime: "",
-      toDateTime: "",
-      customer: {
-        customerId: "",
-        username: "",
-        password: "",
-        email: "",
-        mobileNumber: "",
-        address: "",
-      },
-      driver: null,
-    },
   };
 
-  componentDidMount() {
-    var customerData = JSON.parse(localStorage.getItem("Customer"));
-    this.props.fetchCabs();
-    this.setState({
-      tripBooking: {
-        ...this.state.tripBooking,
-        customer: {
-          customerId: customerData.customerId,
-          username: customerData.username,
-          password: customerData.password,
-          email: customerData.email,
-          mobileNumber: customerData.mobileNumber,
-          address: customerData.address,
-        },
-      },
+  async componentDidMount() {
+    await this.setState({
+      tripBooking: JSON.parse(localStorage.getItem("trip")),
     });
+    this.getData();
+    window.addEventListener("storage", (e) => this.getData());
   }
+  getData = () => {
+    if (localStorage.getItem("Customer")) {
+    } else {
+      history.push("/unauthorized");
+    }
+  };
 
-  handleCabChange = async (event) => {
-    var cab = {
-      ...this.state.tripBooking.driver.cab,
-    };
-    
-    var cabObj = event.target.value.split(",");
+  sendMessage = (msg) => {
+    this.clientRef.sendMessage("/app/webSocket", JSON.stringify(msg));
+    console.log(msg);
+    console.log("Customer to Driver");
+  };
 
-    cab.cabId = cabObj[0];
-    cab.carType = cabObj[1];
-    cab.perKmRate = cabObj[2];
-
-
+  handleOnClick = async () => {
     await this.setState({
+      ...this.state,
       tripBooking: {
         ...this.state.tripBooking,
-        driver: {
-          ...this.state.tripBooking.driver,
-          cab: {
-            cabId: cabObj[0],
-            carType: cabObj[1],
-            perKmRate: cabObj[2]
-          },
-        },
+        status: "Paid",
       },
     });
 
+    await this.props.updateTrip(this.state.tripBooking);
 
-    const fromLocation = this.state.tripBooking.fromLocation;
-    const toLocation = this.state.tripBooking.toLocation;
-    const cabRate = this.state.tripBooking.driver.cab.perKmRate;
-
-
-    if (fromLocation === "Bangalore") {
-      if (toLocation === "Mysore") {
-        this.setState({
-          tripBooking: {
-            ...this.state.tripBooking,
-            distanceInKm: 152,
-            bill: cabRate * 152
-          }
-        })
-        
-      } else if (toLocation === "Goa") {
-        this.setState({
-          ...this.state,
-          tripBooking: {
-            ...this.state.tripBooking,
-            distanceInKm: 583,
-            bill: cabRate * 583
-          }
-        })
-      } else {
-        this.setState({
-          ...this.state,
-          tripBooking: {
-            ...this.state.tripBooking,
-            distanceInKm: 569,
-            bill: cabRate * 569
-          }
-        })
-      }
-    } else if (fromLocation === "Mysore") {
-      if (toLocation === "Bangalore") {
-        this.setState({
-          ...this.state,
-          tripBooking: {
-            ...this.state.tripBooking,
-            distanceInKm: 152,
-            bill: cabRate * 152
-          }
-        })
-      } else if (toLocation === "Goa") {
-        this.setState({
-          ...this.state,
-          tripBooking: {
-            ...this.state.tripBooking,
-            distanceInKm: 614,
-            bill: cabRate * 614
-          }
-        })
-      } else {
-        this.setState({
-          ...this.state,
-          tripBooking: {
-            ...this.state.tripBooking,
-            distanceInKm: 743,
-            bill: cabRate * 743
-          }
-        })
-      }
-    } else if (fromLocation === "Goa") {
-      if (toLocation === "Bangalore") {
-        this.setState({
-          ...this.state,
-          tripBooking: {
-            ...this.state.tripBooking,
-            distanceInKm: 583,
-            bill: cabRate * 583
-          }
-        })
-      } else if (toLocation === "Mysore") {
-        this.setState({
-          ...this.state,
-          tripBooking: {
-            ...this.state.tripBooking,
-            distanceInKm: 614,
-            bill: cabRate * 614
-          }
-        })
-      } else {
-        this.setState({
-          ...this.state,
-          tripBooking: {
-            ...this.state.tripBooking,
-            distanceInKm: 647,
-            bill: cabRate * 647
-          }
-        })
-      }
-    } else if (fromLocation === "Hyderabad") {
-      if (toLocation === "Mysore") {
-        this.setState({
-          ...this.state,
-          tripBooking: {
-            ...this.state.tripBooking,
-            distanceInKm: 743,
-            bill: cabRate * 743
-          }
-        });
-      } else if (toLocation === "Goa") {
-        this.setState({
-          ...this.state,
-          tripBooking: {
-            ...this.state.tripBooking,
-            distanceInKm: 647,
-            bill: cabRate * 647
-          }
-        })
-      } else {
-        this.setState({
-          ...this.state,
-          tripBooking: {
-            ...this.state.tripBooking,
-            distanceInKm: 569,
-            bill: cabRate * 569
-          }
-        })
-      }
-    }
-
-  };
-  handleChange = (e) => {
-    if (e.target.name === "source") {
-      this.setState({
-        ...this.state,
-        tripBooking: {
-          ...this.state.tripBooking,
-          fromLocation: e.target.value,
-        },
-        // fromLocation: e.target.value,
-        errDestination: "",
-        disabled: "not",
-        but: "not",
-      });
-
-      if (e.target.value === this.state.tripBooking.toLocation) {
-        this.setState({
-          ...this.state,
-          tripBooking: {
-            ...this.state.tripBooking,
-            fromLocation: e.target.value,
-          },
-          errDestination: "To Location & From Location Cannot be same",
-          but: "",
-        });
-      }
-    }
-
-    if (e.target.name === "destination") {
-      this.setState({
-        ...this.state,
-        tripBooking: {
-          ...this.state.tripBooking,
-          toLocation: e.target.value,
-        },
-        errDestination: "",
-        disabled2: "not",
-        but: "not",
-      });
-
-      if (e.target.value === this.state.tripBooking.fromLocation) {
-        this.setState({
-          ...this.state,
-          tripBooking: {
-            ...this.state.tripBooking,
-            toLocation: e.target.value,
-          },
-          errDestination: "To Location & From Location Cannot be same",
-          but: "",
-        });
-      }
-    }
+    this.sendMessage(this.state.tripBooking);
   };
 
-  handleRequest = async() => {
+  handleGoBack = async () => {
     await this.setState({
+      ...this.state,
       tripBooking: {
         ...this.state.tripBooking,
-        status: "Requested"
-      }
-    })
-    if (localStorage.getItem("Customer")) {
-      localStorage.setItem("trip", JSON.stringify(this.state));
-      
-    } else {
-      localStorage.setItem("trip", JSON.stringify(this.state));
-      history.push("/login");
-    }
-    this.props.insertTrip(this.state.tripBooking1);
-  };
+        status: "Rejected",
+      },
+    });
 
+    localStorage.removeItem("trip");
+
+    history.push("/customer/home");
+  };
   render() {
     return (
       <div>
+        <TripHeaderComponent />
         <div className="container">
-          <br />
-          <br />
+          <SockJsClient
+            url="https://cba.rao.life/ws"
+            topics={[
+              "/trip/" +
+                JSON.parse(localStorage.getItem("Customer")).username +
+                "/customer",
+            ]}
+            onConnect={() => {
+              console.log("connected   ");
+              // console.log(this.props)
+              this.sendMessage(this.props.insertData.trip);
+              // console.log("Inserted tripBooking")
+            }}
+            onDisconnect={() => {
+              console.log("Disconnected   ");
+            }}
+            onMessage={async (msg) => {
+              console.log(msg);
+              await this.setState({
+                tripBooking: msg,
+              });
+            }}
+            ref={(client) => {
+              this.clientRef = client;
+            }}
+          />
+
           <div className="row mt-4 ms-4">
-            <div className="col-md-6 border border-light ms-4 bg-white">
+            <div className="col border border-light ms-4 bg-white">
               <div className="text-center mt-4">
                 <DirectionsCarIcon fontSize="large" />
                 <h5>Ride</h5>
@@ -319,128 +130,146 @@ class TripRequestedComponent extends Component {
               <hr />
               <div className=" ms-4 me-4">
                 <div className="mt-4">
-                  <h1 className="display-5 fw-bold">Request a ride now</h1>
+                  <h1 className="display-5 fw-bold">
+                    Your trip booking #
+                    {JSON.parse(localStorage.getItem("trip")).tripBookingId}
+                  </h1>
                 </div>
               </div>
               <br />
+              <div className="row">
+                <div className="col">
+                  <div className="ms-4 me-4">
+                    <h4>
+                      <span className="fw-bold">Pickup Location </span>
+                    </h4>
+                    <h4> {this.state.tripBooking.fromLocation}</h4>
+                  </div>
+                  <br />
 
-              <div className=" ms-4 me-4">
-                <div className="input-group">
-                  <span className="input-group-text">
-                    <PersonPinCircleOutlinedIcon />
-                  </span>
+                  <div className="ms-4 me-4">
+                    <h4 className="fw-bold">Car </h4>
+                    <h4>{this.state.tripBooking.driver.cab.carType}</h4>
+                  </div>
+                  <br />
 
-                  <select
-                    type="source"
-                    name="source"
-                    id="source"
-                    className="form-control p-2"
-                    placeholder="Select pickup location"
-                    onChange={this.handleChange}
-                    value={this.state.tripBooking.fromLocation}
-                  >
-                    <option value="" hidden>
-                      Enter pickup location
-                    </option>
-                    <option value="Bangalore">Bangalore</option>
-                    <option value="Hyderabad">Hyderabad</option>
-                    <option value="Goa">Goa</option>
-                    <option value="Mysore">Mysore</option>
-                  </select>
+                  <div className="ms-4 me-4">
+                    <h4 className="fw-bold">Driver name </h4>
+                    <h4>{this.state.tripBooking.driver.username}</h4>
+                  </div>
+
+                  <br />
+                  <div className="ms-4 me-4">
+                    <h4 className="fw-bold">Distance in Km </h4>
+                    <h4>{this.state.tripBooking.distanceInKm}</h4>
+                  </div>
+
+                  <br />
+                  {this.state.tripBooking.status === "TripEnded" ||
+                  this.state.tripBooking.status === "TripStarted" ? (
+                    <>
+                      <div className="ms-4 me-4">
+                        <h4 className="fw-bold">Trip start date and time </h4>
+                        <h4>{this.state.tripBooking.fromDateTime}</h4>
+                      </div>
+
+                      <br />
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+                <div className="col">
+                  <div className="ms-4 me-4">
+                    <h4>
+                      <span className="fw-bold">Destination Location </span>
+                    </h4>
+                    <h4> {this.state.tripBooking.toLocation}</h4>
+                  </div>
+                  <br />
+
+                  <div className="ms-4 me-4">
+                    <h4 className="fw-bold">License number </h4>
+                    <h4>{this.state.tripBooking.driver.licenseNo}</h4>
+                  </div>
+                  <br />
+                  <div className="ms-4 me-4">
+                    <h4 className="fw-bold">Driver mobile number </h4>
+                    <h4>{this.state.tripBooking.driver.mobileNumber}</h4>
+                  </div>
+                  <br />
+                  <div className="ms-4 me-4">
+                    <h4 className="fw-bold">Trip Fare </h4>
+                    <h4>{this.state.tripBooking.bill}</h4>
+                  </div>
+
+                  <br />
+                  {this.state.tripBooking.status === "TripEnded" ? (
+                    <>
+                      <div className="ms-4 me-4">
+                        <h4 className="fw-bold">Trip end date and time </h4>
+                        <h4>{this.state.tripBooking.toDateTime}</h4>
+                      </div>
+
+                      <br />
+                    </>
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </div>
-              <br />
 
-              <div className=" ms-4 me-4">
-                <div className="input-group">
-                  <span className="input-group-text">
-                    <PinDropOutlinedIcon />
-                  </span>
-
-                  <select
-                    type="destination"
-                    name="destination"
-                    id="destination"
-                    className="form-control p-2"
-                    placeholder="Select destination"
-                    onChange={this.handleChange}
-                    value={this.state.tripBooking.toLocation}
-                  >
-                    <option value="" hidden>
-                      Enter destination
-                    </option>
-                    <option value="Bangalore">Bangalore</option>
-                    <option value="Hyderabad">Hyderabad</option>
-                    <option value="Goa">Goa</option>
-                    <option value="Mysore">Mysore</option>
-                  </select>
-                </div>
-                <h5 className="text-danger">{this.state.errDestination}</h5>
-              </div>
-              <br />
-              <div className=" ms-4 me-4">
-                <div className="input-group">
-                  <span className="input-group-text">
-                    <LocalTaxiOutlinedIcon />
-                  </span>
-
-                  <select
-                    name="carType"
-                    className="form-control p-2"
-                    placeholder="Choose Car Type"
-                    onChange={this.handleCabChange}
-                    // value={this.state.tripBooking.driver.driverId}
-                  >
-                    <option value="" hidden>
-                      Select Car Type
-                    </option>
-                    {this.props.cabData.cabs.map((cab) => (
-                      <option
-                        key={cab.cabId}
-                        value={
-                          cab.cabId + "," + cab.carType + "," + cab.perKmRate
-                        }
+              <div className="ms-4 me-4 text-center border p-3 border-dark">
+                <h2 className="fw-bold">
+                  {" "}
+                  {this.state.tripBooking.status === "Requested" ? (
+                    <>Requesting ...</>
+                  ) : this.state.tripBooking.status === "DriverAssigned" ? (
+                    <>Trip accepted. Driver will be arriving soon ...</>
+                  ) : this.state.tripBooking.status === "TripStarted" ? (
+                    <>Bon voyage! Your trip has started ...</>
+                  ) : this.state.tripBooking.status === "Rejected" ? (
+                    <>
+                      <h2 className="fw-bold">Trip Rejected by driver!</h2>
+                      <button
+                        className="btn btn-success"
+                        onClick={() => this.handleGoBack()}
                       >
-                        {cab.carType}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                        Go Back
+                      </button>{" "}
+                    </>
+                  ) : this.state.tripBooking.status === "TripEnded" ? (
+                    <>
+                      <h2 className="fw-bold">
+                        Trip ended! Hope you enjoyed the ride! Your trip fare is
+                        : {this.state.tripBooking.bill}
+                      </h2>
+                      <button
+                        className="btn btn-success"
+                        onClick={() => this.handleOnClick()}
+                      >
+                        Pay
+                      </button>
+                    </>
+                  ) : this.state.tripBooking.status === "Paid" ? (
+                    <>
+                      <h2 className="fw-bold">Trip paid!</h2>
+                      <button
+                        className="btn btn-success"
+                        onClick={() => this.handleGoBack()}
+                      >
+                        Go back
+                      </button>
+                    </>
+                  ) : (
+                    <>Waiting for status ...</>
+                  )}
+                </h2>
               </div>
-              <br />
-              <div className=" ms-4 me-4">
-                <div className="form-group">
-                  <label htmlFor="distance">Distance in Km</label>
-                  <input type="text" disabled={true} value={this.state.tripBooking.distanceInKm} className="form-control" />
-                </div>
-              </div>
-              <br />
-              <div className=" ms-4 me-4">
-                <div className="form-group">
-                  <label htmlFor="distance">Trip Fare</label>
-                  <input type="text" disabled={true} value={this.state.tripBooking.bill} className="form-control" />
-                </div>
-              </div>
-              <br />
-
-              <div className="nav-item ms-4">
-                <button
-                  className="btn btn-dark fw-bold p-2"
-                  disabled={
-                    !this.state.disabled ||
-                    !this.state.disabled2 ||
-                    !this.state.but
-                  }
-                  onClick={this.handleRequest}
-                >
-                  Check Status
-                </button>
-              </div>
-              <br />
             </div>
-            <div className="col-md-6"></div>
           </div>
         </div>
+        <FooterComponent />
       </div>
     );
   }
@@ -449,9 +278,14 @@ class TripRequestedComponent extends Component {
 const mapStateToProps = (state) => {
   return {
     cabData: state.cabReducer.viewCabs,
+    loginData: state.loginReducer,
+    insertData: state.tripReducer.insertTrip,
   };
 };
 
-const mapDispatchToProps = { fetchCabs, insertTrip };
+const mapDispatchToProps = { fetchCabs, insertTrip, updateTrip };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TripRequestedComponent);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TripRequestedComponent);

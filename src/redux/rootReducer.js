@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
   loginReducer,
   signupReducer,
   tripReducer,
-  customerReducer
+  customerReducer,
 });
 
 export default rootReducer;

@@ -157,9 +157,9 @@ export class AdminHeaderComponent extends Component {
                   </ul>
                 </li>
                 <li className="nav-item">
-                  <Link to="/admin/viewCustomers"
+                  <Link
+                    to="/admin/viewCustomers"
                     className="nav-link fw-bold text-white fs-5"
-                  
                   >
                     <EmojiPeopleOutlinedIcon
                       style={{ color: "white" }}
@@ -171,7 +171,8 @@ export class AdminHeaderComponent extends Component {
                 </li>
 
                 <li className="nav-item">
-                  <Link to="/admin/viewTrips"
+                  <Link
+                    to="/admin/viewTrips"
                     className="nav-link fw-bold text-white fs-5"
                   >
                     <LoyaltyOutlinedIcon
@@ -204,9 +205,9 @@ export class AdminHeaderComponent extends Component {
                   aria-labelledby="navbarScrollingDropdown"
                 >
                   <li>
-                    <a className="dropdown-item" href="/admin/profile">
+                    <Link to="/admin/profile" className="dropdown-item">
                       Profile Settings
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <Link

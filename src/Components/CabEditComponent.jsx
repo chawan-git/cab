@@ -15,11 +15,11 @@ class CabEditComponent extends Component {
     const { cabFetchData } = this.props;
     cabFetchData &&
       cabFetchData.cab &&
-      this.setState({
+      (await this.setState({
         cabId: cabFetchData.cab.cabId,
         carType: cabFetchData.cab.carType,
         perKmRate: cabFetchData.cab.perKmRate,
-      });
+      }));
 
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
@@ -32,13 +32,14 @@ class CabEditComponent extends Component {
     }
   };
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChange = async (event) => {
+    await this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
-    this.props.updateCab(this.state);
+    await this.props.updateCab(this.state);
+    history.push("/admin/viewCabTypes");
   };
 
   render() {
