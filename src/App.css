@@ -53,6 +53,9 @@
   top: 0;
 }
 
+/* Author: Ashutosh Rao Chawan U
+  Setting the background image in the home page
+*/
 #homepage {
   background-image: url("./bg3.jpg");
 

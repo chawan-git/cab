@@ -1,9 +1,17 @@
+/*
+Author :Arfath Pasha
+*/
+
+//imports statemets to use the exported requests/methods in this components
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import history from "../history";
 import { updateCustomer1 } from "../redux";
 
 class CustomerProfileEditComponent extends Component {
+  //defining state with nested obejcts  -
+  //it is an object that holds some information that may change over the lifetime of the component.
+  
   state = {
     customerId: "",
     username: "",
@@ -14,10 +22,16 @@ class CustomerProfileEditComponent extends Component {
   };
 
   customerFetchData = {};
+  //componentDidMount is executed after the first render only on the client side. 
+  //This is where AJAX requests and DOM or state updates occurs
+  //async/await -It makes code cleaner and readable.
+  
   async componentDidMount() {
     this.customerFetchData = JSON.parse(localStorage.getItem("Customer"));
 
     this.customerFetchData &&
+    //setState will accept an Object that will be eventually merged into Components current state.
+      
       (await this.setState({
         customerId: this.customerFetchData.customerId,
         username: this.customerFetchData.username,
@@ -50,7 +64,8 @@ class CustomerProfileEditComponent extends Component {
     history.push("/customer/home");
     }
   };
-
+//rendering Customer Profile Details
+  
   render() {
     return (
       <>
@@ -186,9 +201,13 @@ class CustomerProfileEditComponent extends Component {
     );
   }
 }
+// mapStateToProps is used for selecting the part of the data from the store that the connected component needs.
+
 const mapStateToProps = (state) => ({
   customerUpdateData: state.customerReducer.updateCustomer,
 });
+//mapDispatchToProps is a utility which will help your component to fire an action event 
+
 const mapDispatchToProps = { updateCustomer1 };
 
 export default connect(

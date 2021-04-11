@@ -7,7 +7,12 @@ import { connect } from "react-redux";
 import { fetchCabs, insertTrip, fetchDrivers1 } from "../redux";
 import LocalTaxiOutlinedIcon from "@material-ui/icons/LocalTaxiOutlined";
 
+/* creating a component to insert trip booking details in to the database */
+
 class TripAddComponent extends Component {
+
+  /* setting the initial state of the component */
+
   state = {
     setOrNot: false,
     loading: false,
@@ -50,6 +55,7 @@ class TripAddComponent extends Component {
     driverData: [],
   };
 
+  /* setting the trip state at the time of loading the component */
   async componentDidMount() {
     var customerData = JSON.parse(localStorage.getItem("Customer"));
     if (localStorage.getItem("trip")) {
@@ -89,6 +95,8 @@ class TripAddComponent extends Component {
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
   }
+
+  /* validating whether customer is logged in or not, using local storage and redirecting to unauthorized page */
   getData = () => {
     if (localStorage.getItem("Customer")) {
     } else {
@@ -96,6 +104,7 @@ class TripAddComponent extends Component {
     }
   };
 
+  // handling the cab change and displaying the driver based on the selected cab types
   handleCabChange = async (event) => {
     await this.setState({
       ...this.state,
@@ -137,6 +146,8 @@ class TripAddComponent extends Component {
     const fromLocation = this.state.tripBooking.fromLocation;
     const toLocation = this.state.tripBooking.toLocation;
     const cabRate = this.state.tripBooking.driver.cab.perKmRate;
+
+    //logic for calculating the distances between from location and to location
 
     if (fromLocation === "Bangalore") {
       if (toLocation === "Mysore") {
@@ -278,11 +289,13 @@ class TripAddComponent extends Component {
     }
   };
 
+  // resetting the cab type if from location and to location are changed
   handleResetCab = () => {
     var dropDown = document.getElementById("carType");
     dropDown.selectedIndex = 0;
   };
 
+  // validating the from location and to location 
   handleChange = async (e) => {
     if (e.target.name === "source") {
       this.handleResetCab();
@@ -352,8 +365,9 @@ class TripAddComponent extends Component {
     }
   };
 
+  // handling the request trip button after selecting all the required fields
   handleRequest = async (driver) => {
-    console.log(driver);
+    //console.log(driver);
     await this.setState({
       tripBooking: {
         ...this.state.tripBooking,
@@ -372,6 +386,8 @@ class TripAddComponent extends Component {
         },
       },
     });
+
+    /* validating whether customer is logged in or not, using local storage and redirecting to login page */
     if (localStorage.getItem("Customer")) {
       localStorage.setItem("trip", JSON.stringify(this.state));
     } else {
@@ -381,6 +397,7 @@ class TripAddComponent extends Component {
     await this.props.insertTrip(this.state.tripBooking);
   };
 
+  // used to render the following code which incluse HTML, CSS and bootsatrp for UI
   render() {
     return this.state.setOrNot ? (
       <div>
@@ -577,15 +594,6 @@ class TripAddComponent extends Component {
                                   <h5 className="text-white">Book</h5>
                                 </button>
 
-                                {/* <button
-                          className="btn btn-danger col-md-12"
-                          // data-toggle="modal"
-                          // data-target="#staticBackdrop"
-                          onClick={(e) => this.deleteDriver(driver.driverId, e)}
-                        >
-                          <DeleteOutlineOutlinedIcon />
-                          <h5>Delete driver</h5>
-                        </button> */}
                               </div>
                             </div>
                           </div>
@@ -898,6 +906,7 @@ class TripAddComponent extends Component {
   }
 }
 
+// arrow function used to map states in trip reducer to cabData and driverData
 const mapStateToProps = (state) => {
   return {
     cabData: state.cabReducer.viewCabs,
@@ -905,6 +914,8 @@ const mapStateToProps = (state) => {
   };
 };
 
+// used to call the methods of tripActions
 const mapDispatchToProps = { fetchCabs, insertTrip, fetchDrivers1 };
 
+// connecting mapStateToProps and mapDispatchToProps to TripAddComponent
 export default connect(mapStateToProps, mapDispatchToProps)(TripAddComponent);

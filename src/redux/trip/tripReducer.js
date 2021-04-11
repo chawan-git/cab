@@ -1,3 +1,4 @@
+/* Importing Trip Action Types From tripTypes */
 import {
   FETCH_TRIPS_REQUEST,
   FETCH_TRIPS_SUCCESS,
@@ -19,6 +20,8 @@ import {
   FETCH_DRIVERS_FAILURE,
 } from "./tripTypes";
 
+
+/* Defining the initial states of actions */
 const initialState = {
   viewTrips: {
     loading: false,
@@ -52,7 +55,8 @@ const initialState = {
   },
 };
 
-//change1
+/* implementing a trip reducer using switch statement and defining all the cases of action types returning the corresponding states */
+
 const tripReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_TRIPS_REQUEST:
@@ -249,4 +253,5 @@ const tripReducer = (state = initialState, action) => {
   }
 };
 
+// Exporting tripReducer in order to make it available to access in other components
 export default tripReducer;

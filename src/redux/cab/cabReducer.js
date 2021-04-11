@@ -1,3 +1,7 @@
+/*
+D Sri Madhu Priya
+*/
+
 import {
   FETCH_CABS_REQUEST,
   FETCH_CABS_SUCCESS,
@@ -16,6 +20,7 @@ import {
   FETCH_CAB_FAILURE,
 } from "./cabTypes";
 
+//to check values from database and return them 
 const initialState = {
   viewCabs: {
     loading: false,
@@ -55,6 +60,7 @@ const cabReducer = (state = initialState, action) => {
           error: "",
         },
       };
+      //fetch cabs
     case FETCH_CABS_SUCCESS:
       return {
         ...state,
@@ -77,6 +83,7 @@ const cabReducer = (state = initialState, action) => {
           },
         },
       };
+    //insert cab
     case INSERT_CAB_REQUEST:
       return {
         ...state,
@@ -108,6 +115,7 @@ const cabReducer = (state = initialState, action) => {
           },
         },
       };
+      //delete cab
     case DELETE_CAB_REQUEST:
       return {
         ...state,
@@ -142,6 +150,7 @@ const cabReducer = (state = initialState, action) => {
           },
         },
       };
+      //update cab
     case UPDATE_CAB_REQUEST:
       return {
         ...state,
@@ -173,6 +182,7 @@ const cabReducer = (state = initialState, action) => {
           },
         },
       };
+      //fetch cab
     case FETCH_CAB_REQUEST:
       return {
         ...state,

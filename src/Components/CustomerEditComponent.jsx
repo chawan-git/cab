@@ -1,9 +1,17 @@
+/*
+Author :Arfath Pasha
+*/
+
+//imports statemets to use the exported requests/methods in this components
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import history from "../history";
 import { updateCustomer1, fetchCustomer } from "../redux";
 
 class CustomerEditComponent extends Component {
+  //defining state with object Customer -
+  //it is an object that holds some information that may change over the lifetime of the component.
+
   state = {
     customerId: "",
     username: "",
@@ -12,7 +20,10 @@ class CustomerEditComponent extends Component {
     mobileNumber: "",
     address: "",
   };
-
+//componentDidMount is executed after the first render only on the client side. 
+  //This is where AJAX requests and DOM or state updates occurs
+  //async/await -It makes code cleaner and readable.
+  
   async componentDidMount() {
     console.log(this.props);
     await this.props.fetchCustomer(this.props.match.params.id);
@@ -27,6 +38,8 @@ class CustomerEditComponent extends Component {
         mobileNumber: customerFetchData.customer.mobileNumber,
         address: customerFetchData.customer.address,
       }));
+      //getData() method retrieves drag data (as a DOMString ) for the specified type.
+    
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
   }
@@ -36,7 +49,8 @@ class CustomerEditComponent extends Component {
       history.push("/unauthorized");
     }
   };
-
+//handle change event for customer object
+  
   handleChange = async (event) => {
     await this.setState({ [event.target.name]: event.target.value });
   };
@@ -59,6 +73,7 @@ class CustomerEditComponent extends Component {
             </div>
           </div>
           <hr />
+          {/* Form rendering for Customer Details */}
 
           <form onSubmit={this.handleSubmit}>
             <div className="row">
@@ -183,12 +198,16 @@ class CustomerEditComponent extends Component {
     );
   }
 }
+// mapStateToProps is used for selecting the part of the data from the store that the connected component needs.
+
 const mapStateToProps = (state) => ({
   customerUpdateData: state.customerReducer.updateCustomer,
   customerFetchData: state.customerReducer.fetchCustomer,
 });
-const mapDispatchToProps = { updateCustomer1, fetchCustomer };
+//mapDispatchToProps is a utility which will help your component to fire an action event 
 
+const mapDispatchToProps = { updateCustomer1, fetchCustomer };
+//exporting
 export default connect(
   mapStateToProps,
   mapDispatchToProps

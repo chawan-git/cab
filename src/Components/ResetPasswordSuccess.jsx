@@ -1,3 +1,8 @@
+/*
+Ankitha Suraksha
+*/
+
+//Import statements//
 import React, { Component } from "react";
 import FooterComponent from "./FooterComponent";
 import HeaderComponent from "./HeaderComponent";
@@ -5,6 +10,9 @@ import Logo from "../logo.png";
 import { Grid } from "@material-ui/core";
 import history from "../history";
 export class ResetPasswordSuccess extends Component {
+  //componentDidMount is executed after the first render only on the client side. 
+  /*setTimeout function sets a timer which executes a function or 
+    specified piece of code once the timer expires*/
   componentDidMount() {
     localStorage.clear();
     setTimeout(function () {
@@ -39,5 +47,5 @@ export class ResetPasswordSuccess extends Component {
     );
   }
 }
-
+//export statement //
 export default ResetPasswordSuccess;

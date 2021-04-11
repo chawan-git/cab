@@ -10,20 +10,30 @@ import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined"
 import { Link } from "react-router-dom";
 import history from "../history";
 
+// Author: Ashutosh Rao Chawan U
+// This is a react component designed to be a header to the admin components.
 export class AdminHeaderComponent extends Component {
+
+  // This method when called clears the localStorage
   handleLogout = () => {
     localStorage.clear();
   };
+
+  // This method is called once the component loads for the first time.
   componentDidMount() {
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
   }
+
+  // This method is used to check whether the admin has logged in or not, if not, redirect to the unauthorized page.
   getData = () => {
     if (localStorage.getItem("Admin")) {
     } else {
       history.push("/unauthorized");
     }
   };
+
+  // Render method is used to display the following code on to the user's screen.
   render() {
     return (
       <>
@@ -229,4 +239,5 @@ export class AdminHeaderComponent extends Component {
   }
 }
 
+// Exporting the AdminHeaderComponent, so that it could be imported by any other component and be used.
 export default AdminHeaderComponent;

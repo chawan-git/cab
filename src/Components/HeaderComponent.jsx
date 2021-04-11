@@ -3,6 +3,8 @@ import logo from "../logo.png";
 import PersonOutlineRoundedIcon from "@material-ui/icons/PersonOutlineRounded";
 import { Link } from "react-router-dom";
 
+// Author: Ashutosh Rao Chawan U
+// This is used to render the Bootstrap header and the navigation bar on the home page
 export class HeaderComponent extends Component {
   render() {
     return (
@@ -27,24 +29,6 @@ export class HeaderComponent extends Component {
                   Peeli
                 </span>
               </Link>
-
-              {/* <ul className="nav nav-pills">
-                <li className="nav-item">
-                  <Link to="/" className="nav-link">
-                    Home
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link to="/admin/home" className="nav-link">
-                    Admin
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link to="/driver/home" className="nav-link">
-                    Driver
-                  </Link>
-                </li>
-              </ul> */}
 
               <ul className="nav nav-pills justify-content-end">
                 <li className="nav-item">

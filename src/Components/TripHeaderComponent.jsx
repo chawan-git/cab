@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import logo from "../logo.png";
 import { Link } from "react-router-dom";
 
+/* creating a header component for trip home component  */
+
 export class TripHeaderComponent extends Component {
   render() {
     return (
@@ -34,4 +36,5 @@ export class TripHeaderComponent extends Component {
   }
 }
 
+//exporting the TripHeaderComponent
 export default TripHeaderComponent;

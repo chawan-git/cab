@@ -7,6 +7,8 @@ import signupReducer from "./signup/signupReducer";
 import tripReducer from "./trip/tripReducer";
 import customerReducer from "./customer/customerReducer";
 
+// Author: Ashutosh Rao Chawan U
+// This is the rootReducer which uses the combineReducers method to combine all the reducers, so that it can be passed as a parameter to the redux store.
 const rootReducer = combineReducers({
   cabReducer,
   adminReducer,

@@ -1,4 +1,10 @@
+/*
+Author :BHARAT SINGH
+*/
+
+//Importing Axios property from Axios Library to use in the component
 import axios from "axios";
+//Importing Requests from driverTypes
 import {
   FETCH_DRIVER_FAILURE,
   FETCH_DRIVERS_REQUEST,
@@ -23,11 +29,14 @@ import {
   FETCH_TRIPS_WALLET_FAILURE,
 } from "./driverTypes";
 
+const API_URL = "https://cba.rao.life/api/v1"
+
+//Method Definition to Fetch List Of All Driver
 export const fetchDrivers = () => {
   return async (dispatch) => {
     await dispatch(fetchDriversRequest());
     await axios
-      .get("https://cba.rao.life/api/v1/driver/viewAllDrivers")
+      .get(API_URL+"/driver/viewAllDrivers")//API URL
       .then((response) => {
         // response.data is the users
         const drivers = response.data;
@@ -35,65 +44,71 @@ export const fetchDrivers = () => {
       })
       .catch((error) => {
         // error.message is the error message
-
         dispatch(fetchDriversFailure(error));
       });
   };
 };
 
+//Method Definition to insert a Driver
 export const insertDriver = (driver) => {
   return async (dispatch) => {
     await dispatch(insertDriverRequest());
     await axios
-      .post("https://cba.rao.life/api/v1/driver/insertDriver", driver)
+      .post(API_URL+"/driver/insertDriver", driver)//API URL
       .then((response) => {
+        // response.data is the users
         const driver = response.data;
         dispatch(insertDriverSuccess(driver));
       })
       .catch((error) => {
+        // error.message is the error message
         dispatch(insertDriverFailure(error));
       });
   };
 };
 
+//Method Definition to delete a Driver By driverId
 export const deleteDriver = (driverId) => {
   return async (dispatch) => {
     await dispatch(deleteDriverRequest());
     await axios
-      .delete(`https://cba.rao.life/api/v1/driver/deleteDriver/${driverId}`)
+      .delete(`${API_URL}/driver/deleteDriver/${driverId}`)//API URL
       .then((response) => {
+        // response.data is the users
         const driver = response.data;
         dispatch(deleteDriverSuccess(driver));
       })
       .catch((error) => {
+        // error.message is the error message
         dispatch(deleteDriverFailure(error));
       });
   };
 };
 
+//Method Definition to Update a Driver details
 export const updateDriver = (driver) => {
   return async (dispatch) => {
     await dispatch(updateDriverRequest());
     await axios
-      .put("https://cba.rao.life/api/v1/driver/updateDriver", driver)
+      .put(API_URL+"/driver/updateDriver", driver)//ApI URL
       .then((response) => {
+        // response.data is the users
         const driver = response.data;
         dispatch(updateDriverSuccess(driver));
       })
       .catch((error) => {
+        // error.message is the error message
         dispatch(updateDriverFailure(error));
       });
   };
 };
 
+//Method Definition to fetch a Driver details-Driver Profile using mobileNumber
 export const fetchTrips2 = (mobileNumber) => {
   return async (dispatch) => {
     await dispatch(fetchTripsRequest());
     await axios
-      .get(
-        "https://cba.rao.life/api/v1/tripBooking/viewTripsByDriverMobileNumber/" +
-          mobileNumber
-      )
+      .get(API_URL+"/tripBooking/viewTripsByDriverMobileNumber/" +mobileNumber)//API URL
       .then((response) => {
         // response.data is the users
         const trips = response.data;
@@ -101,18 +116,17 @@ export const fetchTrips2 = (mobileNumber) => {
       })
       .catch((error) => {
         // error.message is the error message
-
         dispatch(fetchTripsFailure(error));
       });
   };
 };
 
-//Fetching Wallet Revenue
+//Method For Fetching Wallet Revenue of a Driver-using driverId
 export const fetchWallet = (driverId) => {
   return async (dispatch) => {
     await dispatch(fetchWalletRequest());
     await axios
-      .get("https://cba.rao.life/api/v1/tripBooking/getTotalRevenueByDriverId/" +driverId)
+      .get(API_URL+"/tripBooking/getTotalRevenueByDriverId/" +driverId)//API URL
       .then((response) => {
         // response.data is the users
         const balance = response.data;
@@ -120,19 +134,17 @@ export const fetchWallet = (driverId) => {
       })
       .catch((error) => {
         // error.message is the error message
-
         dispatch(fetchWalletFailure(error));
       });
   };
 };
 
-
-
+//Method Definition to Fetch a Driver details using driverId
 export const fetchDriver = (driverId) => {
   return async (dispatch) => {
     await dispatch(fetchDriverRequest());
     await axios
-      .get("https://cba.rao.life/api/v1/driver/driverById/" + driverId)
+      .get(API_URL+"/driver/driverById/" + driverId)
       .then((response) => {
         // response.data is the users
         const driver = response.data;
@@ -140,20 +152,19 @@ export const fetchDriver = (driverId) => {
       })
       .catch((error) => {
         // error.message is the error message
-
         dispatch(fetchDriverFailure(error));
       });
   };
 };
 
-//Action Creator
+//Action Creators For Driver Details Fetching
+//Request
 export const fetchDriversRequest = () => {
   return {
     type: FETCH_DRIVERS_REQUEST,
   };
 };
-
-//Action Creator
+//Success
 export const fetchDriversSuccess = (drivers) => {
   return {
     type: FETCH_DRIVERS_SUCCESS,
@@ -161,7 +172,7 @@ export const fetchDriversSuccess = (drivers) => {
   };
 };
 
-//Action Creator
+//Failure
 export const fetchDriversFailure = (error) => {
   return {
     type: FETCH_DRIVERS_FAILURE,
@@ -169,19 +180,21 @@ export const fetchDriversFailure = (error) => {
   };
 };
 
+//Action Creators For inserting Driver Details
+//Request
 export const insertDriverRequest = () => {
   return {
     type: INSERT_DRIVER_REQUEST,
   };
 };
-
+//Success
 export const insertDriverSuccess = (driver) => {
   return {
     type: INSERT_DRIVER_SUCCESS,
     payload: driver,
   };
 };
-
+//Failure
 export const insertDriverFailure = (error) => {
   return {
     type: INSERT_DRIVER_FAILURE,
@@ -189,19 +202,21 @@ export const insertDriverFailure = (error) => {
   };
 };
 
+//Action Creator For Deleting Driver
+//Request
 export const deleteDriverRequest = () => {
   return {
     type: DELETE_DRIVER_REQUEST,
   };
 };
-
+//Success
 export const deleteDriverSuccess = (driver) => {
   return {
     type: DELETE_DRIVER_SUCCESS,
     payload: driver,
   };
 };
-
+//Failure
 export const deleteDriverFailure = (error) => {
   return {
     type: DELETE_DRIVER_FAILURE,
@@ -209,19 +224,21 @@ export const deleteDriverFailure = (error) => {
   };
 };
 
+//Action Creator For Updating Driver Details
+//Request
 export const updateDriverRequest = () => {
   return {
     type: UPDATE_DRIVER_REQUEST,
   };
 };
-
+//Success
 export const updateDriverSuccess = (driver) => {
   return {
     type: UPDATE_DRIVER_SUCCESS,
     payload: driver,
   };
 };
-
+//Failure
 export const updateDriverFailure = (error) => {
   return {
     type: UPDATE_DRIVER_FAILURE,
@@ -229,14 +246,14 @@ export const updateDriverFailure = (error) => {
   };
 };
 
-//Action Creator
+//Action Creators For Driver Profile Details Fetching
+//Request
 export const fetchDriverRequest = () => {
   return {
     type: FETCH_DRIVER_REQUEST,
   };
 };
-
-//Action Creator
+//Success
 export const fetchDriverSuccess = (driver) => {
   return {
     type: FETCH_DRIVER_SUCCESS,
@@ -244,7 +261,7 @@ export const fetchDriverSuccess = (driver) => {
   };
 };
 
-//Action Creator
+//Failure
 export const fetchDriverFailure = (error) => {
   return {
     type: FETCH_DRIVER_FAILURE,
@@ -252,21 +269,21 @@ export const fetchDriverFailure = (error) => {
   };
 };
 
+//Action Creators For Trip Details Fetching
+//Request
 export const fetchTripsRequest = () => {
   return {
     type: FETCH_TRIPS_REQUEST,
   };
 };
-
-//Action Creator
+//Success
 export const fetchTripsSuccess = (trips) => {
   return {
     type: FETCH_TRIPS_SUCCESS,
     payload: trips,
   };
 };
-
-//Action Creator
+//Failure
 export const fetchTripsFailure = (error) => {
   return {
     type: FETCH_TRIPS_FAILURE,
@@ -274,22 +291,21 @@ export const fetchTripsFailure = (error) => {
   };
 };
 
-//Wallet Action Creators
+//Action Creator For Fetching Driver Wallet Details
+//Request
 export const fetchWalletRequest = () => {
   return {
     type: FETCH_TRIPS_WALLET_REQUEST,
   };
 };
-
-//Action Creator
+//Success
 export const fetchWalletSuccess = (balance) => {
   return {
     type: FETCH_TRIPS_WALLET_SUCCESS,
     payload: balance,
   };
 };
-
-//Action Creator
+//Failure
 export const fetchWalletFailure = (error) => {
   return {
     type: FETCH_TRIPS_WALLET_FAILURE,

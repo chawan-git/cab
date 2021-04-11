@@ -1,3 +1,9 @@
+/*
+Author :Arfath Pasha
+*/
+
+//imports statemets to use the exported requests/methods in this components
+//Fragments let  group a list of children without adding extra nodes to the DOM.
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import history from "../history";
@@ -5,7 +11,7 @@ import history from "../history";
 import { fetchTrips1 } from "../redux";
 
 class CustomerViewTripsComponent extends Component {
-
+//handling serach event
   handleSearch= e =>{
     let target = e.target;
     let option = this.state.filterOption;
@@ -14,45 +20,49 @@ class CustomerViewTripsComponent extends Component {
       ...this.state,
          tripData:this.props.tripData.trips
     })
-
+//search based on customer username
     else if(option === "username"){
       this.setState({
         ...this.state,
         tripData:this.props.tripData.trips.filter(x => x.driver.username.includes(target.value))
       })
     }
+    //search based on trip from Location
     else if(option === "fromLocation"){
       this.setState({
         ...this.state,
         tripData:this.props.tripData.trips.filter(x => x.fromLocation.includes(target.value))
       })
     }
+    //search based on trip to Location
     else if(option === "toLocation"){
       this.setState({
         ...this.state,
         tripData:this.props.tripData.trips.filter(x => x.toLocation.includes(target.value))
       })
     }
-
+  //search based on trip from start time
     else if(option === "fromDateTime"){
       this.setState({
         ...this.state,
         tripData:this.props.tripData.trips.filter(x => x.fromDateTime.includes(target.value))
       })
     }
+    //search based on trip from End Time
     else if(option === "toDateTime"){
       this.setState({
         ...this.state,
         tripData:this.props.tripData.trips.filter(x => x.toDateTime.includes(target.value))
       })
     }
+    //search based on trip status
     else if(option === "status"){
       this.setState({
         ...this.state,
         tripData:this.props.tripData.trips.filter(x => x.status.includes(target.value))
       })
     }
-
+  //if not match retuen original state
     else{
       this.setState({
         ...this.state
@@ -60,7 +70,7 @@ class CustomerViewTripsComponent extends Component {
     }
   }
 
-
+//Handling Select Event
   handleSelect = e => {
     this.setState({
       ...this.state,
@@ -73,6 +83,10 @@ class CustomerViewTripsComponent extends Component {
   }
   
   customer;
+  //componentDidMount is executed after the first render only on the client side. 
+  //This is where AJAX requests and DOM or state updates occurs
+  //async/await -It makes code cleaner and readable.
+  
   async componentDidMount() {
     this.customer = JSON.parse(localStorage.getItem("Customer"));
     console.log(this.customer.mobileNumber);
@@ -80,6 +94,7 @@ class CustomerViewTripsComponent extends Component {
     await this.setState({
       tripData:this.props.tripData.trips
     })
+    //getData() method retrieves drag data (as a DOMString ) for the specified type
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
   }
@@ -89,7 +104,7 @@ class CustomerViewTripsComponent extends Component {
       history.push("/unauthorized");
     }
   };
-
+//rendering trip Details
   render() {
     const { tripData } = this.props;
     return tripData.loading ? (
@@ -213,14 +228,17 @@ class CustomerViewTripsComponent extends Component {
     );
   }
 }
+// mapStateToProps is used for selecting the part of the data from the store that the connected component needs.
+
 const mapStateToProps = (state) => {
   return {
     tripData: state.customerReducer.fetchTrips,
   };
 };
+//mapDispatchToProps is a utility which will help your component to fire an action event 
 
 const mapDispatchToProps = { fetchTrips1 };
-
+//Exporting
 export default connect(
   mapStateToProps,
   mapDispatchToProps

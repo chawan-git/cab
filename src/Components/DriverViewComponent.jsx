@@ -1,20 +1,27 @@
+/*
+Author :BHARAT SINGH
+*/
+
+//imports statemets to use the exported requests/methods in this components
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { deleteDriver, fetchDrivers } from "../redux";
+import { deleteDriver, fetchDrivers } from "../redux";//importing required methods
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
 import history from "../history";
 
 class DriverViewComponent extends Component {
+  //Handling Search Event
   handleSearch = (e) => {
     let target = e.target;
-    let option = this.state.filterOption;
+    let option = this.state.filterOption;//filtering select option from multiple searching option
     if (target.value === "")
       this.setState({
         ...this.state,
         driverData: this.props.driverData.drivers,
       });
+    // search based on username
     else if (option === "username") {
       this.setState({
         ...this.state,
@@ -22,35 +29,45 @@ class DriverViewComponent extends Component {
           x.username.includes(target.value)
         ),
       });
-    } else if (option === "mobileNumber") {
+    }
+    // search based on mobile number 
+    else if (option === "mobileNumber") {
       this.setState({
         ...this.state,
         driverData: this.props.driverData.drivers.filter((x) =>
           x.mobileNumber.includes(target.value)
         ),
       });
-    } else if (option === "email") {
+    }
+    // search based on email
+    else if (option === "email") {
       this.setState({
         ...this.state,
         driverData: this.props.driverData.drivers.filter((x) =>
           x.email.includes(target.value)
         ),
       });
-    } else if (option === "status") {
+    }
+    // search based on driver's status 
+    else if (option === "status") {
       this.setState({
         ...this.state,
         driverData: this.props.driverData.drivers.filter((x) =>
           x.status.includes(target.value)
         ),
       });
-    } else if (option === "cab") {
+    }
+    // search based on driver's cab 
+    else if (option === "cab") {
       this.setState({
         ...this.state,
         driverData: this.props.driverData.drivers.filter((x) =>
           x.cab.carType.includes(target.value)
         ),
       });
-    } else if (option === "rating") {
+    }
+    // search based on driver's rating 
+    else if (option === "rating") {
       this.setState({
         ...this.state,
         driverData: this.props.driverData.drivers.filter((x) => x.rating > 4.5),
@@ -61,24 +78,28 @@ class DriverViewComponent extends Component {
       });
     }
   };
-
+  //handling select event
   handleSelect = (e) => {
     this.setState({
       ...this.state,
       filterOption: e.target.value,
     });
   };
+  //defining state 
   state = {
     driverData: [],
     filterOption: "",
   };
-
+  //componentDidMount is executed after the first render only on the client side. 
+  //This is where AJAX requests and DOM or state updates occurs
+  //async/await -It makes code cleaner and readable.
   async componentDidMount() {
     await this.props.fetchDrivers();
     await this.setState({
       ...this.state,
       driverData: this.props.driverData.drivers,
     });
+    //getData() method retrieves drag data (as a DOMString ) for the specified type.
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
   }
@@ -88,6 +109,7 @@ class DriverViewComponent extends Component {
       history.push("/unauthorized");
     }
   };
+  //delete driver method-by id
   async deleteDriver(driverId, e) {
     e.preventDefault();
     await this.props.deleteDriver(driverId);
@@ -100,7 +122,7 @@ class DriverViewComponent extends Component {
       });
     }
   }
-
+  //rendring Driver details
   render() {
     const { driverData } = this.props;
 
@@ -175,7 +197,6 @@ class DriverViewComponent extends Component {
           </form>
           <br />
           <h3>{this.props.deleteData.error.message}</h3>
-
           <br />
           {this.state &&
             this.state.driverData &&
@@ -241,11 +262,8 @@ class DriverViewComponent extends Component {
                             <h5 className="text-white">Edit details</h5>
                           </Link>
                         </button>
-
                         <button
-                          className="btn btn-danger col-md-12"
-                          // data-toggle="modal"
-                          // data-target="#staticBackdrop"
+                          className="btn btn-danger col-md-12"                          
                           onClick={(e) => this.deleteDriver(driver.driverId, e)}
                         >
                           <DeleteOutlineOutlinedIcon />
@@ -255,7 +273,6 @@ class DriverViewComponent extends Component {
                     </div>
                   </div>
                 </div>
-
                 <br />
               </Fragment>
             ))}
@@ -264,26 +281,21 @@ class DriverViewComponent extends Component {
     );
   }
 }
+// mapStateToProps is used for selecting the part of the data from the store that the connected component needs.
 const mapStateToProps = (state) => {
   return {
     driverData: state.driverReducer.viewDrivers,
     deleteData: state.driverReducer.deleteDriver,
   };
 };
-// const searchButton = document.getElementById('search-button');
-// const searchInput = document.getElementById('search-input');
-// // searchButton.addEventListener('click', () => {
-//   //  const viewCustomers = searchInput.viewCustomers;
-//   //  alert(viewCustomers);
-// // });
-
+//mapDispatchToProps is a utility which will help your component to fire an action event
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchDrivers: () => dispatch(fetchDrivers()),
     deleteDriver: (driverId) => dispatch(deleteDriver(driverId)),
   };
 };
-
+//exporting Component
 export default connect(
   mapStateToProps,
   mapDispatchToProps

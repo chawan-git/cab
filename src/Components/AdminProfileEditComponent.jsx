@@ -3,7 +3,11 @@ import { connect } from "react-redux";
 import history from "../history";
 import { updateAdmin } from "../redux";
 
+// Author: Ashutosh Rao Chawan U
+// This class component of react is used to edit the individual profile settings of the admin.
 class AdminProfileEditComponent extends Component {
+
+  // This is the initialState of the admin entity.
   state = {
     adminId: "",
     username: "",
@@ -13,6 +17,7 @@ class AdminProfileEditComponent extends Component {
     address: "",
   };
 
+  // This componentDidMount() method is called once the react component loads for the first time.
   adminFetchData = {};
   async componentDidMount() {
     this.adminFetchData = JSON.parse(localStorage.getItem("Admin"));
@@ -83,6 +88,7 @@ class AdminProfileEditComponent extends Component {
                   type="text"
                   name="username"
                   required
+                  pattern="[A-Za-z0-9_-*]+"
                   value={this.state.username}
                   onChange={this.handleChange}
                   className="form-control"
@@ -102,6 +108,7 @@ class AdminProfileEditComponent extends Component {
                 <input
                   type="password"
                   name="password"
+                  pattern=".{6}.*"
                   required
                   value={this.state.password}
                   onChange={this.handleChange}
@@ -181,7 +188,6 @@ class AdminProfileEditComponent extends Component {
             </div>
           </form>
         </div>
-        )
       </>
     );
   }

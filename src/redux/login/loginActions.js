@@ -1,5 +1,10 @@
+/* 
+Ankitha Suraksha
+*/
+//  Axios helps to make http request
 import axios from "axios";
-import history from "../../history";
+// History is a tool to manage session history in react.
+import history from "../../history";  
 import {
   FETCH_USER_REQUEST,
   FETCH_USER_SUCCESS,
@@ -18,18 +23,21 @@ import {
   UPDATE_CUSTOMER_FAILURE,
 } from "./loginTypes";
 
+const API_URL = "https://cba.rao.life/api/v1"
+//Asynchronous state 
 export const fetchUser = (user) => {
-  return async (dispatch) => {
+  return async (dispatch) => {   
     await dispatch(fetchUserRequest());
-    await axios
-      .post("https://cba.rao.life/api/v1/login/signIn", user)
+
+    await axios  // Http request
+      .post(API_URL+"/login/signIn", user)
       .then(async (response) => {
         await dispatch(fetchUserSuccess(response.data));
         if (response.data === "Admin") {
           await dispatch(fetchAdminRequest());
-          await axios
+          await axios   //htttp request
             .get(
-              "https://cba.rao.life/api/v1/admin/getAdminByUsername/" +
+              API_URL+"/admin/getAdminByUsername/" +
                 user.username
             )
             .then((response1) => {
@@ -42,8 +50,8 @@ export const fetchUser = (user) => {
         } else if (response.data === "Driver") {
           await dispatch(fetchDriverRequest());
           await axios
-            .get(
-              "https://cba.rao.life/api/v1/driver/viewDriverByUsername/" +
+            .get(           // htttp request
+              API_URL+"/driver/viewDriverByUsername/" +
                 user.username
             )
             .then((response1) => {
@@ -55,9 +63,9 @@ export const fetchUser = (user) => {
             });
         } else {
           await dispatch(fetchCustomerRequest());
-          await axios
+          await axios  // http request
             .get(
-              "https://cba.rao.life/api/v1/customer/getCustomerByUsername/" +
+              API_URL+"/customer/getCustomerByUsername/" +
                 user.username
             )
             .then((response1) => {
@@ -76,11 +84,11 @@ export const fetchUser = (user) => {
 };
 
 export const fetchCustomerByUsername = (username) => {
-  return async (dispatch) => {
+  return async (dispatch) => {           
     await dispatch(fetchCustomerRequest());
-    await axios
+    await axios   // http request 
       .get(
-        "https://cba.rao.life/api/v1/customer/getCustomerByUsername/" + username
+        API_URL+"/customer/getCustomerByUsername/" + username
       )
       .then((response) => {
         dispatch(fetchCustomerSuccess(response.data));
@@ -95,9 +103,9 @@ export const fetchCustomerByUsername = (username) => {
 export const fetchCustomerByUsername1 = (username) => {
   return async (dispatch) => {
     await dispatch(fetchCustomerRequest());
-    await axios
+    await axios  // http request
       .get(
-        "https://cba.rao.life/api/v1/customer/getCustomerByUsername/" + username
+        API_URL+"/customer/getCustomerByUsername/" + username
       )
       .then((response) => {
         dispatch(fetchCustomerSuccess(response.data));
@@ -111,8 +119,8 @@ export const fetchCustomerByUsername1 = (username) => {
 export const fetchCustomerByEmail = (email) => {
   return async (dispatch) => {
     await dispatch(fetchCustomerRequest());
-    await axios
-      .get("https://cba.rao.life/api/v1/customer/getCustomerByEmail/" + email)
+    await axios  // http request
+      .get(API_URL+"/customer/getCustomerByEmail/" + email)
       .then((response) => {
         dispatch(fetchCustomerSuccess(response.data));
         history.push("/resetPassword1/" + response.data.username);
@@ -127,8 +135,8 @@ export const fetchCustomerByMobileNumber = (mobileNumber) => {
   return async (dispatch) => {
     await dispatch(fetchCustomerRequest());
     await axios
-      .get(
-        "https://cba.rao.life/api/v1/customer/getCustomerByMobileNumber/" +
+      .get(   // http request
+        API_URL+"/customer/getCustomerByMobileNumber/" +
           mobileNumber
       )
       .then((response) => {
@@ -144,8 +152,8 @@ export const fetchCustomerByMobileNumber = (mobileNumber) => {
 export const updateCustomer = (customer) => {
   return (dispatch) => {
     dispatch(updateCustomerRequest());
-    axios
-      .put("https://cba.rao.life/api/v1/customer/updateCustomer", customer)
+    axios   // http request
+      .put(API_URL+"/customer/updateCustomer", customer)
       .then((response) => {
         const customer = response.data;
         dispatch(updateCustomerSuccess(customer));
@@ -247,7 +255,7 @@ export const fetchCustomerFailure = (error) => {
     payload: error,
   };
 };
-
+//Action Creator
 export const updateCustomerRequest = () => {
   return {
     type: UPDATE_CUSTOMER_REQUEST,

@@ -1,3 +1,7 @@
+/* 
+D Sri Madhu Priya
+*/
+
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -7,6 +11,7 @@ import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined"
 import history from "../history";
 
 class CabViewComponent extends Component {
+  //Handling search event
   handleSearch = (e) => {
     let target = e.target;
     let option = this.state.filterOption;
@@ -18,14 +23,14 @@ class CabViewComponent extends Component {
     else if (option === "carType") {
       this.setState({
         ...this.state,
-        cabData: this.props.cabData.cabs.filter((x) =>
+        cabData: this.props.cabData.cabs.filter((x) => //to filter cabs based on cab types
           x.carType.includes(target.value)
         ),
       });
     } else if (option === "perKmRate") {
       this.setState({
         ...this.state,
-        cabData: this.props.cabData.cabs.filter((x) => x.perKmRate < 5),
+        cabData: this.props.cabData.cabs.filter((x) => x.perKmRate < 8), //to filter cabs based on per km rate
       });
     } else {
       this.setState({
@@ -33,7 +38,7 @@ class CabViewComponent extends Component {
       });
     }
   };
-
+//Handling select event
   handleSelect = (e) => {
     this.setState({
       ...this.state,
@@ -90,7 +95,8 @@ class CabViewComponent extends Component {
         </div>
       </>
     ) : cabData.error ? (
-      <>
+      <> 
+      {/* To view the list of cabs */}
         <div className="container">
           <br />
           <h2 className="text-center"> List of cabs</h2>
@@ -123,6 +129,7 @@ class CabViewComponent extends Component {
                   className="form-control"
                   onChange={this.handleSelect}
                 >
+                  {/* filter based on car type and perkm rate */}
                   <option value="select">Search based on ...</option>
                   <option value="carType">Car Type</option>
                   <option value="perKmRate">Cheaper Cabs</option>
@@ -151,17 +158,19 @@ class CabViewComponent extends Component {
                     <div className="row">
                       <div className="col-md-10">
                         <h5>
-                          <span className="fw-bold">Cab ID</span> : {cab.cabId}
+                          <span className="fw-bold">Cab ID</span>: {cab.cabId}
                         </h5>
                         <h5>
                           <span className="fw-bold">Car Type</span>:{" "}
                           {cab.carType}
                         </h5>
                         <h5>
-                          <span className="fw-bold">perKmRate</span> :{" "}
+                          <span className="fw-bold">Per Km Rate</span>:{" "}
                           {cab.perKmRate}
                         </h5>
                       </div>
+
+                      {/* editing cab details */}
                       <div className="col-md-2">
                         <button className="btn btn-primary col-md-12 mb-2 mt-4">
                           <EditOutlinedIcon />
@@ -169,7 +178,7 @@ class CabViewComponent extends Component {
                             <h5 className="text-white">Edit details</h5>
                           </Link>
                         </button>
-
+                      {/* deleting the cab */}
                         <button
                           className="btn btn-danger col-md-12"
                           // data-toggle="modal"
@@ -199,6 +208,7 @@ const mapStateToProps = (state) => {
   };
 };
 
+// used for selecting the part of the data from the store that the connected component needs
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchCabs: () => dispatch(fetchCabs()),

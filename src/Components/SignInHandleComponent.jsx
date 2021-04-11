@@ -1,12 +1,20 @@
-import React, { Component } from "react";
+/*
+Ankitha Suraksha
+*/
+
+//Import statements//
+import { Component } from "react";
 import { connect } from "react-redux";
+// History is a tool to manage session history in react.
 import history from "../history";
 
 class SignInHandleComponent extends Component {
+  //componentDidMount is executed after the first render only on the client side.
   componentDidMount() {
     if (this.props.loginData.userType === "Admin") {
       localStorage.setItem(
         "Admin",
+        //The JSON.stringify() method converts a JavaScript object or value to a JSON
         JSON.stringify(this.props.loginData.admin.admin)
       );
 
@@ -31,11 +39,11 @@ class SignInHandleComponent extends Component {
     return <div></div>;
   }
 }
-
+//mapStateToProps is used for selecting the part of the data from the store that the connected component needs.
 const mapStateToProps = (state) => {
   return {
     loginData: state.loginReducer,
   };
 };
-
+//export statement
 export default connect(mapStateToProps)(SignInHandleComponent);

@@ -1,3 +1,9 @@
+/* 
+
+Ankitha Suraksha
+*/
+
+//Import statement//
 import {
   FETCH_USER_REQUEST,
   FETCH_USER_SUCCESS,
@@ -15,7 +21,11 @@ import {
   UPDATE_CUSTOMER_SUCCESS,
   UPDATE_CUSTOMER_FAILURE,
 } from "./loginTypes";
-
+  /* Desc
+  A reducer is a function that determines changes to an application's state. 
+  It uses the action it receives to determine this change. We have tools, like Redux, that
+   help manage an application's state changes in a single store so that they behave consistently.
+  */
 const initialState = {
   loading: false,
   userType: "",
@@ -39,6 +49,7 @@ const initialState = {
 
 const loginReducer = (state = initialState, action) => {
   switch (action.type) {
+    //USER
     case FETCH_USER_REQUEST: {
       return {
         ...state,
@@ -65,6 +76,7 @@ const loginReducer = (state = initialState, action) => {
         },
       };
     }
+    //ADMIN
     case FETCH_ADMIN_REQUEST: {
       return {
         ...state,
@@ -108,6 +120,8 @@ const loginReducer = (state = initialState, action) => {
         },
       };
     }
+
+    //DRIVER
     case FETCH_DRIVER_REQUEST: {
       return {
         ...state,
@@ -151,6 +165,8 @@ const loginReducer = (state = initialState, action) => {
         },
       };
     }
+
+    //CUSTOMER
     case FETCH_CUSTOMER_REQUEST: {
       return {
         ...state,
@@ -242,5 +258,5 @@ const loginReducer = (state = initialState, action) => {
       return state;
   }
 };
-
+//export statement
 export default loginReducer;

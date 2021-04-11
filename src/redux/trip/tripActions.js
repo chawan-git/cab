@@ -1,6 +1,7 @@
 import axios from "axios";
 import history from "../../history";
 
+/* Importing Trip Action Types From tripTypes */
 import {
   FETCH_TRIPS_REQUEST,
   FETCH_TRIPS_SUCCESS,
@@ -22,19 +23,21 @@ import {
   FETCH_DRIVERS_SUCCESS,
 } from "./tripTypes";
 
+// Base url for the back end API
+const API_URL = "https://cba.rao.life/api/v1"
+
+/* making CRUD operation calls to the backend API using Axios library using   */
+
 export const fetchTrips = () => {
   return async (dispatch) => {
     await dispatch(fetchTripsRequest());
     await axios
-      .get("https://cba.rao.life/api/v1/tripBooking/viewAllTrips")
+      .get(API_URL + "/tripBooking/viewAllTrips")
       .then((response) => {
-        // response.data is the users
         const trips = response.data;
         dispatch(fetchTripsSuccess(trips));
       })
       .catch((error) => {
-        // error.message is the error message
-
         dispatch(fetchTripsFailure(error));
       });
   };
@@ -44,7 +47,7 @@ export const insertTrip = (trip) => {
   return async (dispatch) => {
     await dispatch(insertTripRequest());
     await axios
-      .post("https://cba.rao.life/api/v1/tripBooking/insertTripBooking", trip)
+      .post(API_URL + "/tripBooking/insertTripBooking", trip)
       .then((response) => {
         const trip = response.data;
         dispatch(insertTripSuccess(trip));
@@ -62,7 +65,7 @@ export const deleteTrip = (tripBookingId) => {
     await dispatch(deleteTripRequest());
     await axios
       .delete(
-        `https://cba.rao.life/api/v1/tripBooking/deleteTripBooking/${tripBookingId}`
+        `${API_URL}/tripBooking/deleteTripBooking/${tripBookingId}`
       )
       .then((response) => {
         const trip = response.data;
@@ -78,7 +81,7 @@ export const updateTrip = (trip) => {
   return async (dispatch) => {
     await dispatch(updateTripRequest());
     await axios
-      .put("https://cba.rao.life/api/v1/tripBooking/updateTripBooking", trip)
+      .put(API_URL + "/tripBooking/updateTripBooking", trip)
       .then((response) => {
         const trip = response.data;
         dispatch(updateTripSuccess(trip));
@@ -94,16 +97,13 @@ export const fetchTrip = (tripBookingId) => {
     await dispatch(fetchTripRequest());
     await axios
       .get(
-        `https://cba.rao.life/api/v1/tripBooking/getTripById/${tripBookingId}`
+        `${API_URL}/tripBooking/getTripById/${tripBookingId}`
       )
       .then((response) => {
-        // response.data is the users
         const trip = response.data;
         dispatch(fetchTripSuccess(trip));
       })
       .catch((error) => {
-        // error.message is the error message
-
         dispatch(fetchTripFailure(error));
       });
   };
@@ -114,29 +114,27 @@ export const fetchDrivers1 = (carType) => {
     await dispatch(fetchDriversRequest());
     await axios
       .get(
-        `https://cba.rao.life/api/v1/driver/viewAllAvailableDriversBasedOnCarType/${carType}`
+        `${API_URL}/driver/viewAllAvailableDriversBasedOnCarType/${carType}`
       )
       .then((response) => {
-        // response.data is the users
         const drivers = response.data;
         dispatch(fetchDriversSuccess(drivers));
       })
       .catch((error) => {
-        // error.message is the error message
-
         dispatch(fetchDriversFailure(error));
       });
   };
 };
 
-//Action Creator
+
+/* exporting all the action creaters for action types  */
+
 export const fetchTripsRequest = () => {
   return {
     type: FETCH_TRIPS_REQUEST,
   };
 };
 
-//Action Creator
 export const fetchTripsSuccess = (trips) => {
   return {
     type: FETCH_TRIPS_SUCCESS,
@@ -144,7 +142,6 @@ export const fetchTripsSuccess = (trips) => {
   };
 };
 
-//Action Creator
 export const fetchTripsFailure = (error) => {
   return {
     type: FETCH_TRIPS_FAILURE,
@@ -212,14 +209,12 @@ export const updateTripFailure = (error) => {
   };
 };
 
-//Action Creator
 export const fetchTripRequest = () => {
   return {
     type: FETCH_TRIP_REQUEST,
   };
 };
 
-//Action Creator
 export const fetchTripSuccess = (trip) => {
   return {
     type: FETCH_TRIP_SUCCESS,
@@ -227,7 +222,6 @@ export const fetchTripSuccess = (trip) => {
   };
 };
 
-//Action Creator
 export const fetchTripFailure = (error) => {
   return {
     type: FETCH_TRIP_FAILURE,
@@ -235,14 +229,12 @@ export const fetchTripFailure = (error) => {
   };
 };
 
-//Action Creator
 export const fetchDriversRequest = () => {
   return {
     type: FETCH_DRIVERS_REQUEST,
   };
 };
 
-//Action Creator
 export const fetchDriversSuccess = (drivers) => {
   return {
     type: FETCH_DRIVERS_SUCCESS,
@@ -250,7 +242,6 @@ export const fetchDriversSuccess = (drivers) => {
   };
 };
 
-//Action Creator
 export const fetchDriversFailure = (error) => {
   return {
     type: FETCH_DRIVERS_FAILURE,

@@ -1,9 +1,16 @@
+/*
+Author :BHARAT SINGH
+*/
+
+//imports statemets to use the exported requests/methods in this components
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import history from "../history";
-import { insertDriver, fetchCabs } from "../redux";
+import { insertDriver, fetchCabs } from "../redux";//importing required Methods
 
 class DriverAddComponent extends Component {
+  //defining state with nested obejcts driver/cab -
+  //it is an object that holds some information that may change over the lifetime of the component.
   state = {
     driverId: 999999,
     username: "",
@@ -20,11 +27,11 @@ class DriverAddComponent extends Component {
       perKmRate: 0,
     },
   };
-
+  //handling driver Change Event
   handleChange = async (event) => {
     await this.setState({ [event.target.name]: event.target.value });
   };
-
+  //handling cab Chnage Event
   handleCabChange = async (event) => {
     var cabObj = event.target.value.split(",");
 
@@ -37,14 +44,18 @@ class DriverAddComponent extends Component {
       },
     });
   };
+  //handling Submit Event
   handleSubmit = async (event) => {
     event.preventDefault();
     await this.props.insertDriver(this.state);
     if (!this.props.driverInsertData.error.message)
-      history.push("/admin/viewDrivers");
+      history.push("/admin/viewDrivers");//specifying puh URL
   };
-
+  //componentDidMount is executed after the first render only on the client side. 
+  //This is where AJAX requests and DOM or state updates occurs
+  //async/await -It makes code cleaner and readable.
   async componentDidMount() {
+    //getData() method retrieves drag data (as a DOMString ) for the specified type.
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
     await this.props.fetchCabs();
@@ -55,7 +66,7 @@ class DriverAddComponent extends Component {
       history.push("/unauthorized");
     }
   };
-
+  //Rendering input text boxes to add Driver Details
   render() {
     return (
       <>
@@ -67,7 +78,6 @@ class DriverAddComponent extends Component {
             </div>
           </div>
           <hr />
-
           <form onSubmit={this.handleSubmit}>
             <div className="row">
               <div className="col-md-6 offset-md-3">
@@ -75,7 +85,6 @@ class DriverAddComponent extends Component {
               </div>
             </div>
             <br />
-
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="username">
@@ -176,7 +185,6 @@ class DriverAddComponent extends Component {
                 />
               </div>
             </div>
-
             <br />
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
@@ -197,7 +205,6 @@ class DriverAddComponent extends Component {
                 />
               </div>
             </div>
-
             <br />
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
@@ -232,7 +239,6 @@ class DriverAddComponent extends Component {
               </div>
             </div>
             <br />
-
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="address">
@@ -253,7 +259,6 @@ class DriverAddComponent extends Component {
               </div>
             </div>
             <br />
-
             <div className="row">
               <div className="col-md-6 offset-md-3 text-center">
                 <button type="submit" className="btn btn-dark">
@@ -267,10 +272,12 @@ class DriverAddComponent extends Component {
     );
   }
 }
+//mapStateToProps is used for selecting the part of the data from the store that the connected component needs.
 const mapStateToProps = (state) => ({
   driverInsertData: state.driverReducer.insertDriver,
   cabData: state.cabReducer.viewCabs,
 });
+//mapDispatchToProps is a utility which will help your component to fire an action event
 const mapDispatchToProps = { insertDriver, fetchCabs };
-
+//Expoting component
 export default connect(mapStateToProps, mapDispatchToProps)(DriverAddComponent);

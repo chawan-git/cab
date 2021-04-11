@@ -1,9 +1,16 @@
+/*
+Author :BHARAT SINGH
+*/
+
+//imports statemets to use the exported requests/methods in this components
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import history from "../history";
-import { updateDriver, fetchDriver } from "../redux";
+import { updateDriver, fetchDriver } from "../redux";//importing two methods fetchDriver,and updateDriver
 
 class DriverEditComponent extends Component {
+  //defining state with nested obejcts driver/cab -
+  //it is an object that holds some information that may change over the lifetime of the component.
   state = {
     driverId: 0,
     username: "",
@@ -21,9 +28,13 @@ class DriverEditComponent extends Component {
     },
   };
 
+  //componentDidMount is executed after the first render only on the client side. 
+  //This is where AJAX requests and DOM or state updates occurs
+  //async/await -It makes code cleaner and readable.
   async componentDidMount() {
     await this.props.fetchDriver(this.props.match.params.id);
     const { driverFetchData } = this.props;
+    //setState will accept an Object that will be eventually merged into Components current state.
     driverFetchData &&
       driverFetchData.driver &&
       (await this.setState({
@@ -38,36 +49,37 @@ class DriverEditComponent extends Component {
         rating: driverFetchData.driver.rating,
         cab: driverFetchData.driver.cab,
       }));
-      this.getData();
-      window.addEventListener("storage", (e) => this.getData());
+    //getData() method retrieves drag data (as a DOMString ) for the specified type.
+    this.getData();
+    window.addEventListener("storage", (e) => this.getData());
+  }
+  getData = () => {
+    if (localStorage.getItem("Admin")) {
+    } else {
+      history.push("/unauthorized");
     }
-    getData = () => {
-      if (localStorage.getItem("Admin")) {
-      } else {
-        history.push("/unauthorized");
-      }
-    };
-
+  };
+  //handle change event for driver object
   handleChange = async (event) => {
     await this.setState({ [event.target.name]: event.target.value });
   };
-
+  //handle change event for cab object in driver object
   handleCabChange = async (event) => {
     var cab = {
       ...this.state.cab,
     };
-
+    //setting up cab objects
     cab[event.target.name] = event.target.value;
     await this.setState({ cab });
   };
-
+  //handling submit event
   handleSubmit = async (event) => {
     event.preventDefault();
     await this.props.updateDriver(this.state);
-    if(!this.props.driverUpdateData.error.message)
-    history.push("/admin/viewDrivers");
+    if (!this.props.driverUpdateData.error.message)
+      history.push("/admin/viewDrivers");
   };
-
+  //Form rendring for Driver Details
   render() {
     return (
       <>
@@ -222,7 +234,6 @@ class DriverEditComponent extends Component {
                 <input
                   type="number"
                   name="cabId"
-                  // disabled={true}
                   value={this.state.cab.cabId}
                   onChange={this.handleCabChange}
                   className="form-control"
@@ -242,7 +253,6 @@ class DriverEditComponent extends Component {
                 <input
                   type="text"
                   name="carType"
-                  // disabled={true}
                   value={this.state.cab.carType}
                   onChange={this.handleCabChange}
                   className="form-control"
@@ -262,7 +272,6 @@ class DriverEditComponent extends Component {
                 <input
                   type="number"
                   name="perKmRate"
-                  // disabled={true}
                   value={this.state.cab.perKmRate}
                   onChange={this.handleCabChange}
                   className="form-control"
@@ -307,12 +316,14 @@ class DriverEditComponent extends Component {
     );
   }
 }
+// mapStateToProps is used for selecting the part of the data from the store that the connected component needs.
 const mapStateToProps = (state) => ({
   driverUpdateData: state.driverReducer.updateDriver,
   driverFetchData: state.driverReducer.fetchDriver,
 });
+//mapDispatchToProps is a utility which will help your component to fire an action event 
 const mapDispatchToProps = { updateDriver, fetchDriver };
-
+//exporting
 export default connect(
   mapStateToProps,
   mapDispatchToProps

@@ -1,3 +1,8 @@
+/*
+Author :Arfath Pasha
+*/
+
+//imports statemets to use the exported requests/methods in this components
 import React, { Component } from "react";
 import logo from "../logo.png";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
@@ -5,6 +10,8 @@ import { Link } from "react-router-dom";
 import history from "../history";
 
 export class CustomerHeaderComponent extends Component {
+  //componentDidMount is executed after the first render only on the client side. 
+  
   componentDidMount(){
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
@@ -15,9 +22,12 @@ export class CustomerHeaderComponent extends Component {
       history.push("/unauthorized");
     }
   };
+  //client-side Logout session
   handleLogout = () => {
     localStorage.clear();
   };
+  //redering Customer's Header elements
+  
   render() {
     return (
       <>
@@ -51,7 +61,7 @@ export class CustomerHeaderComponent extends Component {
                 </Link>
               </li>
 
-              {/* <ul className="nav nav-pills justify-content-end"> */}
+  
               <li className="nav-item dropdown">
                 <a
                   className="nav-link fw-bold text-white fs-5"

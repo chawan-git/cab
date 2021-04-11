@@ -16,6 +16,9 @@ import {
   FETCH_ADMIN_FAILURE,
 } from "./adminTypes";
 
+// Author: Ashutosh Rao Chawan U
+
+// This is the Redux adminReducer initialState
 const initialState = {
   viewAdmins: {
     loading: false,
@@ -44,6 +47,7 @@ const initialState = {
   },
 };
 
+// AdminReducer
 const adminReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ADMINS_REQUEST:

@@ -1,22 +1,31 @@
-import React, { Component } from "react";
-import logo from "../logo.png";
+/*
+Ankitha Suraksha
+*/
 
-import { connect } from "react-redux";
-import { fetchUser } from "../redux/";
-import FooterComponent from "./FooterComponent";
-import HeaderComponent from "./HeaderComponent";
-import { Link } from "react-router-dom";
+//Import statements//
+import React, { Component } from "react";
+ // insert logo image 
+import logo from "../logo.png"; 
+// connect react to redux
+import { connect } from "react-redux";  
+import { fetchUser } from "../redux/";     
+import FooterComponent from "./FooterComponent";  
+import HeaderComponent from "./HeaderComponent";  
+import { Link } from "react-router-dom";  
 
 class SignInComponent extends Component {
+  /*state is defined as  an 
+  object of a set of observable properties that control the behavior of the component*/
   state = {
     username: "",
     password: "",
   };
-
+//Handling change event
   handleChange = async (event) => {
     await this.setState({ [event.target.name]: event.target.value });
   };
-
+//Handling submit event
+ //await - used for making the code readable.
   handleSubmit = async (event) => {
     event.preventDefault();
     await this.props.fetchUser(this.state);
@@ -117,13 +126,13 @@ class SignInComponent extends Component {
     );
   }
 }
-
+//mapStateToProps is used for selecting the part of the data from the store that the connected component needs.
 const mapStateToProps = (state) => {
   return {
     loginData: state.loginReducer,
   };
 };
-
+//mapDispatchToProps is a utility which will help your component to fire an action event
 const mapDispatchToProps = { fetchUser };
-
+//export statement//
 export default connect(mapStateToProps, mapDispatchToProps)(SignInComponent);

@@ -1,3 +1,8 @@
+/*
+Author :Arfath Pasha
+*/
+
+//imports statemets to use the exported requests/methods in this components
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -7,6 +12,7 @@ import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined"
 import history from "../history";
 
 class CustomerViewComponent extends Component {
+  //Handling Search Event
   handleSearch = (e) => {
     let target = e.target;
     let option = this.state.filterOption;
@@ -15,6 +21,7 @@ class CustomerViewComponent extends Component {
         ...this.state,
         customerData: this.props.customerData.customers,
       });
+      // search based on username
     else if (option === "username") {
       this.setState({
         ...this.state,
@@ -22,6 +29,7 @@ class CustomerViewComponent extends Component {
           x.username.includes(target.value)
         ),
       });
+      // search based on mobile number
     } else if (option === "mobileNumber") {
       this.setState({
         ...this.state,
@@ -29,6 +37,7 @@ class CustomerViewComponent extends Component {
           x.mobileNumber.includes(target.value)
         ),
       });
+      // search based on email
     } else if (option === "email") {
       this.setState({
         ...this.state,
@@ -42,24 +51,31 @@ class CustomerViewComponent extends Component {
       });
     }
   };
-
+//handling select event
   handleSelect = (e) => {
     this.setState({
       ...this.state,
       filterOption: e.target.value,
     });
   };
+  //defining state 
   state = {
     customerData: [],
     filterOption: "",
   };
 
   async componentDidMount() {
+    //componentDidMount is executed after the first render only on the client side. 
+  //This is where AJAX requests and DOM or state updates occurs
+  //async/await -It makes code cleaner and readable.
+  
     await this.props.fetchCustomers();
     await this.setState({
       ...this.state,
       customerData: this.props.customerData.customers,
     });
+    //getData() method retrieves drag data (as a DOMString ) for the specified type.
+    
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
   }
@@ -68,7 +84,7 @@ class CustomerViewComponent extends Component {
     } else {
       history.push("/unauthorized");
     }
-  };
+  };//delete customer method-by id
   async deleteCustomer(customerId, e) {
     e.preventDefault();
     await this.props.deleteCustomer(customerId);
@@ -81,7 +97,7 @@ class CustomerViewComponent extends Component {
       });
     }
   }
-
+//rendring Customer details
   render() {
     const { customerData } = this.props;
     return customerData.loading ? (
@@ -220,12 +236,15 @@ class CustomerViewComponent extends Component {
     );
   }
 }
+// mapStateToProps is used for selecting the part of the data from the store that the connected component needs.
+
 const mapStateToProps = (state) => {
   return {
     customerData: state.customerReducer.viewCustomers,
     deleteData: state.customerReducer.deleteCustomer,
   };
 };
+//mapDispatchToProps is a utility which will help your component to fire an action event
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -233,7 +252,7 @@ const mapDispatchToProps = (dispatch) => {
     deleteCustomer: (customerId) => dispatch(deleteCustomer(customerId)),
   };
 };
-
+//exporting Component
 export default connect(
   mapStateToProps,
   mapDispatchToProps

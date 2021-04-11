@@ -7,7 +7,12 @@ import SockJsClient from "react-stomp";
 import TripHeaderComponent from "./TripHeaderComponent";
 import FooterComponent from "./FooterComponent";
 
+/* creating a component to request the trip */
+
 class TripRequestedComponent extends Component {
+
+  /* setting the initial state */
+
   state = {
     tripBooking: {
       fromLocation: "",
@@ -41,6 +46,7 @@ class TripRequestedComponent extends Component {
     },
   };
 
+  /* setting the state at the time of loading the component */
   async componentDidMount() {
     await this.setState({
       tripBooking: JSON.parse(localStorage.getItem("trip")),
@@ -48,6 +54,8 @@ class TripRequestedComponent extends Component {
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
   }
+
+  /* validating whether customer is logged in or not, using local storage and redirecting to unauthorized page */
   getData = () => {
     if (localStorage.getItem("Customer")) {
     } else {
@@ -55,12 +63,14 @@ class TripRequestedComponent extends Component {
     }
   };
 
+  // used to send object to driver componenet using web socket
   sendMessage = (msg) => {
     this.clientRef.sendMessage("/app/webSocket", JSON.stringify(msg));
-    console.log(msg);
+    //console.log(msg);
     console.log("Customer to Driver");
   };
 
+  // handing the trip payment button for customer
   handleOnClick = async () => {
     await this.setState({
       ...this.state,
@@ -69,12 +79,11 @@ class TripRequestedComponent extends Component {
         status: "Paid",
       },
     });
-
     await this.props.updateTrip(this.state.tripBooking);
-
     this.sendMessage(this.state.tripBooking);
   };
 
+  // used to redirect to the home component of customer if driver rejects the requested trip
   handleGoBack = async () => {
     await this.setState({
       ...this.state,
@@ -83,9 +92,10 @@ class TripRequestedComponent extends Component {
         status: "Rejected",
       },
     });
-
     history.push("/customer/home");
   };
+
+  // used to render the following code which incluse HTML, CSS and bootsatrp for UI
   render() {
     return (
       <div>
@@ -102,13 +112,13 @@ class TripRequestedComponent extends Component {
               console.log("connected   ");
               // console.log(this.props)
               this.sendMessage(this.props.insertData.trip);
-              // console.log("Inserted tripBooking")
+              console.log("Inserted tripBooking")
             }}
             onDisconnect={() => {
               console.log("Disconnected   ");
             }}
             onMessage={async (msg) => {
-              console.log(msg);
+              //console.log(msg);
               await this.setState({
                 tripBooking: msg,
               });
@@ -273,6 +283,7 @@ class TripRequestedComponent extends Component {
   }
 }
 
+// arrow function used to map states in trip reducer to cabData, loginData and insertData
 const mapStateToProps = (state) => {
   return {
     cabData: state.cabReducer.viewCabs,
@@ -281,8 +292,10 @@ const mapStateToProps = (state) => {
   };
 };
 
+// used to call the methods of tripActions
 const mapDispatchToProps = { fetchCabs, insertTrip, updateTrip };
 
+// connecting mapStateToProps and mapDispatchToProps to TripRequestedComponent
 export default connect(
   mapStateToProps,
   mapDispatchToProps

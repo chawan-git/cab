@@ -6,7 +6,10 @@ import HeaderComponent from "./HeaderComponent";
 import FooterComponent from "./FooterComponent";
 import history from "../history";
 
+// Author: Ashutosh Rao Chawan U
+// This component will be used as the landing page of the application.
 class HomePage extends Component {
+  // this is the initial state of the tripBooking which will be later passed on to the user home.
   state = {
     fromLocation: "",
     toLocation: "",
@@ -17,6 +20,7 @@ class HomePage extends Component {
     but: "",
   };
 
+  // This method will be called when the input fields are edited.
   handleChange = async (e) => {
     if (e.target.name === "source") {
       await this.setState({
@@ -59,6 +63,7 @@ class HomePage extends Component {
     }
   };
 
+  // This method is called when the request now button is clicked
   handleRequest = () => {
     if (localStorage.getItem("Customer")) {
       localStorage.setItem("trip", JSON.stringify(this.state));
@@ -72,6 +77,7 @@ class HomePage extends Component {
   render() {
     return (
       <div id="homepage">
+        {/* This is the header component of the home page, accessible to all the users. */}
         <HeaderComponent />
 
         <div className="container">
@@ -97,13 +103,7 @@ class HomePage extends Component {
                   <span className="input-group-text">
                     <PersonPinCircleOutlinedIcon />
                   </span>
-                  {/* <input
-                    type="text"
-                    name=""
-                    id=""
-                    className="form-control p-2"
-                    placeholder="Enter pickup location"
-                  /> */}
+
                   <select
                     type="source"
                     name="source"
@@ -129,14 +129,6 @@ class HomePage extends Component {
                   <span className="input-group-text">
                     <PinDropOutlinedIcon />
                   </span>
-
-                  {/* <input
-                    type="text"
-                    name=""
-                    id=""
-                    className="form-control p-2"
-                    placeholder="Enter destination"
-                  /> */}
 
                   <select
                     type="destination"
@@ -188,10 +180,13 @@ class HomePage extends Component {
         <br />
         <br />
         <br />
+
+        {/* This is the footer component accessible to all the users. */}
         <FooterComponent />
       </div>
     );
   }
 }
 
+// Exporting this component to be imported by the other components.
 export default HomePage;

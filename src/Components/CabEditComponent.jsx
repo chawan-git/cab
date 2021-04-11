@@ -1,9 +1,14 @@
+/* 
+D Sri Madhu Priya
+*/
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import history from "../history";
 import { updateCab, fetchCab } from "../redux";
 
 class CabEditComponent extends Component {
+  // properties that control the behavior of the component
   state = {
     cabId: "",
     carType: "",
@@ -32,16 +37,19 @@ class CabEditComponent extends Component {
     }
   };
 
+  //Handling change event
   handleChange = async (event) => {
     await this.setState({ [event.target.name]: event.target.value });
   };
 
+  //Handling submit event
   handleSubmit = async (event) => {
     event.preventDefault();
     await this.props.updateCab(this.state);
     history.push("/admin/viewCabTypes");
   };
 
+// updating cab details
   render() {
     return (
       <>
@@ -62,6 +70,7 @@ class CabEditComponent extends Component {
             </div>
             <br />
 
+          {/* entering the cab details for updating*/}
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="cabId">
@@ -94,7 +103,7 @@ class CabEditComponent extends Component {
                 <input
                   type="text"
                   name="carType"
-                  pattern="[a-zA-Z0-9]+"
+                  pattern="[a-zA-Z0-9 ]+"
                   required
                   value={this.state.carType}
                   onChange={this.handleChange}
@@ -139,10 +148,12 @@ class CabEditComponent extends Component {
     );
   }
 }
+// used for selecting the part of the data from the store that the connected component needs
 const mapStateToProps = (state) => ({
   cabUpdateData: state.cabReducer.updateCab,
   cabFetchData: state.cabReducer.fetchCab,
 });
+// utility which will help component to fire an action event
 const mapDispatchToProps = { updateCab, fetchCab };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CabEditComponent);

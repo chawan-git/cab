@@ -3,8 +3,12 @@ import { connect } from "react-redux";
 import history from "../history";
 import { updateTrip, fetchTrip } from "../redux";
 
+/* creating a component to view edit the trip booking details in the database */
+
 class TripEditComponent extends Component {
   
+  /* setting the initial state */
+
   state = {
     tripBookingId: "",
     customer: {
@@ -38,6 +42,7 @@ class TripEditComponent extends Component {
     bill: "",
   };
 
+  /* setting the trip state at the time of loading the component */
   async componentDidMount() {
     await this.props.fetchTrip(this.props.match.params.id);
     const { tripFetchData } = this.props;
@@ -58,6 +63,8 @@ class TripEditComponent extends Component {
       this.getData();
       window.addEventListener("storage", (e) => this.getData());
     }
+
+    /* validating whether admin is logged in or not, using local storage and redirecting to unauthorized page */
     getData = () => {
       if (localStorage.getItem("Admin")) {
       } else {
@@ -65,10 +72,12 @@ class TripEditComponent extends Component {
       }
     };
 
+  // handling the change of the input fields in the component
   handleChange = async (event) => {
     await this.setState({ [event.target.name]: event.target.value });
   };
 
+  // handling the submit button of the trip booking
   handleSubmit = async (event) => {
     event.preventDefault();
     await this.props.updateTrip(this.state);
@@ -76,6 +85,7 @@ class TripEditComponent extends Component {
     history.push("/admin/viewTrips");
   };
 
+  // used to render the following code which incluse HTML, CSS and bootsatrp for UI
   render() {
     return (
       <>
@@ -274,10 +284,15 @@ class TripEditComponent extends Component {
     );
   }
 }
+
+// arrow function used to map states in trip reducer to tripUpdateData and tripFetchData
 const mapStateToProps = (state) => ({
   tripUpdateData: state.tripReducer.updateTrip,
   tripFetchData: state.tripReducer.fetchTrip,
 });
+
+// used to call the methods of tripActions
 const mapDispatchToProps = { updateTrip, fetchTrip };
 
+// connecting mapStateToProps and mapDispatchToProps to TripEditComponent
 export default connect(mapStateToProps, mapDispatchToProps)(TripEditComponent);

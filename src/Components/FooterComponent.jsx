@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+// Author: Ashutosh Rao Chawan U
+// This component is used to render the Bootstrap footer on all the screens.
 export class FooterComponent extends Component {
   render() {
     return (
@@ -14,4 +16,5 @@ export class FooterComponent extends Component {
   }
 }
 
+// Exporting the component so that it could be imported and used by other components.
 export default FooterComponent;

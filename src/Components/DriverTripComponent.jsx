@@ -1,13 +1,20 @@
+/*
+Author :BHARAT SINGH
+*/
+
+//imports statemets to use the exported requests/methods in this components
 import React, { Component } from "react";
 import DirectionsCarIcon from "@material-ui/icons/DirectionsCar";
 import history from "../history";
 import { connect } from "react-redux";
-import { fetchCabs, insertTrip, updateTrip, updateDriver } from "../redux";
-import SockJsClient from "react-stomp";
+import { fetchCabs, insertTrip, updateTrip, updateDriver } from "../redux";//feching required methods
+import SockJsClient from "react-stomp"; //importing SockJS-client is a browser JavaScript library that provides a WebSocket-like object
 import TripHeaderComponent from "./TripHeaderComponent";
 import FooterComponent from "./FooterComponent";
 
 class DriverTripComponent extends Component {
+  //defining state with nested obejcts driver/cab/trip_booking-
+  //it is an object that holds some information that may change over the lifetime of the component.
   state = {
     driver: {
       driverId: "",
@@ -56,13 +63,15 @@ class DriverTripComponent extends Component {
       },
     },
   };
-
+  //componentDidMount is executed after the first render only on the client side. 
+  //This is where AJAX requests and DOM or state updates occurs
+  //async/await -It makes code cleaner and readable.
   async componentDidMount() {
     await this.setState({
       ...this.state,
       driver: JSON.parse(localStorage.getItem("Driver")),
     });
-    console.log(this.state);
+    //getData() method retrieves drag data (as a DOMString ) for the specified type.
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
   }
@@ -72,30 +81,24 @@ class DriverTripComponent extends Component {
       history.push("/unauthorized");
     }
   };
-
+  //socket sending message to customer when driver is avialble and takes up on trip
   sendMessage = (msg) => {
     this.clientRef.sendMessage("/app/webSocket", JSON.stringify(msg));
-    console.log(msg);
-    console.log("Driver to Customer");
   };
-
+  //handling Trip-Accept Event
   handleAccept = async () => {
     await this.setState({
       ...this.state,
       tripBooking: {
         ...this.state.tripBooking,
-        status: "DriverAssigned",
+        status: "DriverAssigned",  //when Driver accepts the trip request-driver is assigned to that teip ID
       },
     });
     localStorage.setItem("trip", JSON.stringify(this.state.tripBooking));
-    await this.props.updateTrip(this.state.tripBooking);
-    console.log(this.state.tripBooking);
-    // setTimeout(function () {
-    //   console.log(this.state.tripBooking)
-    // }, 5000);
-    this.sendMessage(this.state.tripBooking);
+    await this.props.updateTrip(this.state.tripBooking);//update trip status
+    this.sendMessage(this.state.tripBooking);//sends state message to trip
   };
-
+  //handling trip duration event
   handleStartTrip = async () => {
     var tempDate = new Date(),
       date =
@@ -110,6 +113,7 @@ class DriverTripComponent extends Component {
         tempDate.getMinutes() +
         ":" +
         tempDate.getSeconds();
+
     await this.setState({
       ...this.state,
       tripBooking: {
@@ -119,12 +123,10 @@ class DriverTripComponent extends Component {
       },
     });
     localStorage.setItem("trip", JSON.stringify(this.state.tripBooking));
-    console.log(date);
     await this.props.updateTrip(this.state.tripBooking);
-    console.log(this.state.tripBooking);
-
     this.sendMessage(this.state.tripBooking);
   };
+  //handling end Trip event
   handleEndTrip = async () => {
     var tempDate = new Date(),
       date =
@@ -139,7 +141,7 @@ class DriverTripComponent extends Component {
         tempDate.getMinutes() +
         ":" +
         tempDate.getSeconds();
-
+    //setting trip status
     await this.setState({
       ...this.state,
       tripBooking: {
@@ -149,11 +151,11 @@ class DriverTripComponent extends Component {
       },
     });
     localStorage.setItem("trip", JSON.stringify(this.state.tripBooking));
-    console.log(this.state);
     await this.props.updateTrip(this.state.tripBooking);
 
     this.sendMessage(this.state.tripBooking);
   };
+  //handling Trip rejected event when driver rejects the trip
   handleReject = async () => {
     await this.setState({
       ...this.state,
@@ -166,8 +168,9 @@ class DriverTripComponent extends Component {
     await this.props.updateTrip(this.state.tripBooking);
     this.sendMessage(this.state.tripBooking);
   };
+
+  //Handle driver Availablity event
   handleAvailability = async (e) => {
-    console.log(!e.target.checked);
     if (!e.target.checked) {
       await this.setState({
         ...this.state,
@@ -187,20 +190,17 @@ class DriverTripComponent extends Component {
       });
       localStorage.setItem("Driver", JSON.stringify(this.state.driver));
     }
-
-    console.log(this.state);
     await this.props.updateDriver(this.state.driver);
     if (!e.target.checked) {
       history.push("/driver/home");
     }
   };
-
+  //handling GoBack event when payments are done
   handleGoBack = () => {
     localStorage.removeItem("trip");
-
-    history.push("/driver/home");
+    history.push("/driver/home");//pushing driver back to the home page
   };
-
+  //rendering all the Trip booking 
   render() {
     return this.state.tripBooking.status ? (
       <>
@@ -209,21 +209,19 @@ class DriverTripComponent extends Component {
           <div>
             <TripHeaderComponent />
             <div className="container">
+              {/*Socket URL */}
               <SockJsClient
                 url="https://cba.rao.life/ws"
                 topics={[
                   "/trip/" +
-                    JSON.parse(localStorage.getItem("Driver")).username +
-                    "/driver",
+                  JSON.parse(localStorage.getItem("Driver")).username +
+                  "/driver",
                 ]}
                 onConnect={() => {
-                  console.log("connected   ");
                 }}
                 onDisconnect={() => {
-                  console.log("Disconnected   ");
                 }}
                 onMessage={async (msg) => {
-                  console.log(msg);
                   await this.setState({
                     tripBooking: msg,
                   });
@@ -233,14 +231,12 @@ class DriverTripComponent extends Component {
                   this.clientRef = client;
                 }}
               />
-
               <div className="row mt-4 ms-4">
                 <div className="col border border-light ms-4 bg-white">
                   <div className="text-center mt-4">
                     <DirectionsCarIcon fontSize="large" />
                     <h5>Ride</h5>
                   </div>
-
                   <hr />
                   <div className=" ms-4 me-4">
                     <div className="mt-4">
@@ -260,27 +256,23 @@ class DriverTripComponent extends Component {
                         <h4> {this.state.tripBooking.fromLocation}</h4>
                       </div>
                       <br />
-
                       <div className="ms-4 me-4">
                         <h4 className="fw-bold">Car </h4>
                         <h4>{this.state.tripBooking.driver.cab.carType}</h4>
                       </div>
                       <br />
-
                       <div className="ms-4 me-4">
                         <h4 className="fw-bold">Customer name </h4>
                         <h4>{this.state.tripBooking.customer.username}</h4>
                       </div>
-
                       <br />
                       <div className="ms-4 me-4">
                         <h4 className="fw-bold">Distance in Km </h4>
                         <h4>{this.state.tripBooking.distanceInKm}</h4>
                       </div>
-
                       <br />
                       {this.state.tripBooking.status === "TripEnded" ||
-                      this.state.tripBooking.status === "TripStarted" ? (
+                        this.state.tripBooking.status === "TripStarted" ? (
                         <>
                           <div className="ms-4 me-4">
                             <h4 className="fw-bold">
@@ -288,7 +280,6 @@ class DriverTripComponent extends Component {
                             </h4>
                             <h4>{this.state.tripBooking.fromDateTime}</h4>
                           </div>
-
                           <br />
                         </>
                       ) : (
@@ -303,7 +294,6 @@ class DriverTripComponent extends Component {
                         <h4> {this.state.tripBooking.toLocation}</h4>
                       </div>
                       <br />
-
                       <div className="ms-4 me-4">
                         <h4 className="fw-bold">License number </h4>
                         <h4>{this.state.tripBooking.driver.licenseNo}</h4>
@@ -318,7 +308,6 @@ class DriverTripComponent extends Component {
                         <h4 className="fw-bold">Trip Fare </h4>
                         <h4>{this.state.tripBooking.bill}</h4>
                       </div>
-
                       <br />
                       {this.state.tripBooking.status === "TripEnded" ? (
                         <>
@@ -326,7 +315,6 @@ class DriverTripComponent extends Component {
                             <h4 className="fw-bold">Trip end date and time </h4>
                             <h4>{this.state.tripBooking.toDateTime}</h4>
                           </div>
-
                           <br />
                         </>
                       ) : (
@@ -334,7 +322,6 @@ class DriverTripComponent extends Component {
                       )}
                     </div>
                   </div>
-
                   <div className="ms-4 me-4 text-center border p-3 border-dark">
                     {
                       <>
@@ -456,21 +443,19 @@ class DriverTripComponent extends Component {
           <br />
           <br />
           <div className="container ">
+            {/* Socket URL */}
             <SockJsClient
               url="https://cba.rao.life/ws"
               topics={[
                 "/trip/" +
-                  JSON.parse(localStorage.getItem("Driver")).username +
-                  "/driver",
+                JSON.parse(localStorage.getItem("Driver")).username +
+                "/driver",
               ]}
               onConnect={() => {
-                console.log("connected   ");
               }}
               onDisconnect={() => {
-                console.log("Disconnected   ");
               }}
               onMessage={async (msg) => {
-                console.log(msg);
                 await this.setState({
                   tripBooking: msg,
                 });
@@ -480,7 +465,6 @@ class DriverTripComponent extends Component {
                 this.clientRef = client;
               }}
             />
-
             <div className="card">
               <div className="card-body">
                 <h2 className="card-title text-center">
@@ -501,7 +485,6 @@ class DriverTripComponent extends Component {
                             : false
                         }
                       />
-
                       <label
                         className="form-check-label fw-bold"
                         htmlFor="flexSwitchCheckDefault"
@@ -524,7 +507,7 @@ class DriverTripComponent extends Component {
     );
   }
 }
-
+// mapStateToProps is used for selecting the part of the data from the store that the connected component needs.
 const mapStateToProps = (state) => {
   return {
     cabData: state.cabReducer.viewCabs,
@@ -532,9 +515,9 @@ const mapStateToProps = (state) => {
     insertData: state.tripReducer.insertTrip,
   };
 };
-
+//mapDispatchToProps is a utility which will help your component to fire an action event
 const mapDispatchToProps = { fetchCabs, insertTrip, updateTrip, updateDriver };
-
+//exporting component
 export default connect(
   mapStateToProps,
   mapDispatchToProps

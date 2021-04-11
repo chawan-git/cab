@@ -1,3 +1,8 @@
+/*
+Ankitha Suraksha
+*/
+
+//Import statements//
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import HeaderComponent from "./HeaderComponent";
@@ -14,7 +19,7 @@ class ResetPasswordComponent1 extends Component {
     mobileNumber: "",
     address: "",
   };
-
+//componentDidMount is executed after the first render only on the client side. 
   async componentDidMount() {
     await this.props.fetchCustomerByUsername1(this.props.match.params.username);
 
@@ -22,6 +27,7 @@ class ResetPasswordComponent1 extends Component {
 
     userData &&
       userData.customer &&
+      //await - used for making the code readable.
       (await this.setState({
         customerId: userData.customer.customerId,
         username: userData.customer.username,
@@ -31,11 +37,11 @@ class ResetPasswordComponent1 extends Component {
         address: userData.customer.address,
       }));
   }
-
+ // Handling Change event
   handleChange = async (event) => {
     await this.setState({ [event.target.name]: event.target.value });
   };
-
+// Handling submit event
   handleSubmit = async (event) => {
     event.preventDefault();
     await this.props.updateCustomer(this.state);
@@ -108,15 +114,15 @@ class ResetPasswordComponent1 extends Component {
     );
   }
 }
-
+//mapStateToProps is used for selecting the part of the data from the store that the connected component needs.
 const mapStateToProps = (state) => {
   return {
     userData: state.loginReducer.customer,
   };
 };
-
+//mapDispatchToProps is a utility which will help your component to fire an action event
 const mapDispatchToProps = { fetchCustomerByUsername1, updateCustomer };
-
+//export statement//
 export default connect(
   mapStateToProps,
   mapDispatchToProps

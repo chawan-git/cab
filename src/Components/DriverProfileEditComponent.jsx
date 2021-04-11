@@ -1,9 +1,16 @@
+/*
+Author :BHARAT SINGH
+*/
+
+//imports statemets to use the exported requests/methods in this components
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import history from "../history";
-import { updateDriver } from "../redux/driver/driverActions";
+import { updateDriver } from "../redux/driver/driverActions";//importing method update Driver
 
 class DriverProfileEditComponent extends Component {
+  //defining state with nested obejcts driver/cab -
+  //it is an object that holds some information that may change over the lifetime of the component.
   state = {
     driverId: 0,
     username: "",
@@ -22,10 +29,14 @@ class DriverProfileEditComponent extends Component {
   };
 
   driverFetchData = {};
+  //componentDidMount is executed after the first render only on the client side. 
+  //This is where AJAX requests and DOM or state updates occurs
+  //async/await -It makes code cleaner and readable.
   async componentDidMount() {
     this.driverFetchData = JSON.parse(localStorage.getItem("Driver"));
 
     this.driverFetchData &&
+      //setState will accept an Object that will be eventually merged into Components current state.
       (await this.setState({
         driverId: this.driverFetchData.driverId,
         username: this.driverFetchData.username,
@@ -42,7 +53,7 @@ class DriverProfileEditComponent extends Component {
           perKmRate: this.driverFetchData.cab.perKmRate,
         },
       }));
-
+    //getData() method retrieves drag data (as a DOMString ) for the specified type.
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
   }
@@ -53,30 +64,28 @@ class DriverProfileEditComponent extends Component {
       history.push("/unauthorized");
     }
   };
-
+ //handle change event for driver object
   handleChange = async (event) => {
     await this.setState({ [event.target.name]: event.target.value });
   };
-
+  //handle change event for cab object in driver object
   handleCabChange = async (event) => {
-    console.log(this.state);
     const { cab } = { ...this.state.cab };
     const currentState = cab;
     const { name, value } = event.target;
     currentState[name] = value;
     await this.setState({ cab: currentState });
-    console.log(this.state);
   };
-
+  //handling submit event
   handleSubmit = async (event) => {
     event.preventDefault();
     await this.props.updateDriver(this.state);
-    if(!this.props.driverUpdateData.error.message){
-    localStorage.setItem("Driver", JSON.stringify(this.state));
-    history.push("/driver/home");
+    if (!this.props.driverUpdateData.error.message) {
+      localStorage.setItem("Driver", JSON.stringify(this.state));
+      history.push("/driver/home");
     }
   };
-
+  //rendering Driver Profile Details
   render() {
     return (
       <>
@@ -88,7 +97,6 @@ class DriverProfileEditComponent extends Component {
             </div>
           </div>
           <hr />
-
           <form onSubmit={this.handleSubmit}>
             <div className="row">
               <div className="col-md-6 offset-md-3">
@@ -96,7 +104,6 @@ class DriverProfileEditComponent extends Component {
               </div>
             </div>
             <br />
-
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="username">
@@ -197,7 +204,6 @@ class DriverProfileEditComponent extends Component {
                 />
               </div>
             </div>
-
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="username">
@@ -219,7 +225,6 @@ class DriverProfileEditComponent extends Component {
                 />
               </div>
             </div>
-
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="username">
@@ -240,7 +245,6 @@ class DriverProfileEditComponent extends Component {
                 />
               </div>
             </div>
-
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="username">
@@ -279,7 +283,6 @@ class DriverProfileEditComponent extends Component {
                 />
               </div>
             </div>
-
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="username">
@@ -299,7 +302,6 @@ class DriverProfileEditComponent extends Component {
                 />
               </div>
             </div>
-
             <div className="row">
               <div className="col-md-6 offset-md-3 form-group">
                 <label htmlFor="address">
@@ -335,9 +337,11 @@ class DriverProfileEditComponent extends Component {
     )
   }
 }
+// mapStateToProps is used for selecting the part of the data from the store that the connected component needs.
 const mapStateToProps = (state) => ({
   driverUpdateData: state.driverReducer.updateDriver,
 });
+//mapDispatchToProps is a utility which will help your component to fire an action event 
 const mapDispatchToProps = { updateDriver };
 
 export default connect(

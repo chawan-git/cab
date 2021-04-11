@@ -4,6 +4,9 @@ import HeaderComponent from "./HeaderComponent";
 import Logo from "../logo.png";
 import { Grid } from "@material-ui/core";
 import history from "../history";
+
+// Author: Ashutosh Rao Chawan U
+// This component is called when the url does not match with any of the routes or links.
 export class NotFound extends Component {
   componentDidMount() {
     localStorage.clear();

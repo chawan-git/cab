@@ -1,4 +1,9 @@
+/*
+Author :Arfath Pasha
+*/
+//Importing Axios property from Axios Library to use in the component
 import axios from "axios";
+//Importing Requests from customerTypes
 import {
   FETCH_CUSTOMERS_REQUEST,
   FETCH_CUSTOMERS_SUCCESS,
@@ -17,11 +22,13 @@ import {
   FETCH_TRIPS_REQUEST,
 } from "./customerTypes";
 
+const API_URL = "https://cba.rao.life/api/v1"
+//Method Definition to Fetch List Of All Customer
 export const fetchCustomers = () => {
   return async (dispatch) => {
     await dispatch(fetchCustomersRequest());
     await axios
-      .get("https://cba.rao.life/api/v1/customer/getAllCustomers")
+      .get(API_URL+"/customer/getAllCustomers")
       .then((response) => {
         // response.data is the users
         const customers = response.data;
@@ -34,13 +41,13 @@ export const fetchCustomers = () => {
       });
   };
 };
-
+//Method Definition to delete a Customer By customerId
 export const deleteCustomer = (customerId) => {
   return async (dispatch) => {
     await dispatch(deleteCustomerRequest());
     await axios
       .delete(
-        `https://cba.rao.life/api/v1/customer/deleteCustomer/${customerId}`
+        `${API_URL}/customer/deleteCustomer/${customerId}`
       )
       .then((response) => {
         const customer = response.data;
@@ -51,12 +58,12 @@ export const deleteCustomer = (customerId) => {
       });
   };
 };
-
+//Method Definition to Update a Customer details
 export const updateCustomer1 = (customer) => {
   return async (dispatch) => {
     await dispatch(updateCustomerRequest());
     await axios
-      .put("https://cba.rao.life/api/v1/customer/updateCustomer", customer)
+      .put(API_URL+"/customer/updateCustomer", customer)
       .then((response) => {
         const customer = response.data;
         dispatch(updateCustomerSuccess(customer));
@@ -66,12 +73,12 @@ export const updateCustomer1 = (customer) => {
       });
   };
 };
-
+//Method Definition to fetch customer by customerId
 export const fetchCustomer = (customerId) => {
   return async (dispatch) => {
     await dispatch(fetchCustomerRequest());
     await axios
-      .get("https://cba.rao.life/api/v1/customer/getCustomerById/" + customerId)
+      .get(API_URL+"/customer/getCustomerById/" + customerId)
       .then((response) => {
         // response.data is the users
         const customer = response.data;
@@ -90,7 +97,7 @@ export const fetchTrips1 = (mobileNumber) => {
     await dispatch(fetchTripsRequest());
     await axios
       .get(
-        "https://cba.rao.life/api/v1/tripBooking/viewTripsByCustomerMobileNumber/" +
+        API_URL+"/tripBooking/viewTripsByCustomerMobileNumber/" +
           mobileNumber
       )
       .then((response) => {

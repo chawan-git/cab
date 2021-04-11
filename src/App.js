@@ -18,7 +18,8 @@ import ResetPasswordSuccess from "./Components/ResetPasswordSuccess";
 import TripRequestedComponent from "./Components/TripRequestedComponent";
 import DriverTripComponent from "./Components/DriverTripComponent";
 
-
+// Author: Ashutosh Rao Chawan U
+// The root component of the application which includes the switch and route from the redux router.
 function App() {
   return (
     //App.js

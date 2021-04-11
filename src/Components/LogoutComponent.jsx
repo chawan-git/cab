@@ -1,3 +1,8 @@
+/*
+Ankitha Suraksha
+*/
+
+//Import statements//
 import React, { Component } from "react";
 import Logo from "../logo.png";
 import { Grid } from "@material-ui/core";
@@ -8,6 +13,8 @@ import FooterComponent from "./FooterComponent";
 class LogoutComponent extends Component {
   componentDidMount() {
     localStorage.clear();
+  /*setTimeout function sets a timer which executes a function or 
+    specified piece of code once the timer expires*/
     setTimeout(function () {
       history.push("/");
     }, 5000);
@@ -40,4 +47,5 @@ class LogoutComponent extends Component {
     );
   }
 }
+//export statement//
 export default LogoutComponent;

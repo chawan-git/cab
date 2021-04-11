@@ -1,3 +1,7 @@
+/*
+Author :Arfath Pasha
+*/
+//Importing Requests from customerTypes
 import {
   FETCH_CUSTOMERS_REQUEST,
   FETCH_CUSTOMERS_SUCCESS,
@@ -17,27 +21,32 @@ import {
 } from "./customerTypes";
 
 const initialState = {
+  //initial State for viewing Customer
   viewCustomers: {
     loading: false,
     customers: [],
     error: "",
   },
   deleteCustomer: {
+    //initial State for deleting a Customer
     loading: false,
     customer: "",
     error: "",
   },
   updateCustomer: {
+    //initial State for Updating Customer
     loading: false,
     customer: "",
     error: "",
   },
   fetchCustomer: {
+    //initial State for fetching Customer to update profile
     loading: false,
     customer: "",
     error: "",
   },
   fetchTrips: {
+    //initial State for  Customer Trip History
     loading: false,
     trips: [],
     error: "",
@@ -50,6 +59,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         viewCustomers: {
+          //viewCustomerr-method to view all present customer
           loading: true,
           customers: [],
           error: "",
@@ -183,6 +193,7 @@ const reducer = (state = initialState, action) => {
         },
       };
     }
+    //Case definition for Fetching Wallet Success Request Summery
     case FETCH_TRIPS_SUCCESS: {
       return {
         ...state,
@@ -193,6 +204,7 @@ const reducer = (state = initialState, action) => {
         },
       };
     }
+    //Case definition for Fetching Wallet Failure Request Summery
     case FETCH_TRIPS_FAILURE: {
       return {
         ...state,
@@ -207,7 +219,7 @@ const reducer = (state = initialState, action) => {
         },
       };
     }
-
+//Default Case
     default:
       return state;
   }

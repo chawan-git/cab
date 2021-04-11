@@ -1,3 +1,5 @@
+/*Exporting all the Trip Actions Types*/
+
 export const FETCH_TRIPS_REQUEST = "FETCH_TRIPS_REQUEST";
 export const FETCH_TRIPS_SUCCESS = "FETCH_TRIPS_SUCCESS";
 export const FETCH_TRIPS_FAILURE = "FETCH_TRIPS_FAILURE";

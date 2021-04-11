@@ -6,7 +6,11 @@ import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
 import history from "../history";
 
+// Author: Ashutosh Rao Chawan U
+// This reactJS component is used to list out the admin and allow to search and filter admins based on few criteria.
 class AdminViewComponent extends Component {
+
+  // This method is called when the search button is filled with a text and requested to make a search in the list of admin based on some criteria.
   handleSearch = (e) => {
     let target = e.target;
     let option = this.state.filterOption;
@@ -54,6 +58,7 @@ class AdminViewComponent extends Component {
     filterOption: "",
   };
 
+  // This method is called once the component has been mounted or loaded.
   async componentDidMount() {
     await this.props.fetchAdmins();
     await this.setState({
@@ -83,6 +88,7 @@ class AdminViewComponent extends Component {
     });
   }
 
+  // This render method is used to display the list of admins
   render() {
     const { adminData } = this.props;
     return adminData.loading ? (

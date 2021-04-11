@@ -6,7 +6,12 @@ import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
 import history from "../history";
 
+/* creating a component to view all the trip bookings in the databases */
+
 class TripViewComponent extends Component {
+
+  /* handling search event for searchig the trips by customer/driver/fromlocation/toLocation/fromDateTime/toDateTime/status */
+
   handleSearch = (e) => {
     let target = e.target;
     let option = this.state.filterOption;
@@ -22,7 +27,7 @@ class TripViewComponent extends Component {
           x.customer.username.includes(target.value)
         ),
       });
-    } else if (option === "username") {
+    } else if (option === "driver") {
       this.setState({
         ...this.state,
         tripData: this.props.tripData.trips.filter((x) =>
@@ -71,6 +76,7 @@ class TripViewComponent extends Component {
     }
   };
 
+  /* handling the dropdown option for searchig the trips */
   handleSelect = (e) => {
     this.setState({
       ...this.state,
@@ -82,6 +88,7 @@ class TripViewComponent extends Component {
     filterOption: "",
   };
 
+  /* setting the state at the time of loading the component */
   async componentDidMount() {
     await this.props.fetchTrips();
     await this.setState({
@@ -91,12 +98,16 @@ class TripViewComponent extends Component {
     this.getData();
     window.addEventListener("storage", (e) => this.getData());
   }
+
+  /* validating whether admin is logged in or not, using local storage and redirecting to unauthorized page */
   getData = () => {
     if (localStorage.getItem("Admin")) {
     } else {
       history.push("/unauthorized");
     }
   };
+
+  /* refresing the page after deleting a trip booking */
   async deleteTrip(tripBookingId, e) {
     e.preventDefault();
     await this.props.deleteTrip(tripBookingId);
@@ -108,6 +119,7 @@ class TripViewComponent extends Component {
     });
   }
 
+  // used to render the following code which incluse HTML, CSS and bootsatrp for UI
   render() {
     const { tripData } = this.props;
     return tripData.loading ? (
@@ -160,7 +172,7 @@ class TripViewComponent extends Component {
                 >
                   <option value="select">Search based on ...</option>
                   <option value="username">Customer Name</option>
-                  <option value="username">Driver Name</option>
+                  <option value="driver">Driver Name</option>
                   <option value="status">Trip Status</option>
                   <option value="fromLocation">From Location</option>
                   <option value="toLocation">To Location</option>
@@ -238,8 +250,6 @@ class TripViewComponent extends Component {
 
                         <button
                           className="btn btn-danger col-md-12"
-                          // data-toggle="modal"
-                          // data-target="#staticBackdrop"
                           onClick={(e) =>
                             this.deleteTrip(trip.tripBookingId, e)
                           }
@@ -260,12 +270,15 @@ class TripViewComponent extends Component {
     );
   }
 }
+
+// arrow function used to map viewTrips state in trip reducer to tripData
 const mapStateToProps = (state) => {
   return {
     tripData: state.tripReducer.viewTrips,
   };
 };
 
+// used to call the methods of tripActions
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchTrips: () => dispatch(fetchTrips()),
@@ -273,4 +286,5 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
+// connecting mapStateToProps and mapDispatchToProps to TripViewComponent
 export default connect(mapStateToProps, mapDispatchToProps)(TripViewComponent);

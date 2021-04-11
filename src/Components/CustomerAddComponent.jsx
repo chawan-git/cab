@@ -1,3 +1,8 @@
+/**
+ * Ankitha Suraksha
+ */
+
+// Import statements //
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { insertCustomer } from "../redux";
@@ -6,6 +11,8 @@ import HeaderComponent from "./HeaderComponent";
 import logo from "../logo.png";
 
 class CustomerAddComponent extends Component {
+  /*state is defined as  an 
+  object of a set of observable properties that control the behavior of the component*/
   state = {
     username: "",
     password: "",
@@ -13,16 +20,16 @@ class CustomerAddComponent extends Component {
     mobileNumber: "",
     address: "",
   };
-
+  //Handling change event//
   handleChange = async (event) => {
     await this.setState({ [event.target.name]: event.target.value });
   };
-
+  //Handling submit event//
   handleSubmit = async (event) => {
     event.preventDefault();
     await this.props.insertCustomer(this.state);
   };
-
+  // Rendering input text boxes
   render() {
     return (
       <div>
@@ -33,7 +40,7 @@ class CustomerAddComponent extends Component {
             <div className="col">
               <br />
               <div className="text-center">
-                <img
+                <img // Insertion of the logo
                   src={logo}
                   alt="logo"
                   style={{ height: 130, width: 130 }}
@@ -164,11 +171,13 @@ class CustomerAddComponent extends Component {
     );
   }
 }
+//mapStateToProps is used for selecting the part of the data from the store that the connected component needs.
 const mapStateToProps = (state) => ({
   customerInsertData: state.signupReducer,
 });
+//mapDispatchToProps is a utility which will help your component to fire an action event
 const mapDispatchToProps = { insertCustomer };
-
+//Export statements
 export default connect(
   mapStateToProps,
   mapDispatchToProps

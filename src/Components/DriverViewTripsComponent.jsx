@@ -1,95 +1,106 @@
+/*
+Author :BHARAT SINGH
+*/
+
+//imports statemets to use the exported requests/methods in this components
+//Fragments let  group a list of children without adding extra nodes to the DOM.
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import history from "../history";
-
-import { fetchTrips2 } from "../redux";
+import { fetchTrips2 } from "../redux";//importi g required method
 
 class DriverViewTripsComponent extends Component {
-  
-  handleSearch= e =>{
+  //handling serach event
+  handleSearch = e => {
     let target = e.target;
     let option = this.state.filterOption;
-    if(target.value === "")
-    this.setState({
-      ...this.state,
-         tripData:this.props.tripData.trips
-    })
-
-    else if(option === "username"){
+    if (target.value === "")
       this.setState({
         ...this.state,
-        tripData:this.props.tripData.trips.filter(x => x.customer.username.includes(target.value))
+        tripData: this.props.tripData.trips
       })
-    }
-    else if(option === "fromLocation"){
+    //search based on customer username
+    else if (option === "username") {
       this.setState({
         ...this.state,
-        tripData:this.props.tripData.trips.filter(x => x.fromLocation.includes(target.value))
+        tripData: this.props.tripData.trips.filter(x => x.customer.username.includes(target.value))
       })
     }
-    else if(option === "toLocation"){
+    //search based on trip from Location
+    else if (option === "fromLocation") {
       this.setState({
         ...this.state,
-        tripData:this.props.tripData.trips.filter(x => x.toLocation.includes(target.value))
+        tripData: this.props.tripData.trips.filter(x => x.fromLocation.includes(target.value))
       })
     }
-
-    else if(option === "fromDateTime"){
+    //search based on trip End Location
+    else if (option === "toLocation") {
       this.setState({
         ...this.state,
-        tripData:this.props.tripData.trips.filter(x => x.fromDateTime.includes(target.value))
+        tripData: this.props.tripData.trips.filter(x => x.toLocation.includes(target.value))
       })
     }
-    else if(option === "toDateTime"){
+    //search based on trip from start time
+    else if (option === "fromDateTime") {
       this.setState({
         ...this.state,
-        tripData:this.props.tripData.trips.filter(x => x.toDateTime.includes(target.value))
+        tripData: this.props.tripData.trips.filter(x => x.fromDateTime.includes(target.value))
       })
     }
-    else if(option === "status"){
+    //search based on trip from End Time
+    else if (option === "toDateTime") {
       this.setState({
         ...this.state,
-        tripData:this.props.tripData.trips.filter(x => x.status.includes(target.value))
+        tripData: this.props.tripData.trips.filter(x => x.toDateTime.includes(target.value))
       })
     }
-
-    else{
+    //search based on trip status
+    else if (option === "status") {
+      this.setState({
+        ...this.state,
+        tripData: this.props.tripData.trips.filter(x => x.status.includes(target.value))
+      })
+    }
+    //if not match retuen original state
+    else {
       this.setState({
         ...this.state
       })
     }
   }
-
-
+  //Handling Select Event
   handleSelect = e => {
     this.setState({
       ...this.state,
       filterOption: e.target.value
     })
   }
-  state={
-    tripData:[],
+  state = {
+    tripData: [],
     filterOption: ""
   }
-  
+
   driver;
+  //componentDidMount is executed after the first render only on the client side. 
+  //This is where AJAX requests and DOM or state updates occurs
+  //async/await -It makes code cleaner and readable.
   async componentDidMount() {
     this.driver = JSON.parse(localStorage.getItem("Driver"));
-    console.log(this.driver.mobileNumber);
-   await this.props.fetchTrips2(this.driver.mobileNumber);
-   await this.setState({
-     tripData:this.props.tripData.trips
-   })
-   this.getData();
-   window.addEventListener("storage", (e) => this.getData());
- }
- getData = () => {
-   if (localStorage.getItem("Driver")) {
-   } else {
-     history.push("/unauthorized");
-   }
- };
-
+    await this.props.fetchTrips2(this.driver.mobileNumber);
+    await this.setState({
+      tripData: this.props.tripData.trips
+    })
+    //getData() method retrieves drag data (as a DOMString ) for the specified type
+    this.getData();
+    window.addEventListener("storage", (e) => this.getData());
+  }
+  getData = () => {
+    if (localStorage.getItem("Driver")) {
+    } else {
+      history.push("/unauthorized");
+    }
+  };
+  //rendering trip Details
   render() {
     const { tripData } = this.props;
     return tripData.loading ? (
@@ -134,23 +145,23 @@ class DriverViewTripsComponent extends Component {
           <form >
             <div className="row">
               <div className="col-md-3">
-              <select name="" id="select" className="form-control" onChange={this.handleSelect}>
-              <option value="select" >Search based on ...</option>
-              <option value="username">Customer Name</option>
-              <option value="fromLocation">From Location</option>
-              <option value="toLocation">To Location</option>
-              <option value="fromDateTime">From Date</option>
-              <option value="toDateTime">To Date</option>
-              <option value="status">Status</option>
-            </select>
+                {/* Search Seletion Options */}
+                <select name="" id="select" className="form-control" onChange={this.handleSelect}>
+                  <option value="select" >Search based on ...</option>
+                  <option value="username">Customer Name</option>
+                  <option value="fromLocation">From Location</option>
+                  <option value="toLocation">To Location</option>
+                  <option value="fromDateTime">From Date</option>
+                  <option value="toDateTime">To Date</option>
+                  <option value="status">Status</option>
+                </select>
               </div>
+              {/* Seach Bar */}
               <div className="col-md-9">
-              <input className="form-control me-2" type="search" placeholder="Search" onChange={this.handleSearch} aria-label="Search"/>
-
+                <input className="form-control me-2" type="search" placeholder="Search" onChange={this.handleSearch} aria-label="Search" />
               </div>
-            </div>   
-      
-    </form>
+            </div>
+          </form>
           <br />
           {this.state &&
             this.state.tripData &&
@@ -204,7 +215,6 @@ class DriverViewTripsComponent extends Component {
                     </div>
                   </div>
                 </div>
-
                 <br />
               </Fragment>
             ))}
@@ -213,14 +223,15 @@ class DriverViewTripsComponent extends Component {
     );
   }
 }
+// mapStateToProps is used for selecting the part of the data from the store that the connected component needs.
 const mapStateToProps = (state) => {
   return {
     tripData: state.driverReducer.fetchTrips,
   };
 };
-
+//mapDispatchToProps is a utility which will help your component to fire an action event 
 const mapDispatchToProps = { fetchTrips2 };
-
+//Exporting
 export default connect(
   mapStateToProps,
   mapDispatchToProps

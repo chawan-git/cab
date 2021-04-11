@@ -17,11 +17,17 @@ import {
   FETCH_ADMIN_FAILURE,
 } from "./adminTypes";
 
+// Author: Ashutosh Rao Chawan U
+
+// API_URL is used to access the SpringBoot API.
+const API_URL = "https://cba.rao.life/api/v1/"
+
+// Method used to fetch all the admins from the database using the SpringBoot API
 export const fetchAdmins = () => {
   return async (dispatch) => {
     await dispatch(fetchAdminsRequest());
     await axios
-      .get("https://cba.rao.life/api/v1/admin/getAllAdmins")
+      .get(API_URL+"/admin/getAllAdmins")
       .then((response) => {
         // response.data is the users
         const admins = response.data;
@@ -29,17 +35,17 @@ export const fetchAdmins = () => {
       })
       .catch((error) => {
         // error.message is the error message
-
         dispatch(fetchAdminsFailure(error));
       });
   };
 };
 
+// Method used to insert admins to the database through the springBoot API
 export const insertAdmin = (admin) => {
   return async (dispatch) => {
     await dispatch(insertAdminRequest());
     await axios
-      .post("https://cba.rao.life/api/v1/admin/insertAdmin", admin)
+      .post(API_URL+"/admin/insertAdmin", admin)
       .then((response) => {
         const admin = response.data;
         dispatch(insertAdminSuccess(admin));
@@ -50,11 +56,12 @@ export const insertAdmin = (admin) => {
   };
 };
 
+// Method used to delete an admin from the database through the SpringBoot API
 export const deleteAdmin = (adminId) => {
   return async (dispatch) => {
     await dispatch(deleteAdminRequest());
     await axios
-      .delete(`https://cba.rao.life/api/v1/admin/deleteAdmin/${adminId}`)
+      .delete(`${API_URL}/admin/deleteAdmin/${adminId}`)
       .then((response) => {
         const admin = response.data;
         dispatch(deleteAdminSuccess(admin));
@@ -65,11 +72,12 @@ export const deleteAdmin = (adminId) => {
   };
 };
 
+// Method used to update the admin details in the database through the springBoot API
 export const updateAdmin = (admin) => {
   return async (dispatch) => {
     await dispatch(updateAdminRequest());
     await axios
-      .put("https://cba.rao.life/api/v1/admin/updateAdmin", admin)
+      .put(API_URL+"/admin/updateAdmin", admin)
       .then((response) => {
         const admin = response.data;
         dispatch(updateAdminSuccess(admin));
@@ -80,11 +88,12 @@ export const updateAdmin = (admin) => {
   };
 };
 
+// Method used to fetch a single admin based on his / her ID
 export const fetchAdmin = (adminId) => {
   return async (dispatch) => {
     await dispatch(fetchAdminRequest());
     await axios
-      .get("https://cba.rao.life/api/v1/admin/getAdminById/" + adminId)
+      .get(API_URL+"/admin/getAdminById/" + adminId)
       .then((response) => {
         // response.data is the users
         const admin = response.data;
